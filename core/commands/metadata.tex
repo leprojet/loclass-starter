@@ -1,0 +1,47 @@
+% -------------------------------------------------
+% Metadata Commands
+% -------------------------------------------------
+
+\makeatletter
+
+% -------------------------------------------------
+% Internal Storage
+% -------------------------------------------------
+
+\newcommand{\locCompany}{}
+\newcommand{\locCustomer}{}
+\newcommand{\locVersion}{}
+
+\newcommand{\locCoverImage}{}
+\newcommand{\locLeftLogo}{}
+\newcommand{\locRightLogo}{}
+
+% -------------------------------------------------
+% Public API
+% -------------------------------------------------
+
+\newcommand{\Company}[1]{%
+    \renewcommand{\locCompany}{#1}
+}
+
+\newcommand{\Customer}[1]{%
+    \renewcommand{\locCustomer}{#1}
+}
+
+\newcommand{\Version}[1]{%
+    \renewcommand{\locVersion}{#1}
+}
+
+\newcommand{\CoverImage}[1]{%
+    \renewcommand{\locCoverImage}{#1}
+}
+
+\newcommand{\LeftLogo}[1]{%
+    \renewcommand{\locLeftLogo}{#1}
+}
+
+\newcommand{\RightLogo}[1]{%
+    \renewcommand{\locRightLogo}{#1}
+}
+
+\makeatother

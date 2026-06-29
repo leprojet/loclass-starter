@@ -1,25 +1,16 @@
-\documentclass[11pt,a4paper]{scrreprt}
+\documentclass{core/loclass}
 
-\input{config/packages}
-\input{config/page_style}
-\input{config/layout}
-\input{config/colors}
-\input{config/listings}
-\input{config/boxes}
-\input{config/hyperref}
 
 % =================================================
+
+\input{project/packages}
+\input{project/metadata}
+\input{project/macros}
+\input{project/environments}
+
 \begin{document}
-\pagestyle{scrheadings}
 
-\input{content/00_title}
-\input{content/global_vars.tex}
-\clearpage
 
-\pagenumbering{roman}
-\setcounter{page}{1}
-
-\input{content/10_intro}
-\input{content/20_mainContent}
+\maketitle
 
 \end{document}
