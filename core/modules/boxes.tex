@@ -1,34 +1,33 @@
 % -------------------------------------------------
 % Color Boxes
 % -------------------------------------------------
+
 \usepackage{tcolorbox}
-\tcbuselibrary{skins,breakable}
+\tcbuselibrary{skins, breakable}
 
 \tcbset{
-	locBase/.style={
-			enhanced,
-			breakable,
-			colback=locPrimaryLight,
-			colframe=locPrimary,
-			left=4mm,
-			right=4mm,
-			top=2mm,
-			bottom=2mm,
-			fonttitle=\bfseries,
-		},
-	locLeft/.style={
-			locBase,
-			boxrule=0pt,
-			leftrule=6pt,
-		},
-
-	locTopBottom/.style={
-			locBase,
-			boxrule=0pt,
-			toprule=3pt,
-			bottomrule=3pt,
-		},
+\tcbset{
+  locBase/.style={
+    colback=white,
+    colframe=black,
+  },
 }
 
-\newtcolorbox{locNote}{locLeft}
-\newtcolorbox{locExample}{locTopBottom}
+    locNoteStyle/.style={
+        locBase,
+        colback=locInfoLight,
+        colframe=locInfo,
+        leftrule=5pt,
+    },
+
+    locExampleStyle/.style={
+        locBase,
+        colback=locPrimaryLight,
+        colframe=locPrimary,
+        toprule=3pt,
+        bottomrule=3pt,
+    },
+}
+
+\newtcolorbox{locNote}{locNoteStyle}
+\newtcolorbox{locExample}{locExampleStyle}

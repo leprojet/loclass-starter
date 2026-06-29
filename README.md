@@ -11,3 +11,12 @@
 | v0.5      | erstes Dokument komplett mit loclass |
 | v1.0      | produktiv nutzbar                    |
 
+## What is loclass?
+
+## Installation
+
+## Project Structure
+
+## Build
+
+## Customization
