@@ -1,0 +1,44 @@
+% =================================================================
+\chapter{Technischer Aufbau}
+% =================================================================
+
+mLogistics verwendet \textit{Log4j2}, um Logdateien zu erzeugen und zu verwalten.
+
+\section{Logging in Clusterumgebungen}
+
+Log4j2 ist ein leistungsfähiges und flexibles Logging-Framework für Java-Anwendungen und die Weiterentwicklung von Log4j (Apache Logging Services).  
+Es ermöglicht Entwicklern, Protokollnachrichten effizient zu erfassen, zu formatieren und zu verwalten.  
+
+Log4j2 ist bekannt für seine hohe Performance, Modularität und einfache Konfiguration.
+
+\subsection{Wichtige Merkmale von Log4j2}
+
+\begin{itemize}
+    \item Asynchrones Logging (über LMAX-Disruptor)
+    \item Pluggable Architektur
+    \item Flexible Konfiguration (YAML, JSON, XML, Java)
+    \item Filtermechanismen auf verschiedenen Ebenen
+    \item Rollover und Archivierung von Logdateien
+    \item Komprimierung
+    \item Integration mit diversen Frameworks
+\end{itemize}
+
+\subsection{Asynchronität}
+
+Die Protokollierung erfolgt asynchron.  
+Das bedeutet, dass das ELS und das Logging-Modul unabhängig voneinander arbeiten, um Performance-Einbußen zu vermeiden.
+
+\section{Root-Verzeichnis}
+
+Standardmäßig werden Logdateien in der im System definierten Verzeichnisstruktur abgelegt.  
+Diese Struktur bildet die Basis für konsistente Ablage und Zugriff auf Logs innerhalb der gesamten Umgebung.
+
+\section{Archivierung / Rollover}
+
+% Platzhalter
+Hier folgt die detaillierte Beschreibung der Archivierung und der Rollover-Strategien.
+
+\section{Weitere technische Grundlagen}
+
+% Platzhalter
+Weitere technische Inhalte und Details zur Implementierung des Loggings werden hier ergänzt.

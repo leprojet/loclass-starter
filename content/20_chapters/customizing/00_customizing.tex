@@ -1,0 +1,29 @@
+% =================================================================
+\chapter{Customizing}
+% =================================================================
+
+\section{Disclaimer}
+Die Software von LogObject nutzt standardmäßig die hier dokumentierte Logging-Konfiguration.
+Diese Standardisierung gewährleistet über alle Kunden hinweg eine konsistente Basis, die schnellen, zuverlässigen und effektiven Support ermöglicht.
+
+Unabgestimmte Änderungen an dieser Konfiguration sind ausdrücklich nicht erwünscht, da sie die Nachvollziehbarkeit und Supportfähigkeit erheblich beeinträchtigen können.
+
+Insbesondere in kritischen Situationen können kundenspezifische Anpassungen der Logging-Kon\-fi\-gu\-ra\-tion zu Verzögerungen oder zusätzlichen Problemen führen.
+Daher wird dringend davon abgeraten, die Verzeichnisstrukturen der Logdateien eigenständig zu verändern.
+
+Anpassungen von Logdatei-Mengen, Archivierungsstrategien oder Rollover-Größen sollten ausschließlich nach vorheriger Abstimmung und mit sorgfältiger Planung unter Berücksichtigung der lokalen Gegebenheiten erfolgen. Änderungen ohne Abstimmung erfolgen auf eigenes Risiko und können den Support einschränken.
+
+\section{Weiterführende Informationen}
+
+Für detaillierte Informationen zur Bedienung und Konfiguration des Loggings wird auf die offizielle \texttt{Log4j}-Dokumentation verwiesen.
+Dort finden sich Hinweise zu Log-Leveln, Appendern, Layouts, Rollover-Strategien und weiteren Konfigurationsmöglichkeiten.
+
+\section{Löschen leerer Rollover-Ordner}
+\label{sec:customizing_cleanup}
+Das Löschen leerer Datumsordner (\texttt{yyyy-mm-dd}) ist eine direkte Folge der
+kundenspezifisch angepassten Logging-Konfiguration.
+
+Im Rahmen des Customizings wurde die Log4j2-Konfiguration so eingerichtet, dass Logs
+täglich in datumsbezogene Unterordner archiviert werden. Das löschen der alten Logs sorgt dafür das die Datumsordner leer auf dem Server liegen.
+
+Hierfür  ist das Script \texttt{deleteEmptyFolders.sh} in Kombination mit dem in Abschnitt~\ref{sec:cleanup} beschriebenen Cron-Job.

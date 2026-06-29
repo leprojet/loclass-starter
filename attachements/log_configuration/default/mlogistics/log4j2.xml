@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is the logging configuration for every cluster node -->
+<Configuration name="default" status="warn" monitorInterval="10" packages="ch.logobject.as.log">
+  <Appenders>
+	<!-- Primary Appender -->
+    <RobustSocket name="REMOTE_PRIMARAY" host="pl0001sv0453.polizei-sn.de" port="8010" reconnectionDelay="10000" connectTimeout="1000" socketTimeout="2000" />
+	<!-- Backup Appender -->
+    <RobustSocket name="REMOTE_SECONDARY" host="pl0001sv0457.polizei-sn.de" port="8010" reconnectionDelay="10000" connectTimeout="1000" socketTimeout="2000" />	
+  </Appenders>
+  <Loggers>
+    <!-- START OF LOAS CONFIG-->
+    <Logger name="javax.faces" level="warn" />    <Logger name="org.apache" level="warn" />
+    <Logger name="httpclient.wire" level="off" />
+    <Logger name="org.apache.http.wire" level="off" />
+    <Logger name="org.hibernate" level="warn" />
+    <Logger name="org.hibernate.cfg.AnnotationBinder" level="error" />
+    <Logger name="org.hibernate.dialect.function.TemplateRenderer" level="error" />
+    <Logger name="org.hibernate.boot.internal.InFlightMetadataCollectorImpl" level="error" />
+    <Logger name="org.springframework" level="warn" />
+    <Logger name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog" level="off" />
+    <Logger name="org.hibernate.ejb.AbstractEntityManagerImpl" level="off" />
+    <!-- SQL: set to debug to see sql statements -->
+    <Logger name="org.hibernate.SQL" level="off" />
+    <Logger name="org.hibernate.impl.SessionImpl" level="info" />
+    <Logger name="org.hibernate.type.descriptor.sql" level="off" />
+    <Logger name="org.apache.cxf" level="info" />
+    <Logger name="org.apache.cxf.services" level="debug" />
+    <Logger name="org.apache.axis" level="info" />
+    <Logger name="org.apache.axis.messages" level="debug" />
+    <Logger name="org.eclipse.jetty" level="info" />
+    <Logger name="org.ejtools" level="off" />
+    <Logger name="ch.logobject" level="debug" />
+    <Logger name="ch.logobject.as" level="debug" />
+    <Logger name="ch.logobject.as.deploy.ArchiveClassLoader" level="info" />
+    <Logger name="ch.logobject.as.tm" level="error" />
+    <Logger name="ch.logobject.as.LogExceptionHandler" level="debug" />
+    <Logger name="ch.logobject.as.jpa" level="info" />
+    <Logger name="ch.logobject.as.jpa.ManagedEntityManager" level="error" />
+    <Logger name="ch.logobject.pushd.net.PushDecoder" level="off" />
+    <!-- END OF LOAS CONFIG -->
+    
+    <Logger name="ch.logobject" level="debug" />
+    <Logger name="ch.logobject.common.jms.beanbridge.SessionBeanBridge.messages" level="debug" />
+    <Logger name="ch.logobject.common.jms.beanbridge.SessionBeanBridge.messages.long" level="off" />
+    <Logger name="ch.logobject.common.jms.http.BridgeServlet.wirelog" level="off" />
+    <Logger name="ch.logobject.common.jms.http.BridgeServlet.remoteaddrlog" level="off" />
+    <Logger name="ch.logobject.common.jms.http.BridgeServlet.wirelog.hexdump" level="off" />
+    <Logger name="ch.logobject.mlogistics.mobile.comm.servlet.CommunicationChannel" level="off" />
+    <Logger name="ch.logobject.mlogistics.mobile.comm.servlet.LZWCommunicationChannel" level="off" />
+    <Logger name="ch.logobject.mlogistics.mobile.comm.servlet.JZCommunicationChannel" level="off" />
+    <Logger name="ch.logobject.mlogistics.monomot.comm.channel.XmlCommunicationChannel" level="off" />
+    <Logger name="ch.logobject.common.timer.JmsJob" level="off" />
+    <Logger name="ch.logobject.common.xml" level="warn" />
+    <Logger name="ch.logobject.mlogistics.bl.EntityLockManagement" level="info" />
+    <Logger name="ch.logobject.common.bl.Emailer.javamail" level="warn" />
+    <Logger name="ch.logobject.router.api.xml.BeanSerializator" level="info" />
+    
+    <!-- Scheduler -->
+    <Logger name="ch.logobject.mlogistics.bl.scheduler" level="info" />
+    <Logger name="ch.logobject.mlogistics.dao.scheduler" level="info" />
+    
+    <!-- Client Query -->
+    <Logger name="ch.logobject.common.security.MLAuthZ" level="info" />
+    <Logger name="ch.logobject.common.dao.query" level="warn" />
+    <Logger name="ch.logobject.common.dao.query.ClientQuery" level="warn" />
+    <Logger name="ch.logobject.common.dao.query.ClientQuery_error" level="warn" />
+    <Logger name="ch.logobject.common.dao.query.QueryTimeData" level="warn" />
+    <Logger name="ch.logobject.common.query" level="warn" />
+    <Logger name="ch.logobject.mlogistics.query" level="warn" />
+    <!-- Commanding -->
+    <Logger name="ch.logobject.mlogistics.bl.command.CommandSelectCalculator" level="info" />
+   
+    <Logger name="ch.logobject.common.logging.Audit.auth" level="warn" />
+    <Logger name="ch.logobject.common.logging.Audit.ops" level="warn" /> 
+    
+    <Root level="debug">
+      <AppenderRef ref="REMOTE_PRIMARAY" />
+	  <AppenderRef ref="REMOTE_SECONDARY" />
+    </Root>
+  </Loggers>
+</Configuration>
+

@@ -1,0 +1,64 @@
+% =================================================================
+\chapter{Anhänge und Auszüge}
+% =================================================================
+\label{chap:logs_and_attachements}
+
+\section{Loggingkonfigurationen}
+Die genutzen Logs und Eigenschaften jedes Service wird jeweils in einer \textit{log4j2.xml} und für den mLogistics Service auch einer \textit{logserver2.xml} Konfigurationsdatei gespeichert.
+Diese Logkonfigurationen haben einen Standard der durch Logobject geliefert und bevorzugt wird, kann aber auf die gegebenheiten des Kundesystems angepasst werden.
+
+Folgend sind die Logkonfigurationen die zum 21.12.2025 auf dem TE System der Polzei Sachen verwendet werden hinterlegt.
+\subsection{mLogistics}
+
+\lstdefinestyle{compactxml}{
+  language=XML,
+  basicstyle=\ttfamily\scriptsize,
+  tabsize=2,
+  lineskip=-1pt,
+  xleftmargin=0.5em,
+  xrightmargin=0.5em,
+  showstringspaces=false,
+  breaklines=true
+}
+
+\subsubsection{mLogistics/log4j2.xml Konfiguration} 
+\label{subsec:mlogistics_log4j2_config}
+\lstinputlisting[
+    style=compactxml,
+    caption={Inhalt log4j2.xml}, 
+    label={lst:log4j2}]{./attachements/log_configuration/snde/mLogistics/log4j2.xml}
+
+\subsubsection{mLogistics/logserver2.xml Konfiguration}
+\label{subsec:mlogistics_logserver2_config}
+\lstinputlisting[
+    style=compactxml,    
+    caption={Inhalt logserver2.xml}, 
+    label={lst:logserver2}]{./attachements/log_configuration/snde/mLogistics/logserver2.xml}
+
+\subsection{LoMFJ/log4j2.xml Konfiguration} 
+\label{subsec:loMFJ_log4j2_config}
+\lstinputlisting[
+    style=compactxml,
+    caption={LoMFJ/log4j2.xml}, 
+    label={lst:log4j2}]{./attachements/log_configuration/snde/lomfj/log4j2.xml}
+
+\subsection{LoRouter/log4j2.xml Konfiguration} 
+\label{subsec:loRouter_log4j2_config}
+\lstinputlisting[
+    style=compactxml,
+    caption={LoRouter/log4j2.xml}, 
+    label={lst:log4j2}]{./attachements/log_configuration/snde/lodoc/log4j2.xml}
+
+\subsection{LoDoc/log4j2.xml Konfiguration} 
+\label{subsec:loDoc_log4j2_config}
+\lstinputlisting[
+    style=compactxml,
+    caption={LoDoc/log4j2.xml}, 
+    label={lst:log4j2}]{./attachements/log_configuration/snde/lodoc/log4j2.xml}
+
+\section{Löschen leerer Ordner}
+\label{subsec:deleteEmptyFolders.sh}
+\lstinputlisting[
+    basicstyle=\ttfamily\small,
+    caption={deleteEmptyFolders.sh}, 
+    label={lst:deleteEmptyFolders}]{./attachements/deleteEmptyFolders.sh}

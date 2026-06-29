@@ -1,0 +1,80 @@
+\tableofcontents
+
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+\chapter{Dokumentinformationen}
+
+% resets page numbers to 1 and continues in arabic
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\begin{table}[h]
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		\textbf{Datum} & 21.01.26\\
+		\hline
+		\textbf{Version} & 0.6\\
+		\hline 
+		\textbf{Verantwortlicher Autor} & Nils Bennerscheidt\\
+		\hline 
+	\end{tabularx}
+	\label{tbl:dokumentinformation}
+	\captionof{table}{Dokumentinformationen}
+\end{table}
+
+\section{Dokumenthistorie}
+
+\begin{table}[h]
+	\begin{tabularx}{\textwidth}{|X|X|X|X|}
+		\hline
+		\textbf{Datum} & \textbf{Version} & \textbf{Änderung} & \textbf{Bearbeiter}\\
+		\hline
+		08.08.25 & 0.1 & Initiale Erstellung & Frank Sieger\\
+		\hline
+		15.08.25 & 0.2 & Erweiterung Asynchronität und Attribute & Frank Sieger\\
+		\hline
+		17.10.25 & 0.3 & Erweiterung Logging Web-Client & Lukas Stucki\\
+		\hline
+		23.11.25 & 0.4.1 & Umstrukturierung und Erweiterung auf Dokumentation aller LO-Services  & Nils Bennerscheidt\\
+		\hline
+		16.01.26 & 0.5 & Update Template  & Bastian Schuchardt\\
+		\hline
+		20.01.26 & 0.5.1 & Font   & Nils Bennerscheidt\\
+		\hline
+		21.01.26 & 0.5.2 & Neue SNDE Logs   & Nils Bennerscheidt\\
+		\hline
+		21.01.26 & 0.5.3 & Template Korrektur & Bastian Schuchardt \\
+		\hline
+		22.01.26 & 0.5.4 & ToDos, Neuere Logs und Kleinigkeiten & Nils Bennerscheidt \\
+		\hline
+		17.03.26 & 0.5.5 & Überarbeitung & Nils Bennerscheidt \\
+		\hline
+	\end{tabularx}
+	\label{tbl:dokumenthistorie}
+	\captionof{table}{Dokumenthistorie}
+		
+\end{table}
+
+\chapter{Präambel}Ziel dieses Dokuments ist es, eine Übersicht über alle Logfiles, die von mLogistics erstellt werden, zu bieten und darüber hinaus eine sinnvolle Ordnung in der Ordner- und Dateistruktur darzustellen. Es dient als Grundlage für den Betrieb, die Analyse sowie die Weiterentwicklung der Logging-Strategie innerhalb der Systemlandschaft.
+
+\section{Rahmenbedingungen}
+Dieses Dokument ist noch nicht final ausgearbeitet; Änderungen und Ergänzungen sind vorbehalten.
+Es beschreibt die Konfigurationen und Umgebungen, wie sie von LogObject empfohlen werden und für einen stabilen Betrieb vorgesehen sind.
+
+\section{Zielgruppe}
+
+Dieses Dokument richtet sich primär an Applikationsverantwortliche der mLogistics-Systemlandschaft. Dazu zählen insbesondere Personen, die für den Betrieb, die Konfiguration sowie die Analyse der Anwendungen und deren Logging verantwortlich sind.
+
+Darüber hinaus adressiert dieses Dokument auch indirekt alle beteiligten Rollen, die im erweiterten Betrieb und Support der Systeme tätig sind. Hierzu gehören beispielsweise Systemadministratoren, DevOps-Teams sowie externe Dienstleister, die mit Wartung, Fehleranalyse oder Infrastrukturbetreuung beauftragt sind.
+
+Ziel ist es, sowohl eine fachliche als auch eine technische Grundlage bereitzustellen, um:
+\begin{itemize}
+\item die Struktur und Funktionsweise des Loggings zu verstehen,
+\item relevante Logdateien schnell identifizieren zu können,
+\item Fehler effizient zu analysieren und einzugrenzen,
+\item sowie den stabilen Betrieb der Systeme sicherzustellen.
+\end{itemize}
+
+Das Dokument setzt ein grundlegendes technisches Verständnis von verteilten Systemen und Java-basierten Anwendungen voraus, ist jedoch so aufgebaut, dass auch angrenzende Rollen ohne tiefgehende Entwicklungskenntnisse die wesentlichen Inhalte nachvollziehen können.
