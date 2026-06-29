@@ -1,0 +1,36 @@
+% -------------------------------------------------
+% Listings & Lists
+% -------------------------------------------------
+
+\usepackage{listings}
+\usepackage{enumitem}
+
+% Global settings for itemize lists
+\setlist[itemize]{itemsep=2pt, topsep=4pt, label=\textbullet}
+
+\lstdefinelanguage{XML}{
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<!--}{-->},
+	stringstyle=\color{blue},
+	identifierstyle=\color{red},
+	keywordstyle=\color{black},
+	morekeywords={xmlns,version,type},
+}
+
+\lstdefinestyle{locDefault}{
+	basicstyle=\ttfamily\small,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=5pt,
+	backgroundcolor=\color{gray!10},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	frame=single,
+	breaklines=true,
+	captionpos=b,
+}
+
+\lstset{style=locDefault}
