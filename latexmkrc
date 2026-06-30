@@ -9,6 +9,6 @@ $pdf_mode = 1;
 # Main document
 # -------------------------------------------------
 
-system("perl core/tools/generate_index.pl");
+system("perl core/tools/generate_inputs.pl");
 
-@default_files = ('core/main.tex');
+@default_files = ('main.tex');
