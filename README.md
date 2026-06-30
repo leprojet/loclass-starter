@@ -20,3 +20,19 @@
 ## Build
 
 ## Customization
+
+# loclass-starter
+
+## Build
+
+latexmk
+
+## Neues Kapitel
+
+Neue Datei in
+
+content/
+
+anlegen.
+
+Fertig.

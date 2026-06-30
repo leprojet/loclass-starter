@@ -1,0 +1,44 @@
+\chapter{Project Structure}
+
+loclass trennt bewusst zwischen Inhalt, Projektdaten und Framework. Diese Trennung erleichtert sowohl die Erstellung neuer Dokumente als auch die langfristige Wartung bestehender Projekte.
+
+Die Struktur von loclass folgt konsequent den grundlegenden Designprinzipien des Frameworks. Ziel ist es, dem Anwender die Erstellung hochwertiger Dokumente zu ermöglichen, ohne dass er sich mit der internen Struktur oder den technischen Details beschäftigen muss. Der Anwender soll schnell und einfach alle erforderlichen Angaben und Inhalte zu seinem Dokument erstellen und zu einem Dokument zusammenfügen lassen können. 
+
+\section{Project}
+
+Der Ordner project enthält alle projektspezifischen Konfigurationsdateien. Dazu gehören insbesondere die Metadaten des Dokuments sowie projektspezifische Erweiterungen wie eigene Makros oder zusätzliche Pakete; hierzu zählen insbesondere
+
+\begin{itemize}
+    \item Name
+    \item Projekt
+    \item Kunde
+    \item Autor(en)
+    \item \dots
+\end{itemize}
+
+\section{content}
+
+Dies ist der Hauptordner des Frameworks. Hier wird der eigentliche Inhalt des Dokuments erstellt.
+
+Bildlich gesprochen bildet project den Kopf des Dokuments, während content den eigentlichen Dokumentkörper enthält.
+
+\section{assets}
+
+Der Ordner assets enthält statische Ressourcen, die im Dokument verwendet werden. Dazu zählen beispielsweise Bilder, Logos, Grafiken oder weitere Dokumente.
+
+In diesem Ordner können Daten abgelegt werden, die kein Text sind, also Bilddateien, andere Dokumentdateien etc.
+
+\section{core}
+
+Hier findet sich die eigentliche Programmlogik. Der Anwender benötigt diesen Ordner in der Regel nicht. Änderungen am core sollten daher nur vorgenommen werden, wenn die interne Arbeitsweise von loclass bekannt ist. Für die tägliche Dokumenterstellung ist eine Anpassung dieses Verzeichnisses in der Regel nicht erforderlich.
+
+\begin{tabular}{ll}
+    \toprule
+    \textbf{Verzeichnis} & \textbf{Aufagbe} \\
+    \midrule
+    project & Projektspezifische Konfiguration \\
+    content & Inhalt des Dokuments \\
+    assets & Statische Ressourcen \\
+    core & Framework und interne Logik\\
+    \bottomrule
+\end{tabular}

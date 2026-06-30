@@ -1,6 +1,11 @@
 /build/
 /dist/
-/content/index.tex
+# Generated input files
+content/_inputs.tex
+project/_inputs.tex
+
+# Build
+build/
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

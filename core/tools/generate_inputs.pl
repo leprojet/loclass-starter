@@ -1,3 +1,8 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
 sub generate_inputs {
     my ($dir, $pattern) = @_;
 
@@ -18,10 +23,12 @@ sub generate_inputs {
         or die "Cannot create '$outfile': $!";
 
     print $fh "% -------------------------------------------------\n";
-    print $fh "% Automatically generated -- DO NOT EDIT\n";
-    print $fh "% -------------------------------------------------\n\n";
+    print $fh "% This file is generated automatically.\n";
+    print $fh "% Do not edit manually.\n";
+    print $fh "% -------------------------------------------------\n\n";    print "Generating $outfile\n";
 
     foreach my $file (@files) {
+        print "  $file\n";
         (my $name = $file) =~ s/\.tex$//;
         print $fh "\\input{$dir/$name}\n";
     }

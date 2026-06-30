@@ -1,0 +1,51 @@
+\chapter{Getting Started}
+
+Das Repository \textbf{loclass-starter} ist bewußt übersichtlich aufgebaut. Ziel ist es, einen möglichst einfachen Einstieg in das Framework zu ermöglichen, ohne dass zunächst Änderungen an der Dokumentklasse notwendig sind.
+
+\section{Projekt klonen}
+
+Zunächst wird das Repository mit Git in ein beliebiges Verzeichnis geklont.
+
+\begin{quote}
+\texttt{git clone <Repository-URL>}
+\end{quote}
+
+\section{Dokument erstellen}
+
+Zum Erzeugen des Dokuments genügt der Aufruf
+
+\begin{quote}
+\texttt{latexmk}
+\end{quote}
+
+Der Build-Prozess erzeugt automatisch alle erforderlichen Hilfsdateien und erstellt anschließend die PDF-Datei \texttt{main.pdf}.
+
+Weitere Schritte sind nicht erforderlich.
+
+\section{Projektstruktur}
+
+Für die tägliche Arbeit sind im Wesentlichen drei Verzeichnisse relevant.
+
+\subsection*{project}
+
+Dieses Verzeichnis enthält die projektspezifische Konfiguration, beispielsweise Metadaten, eigene Makros oder zusätzliche Pakete.
+
+\subsection*{content}
+
+Dieses Verzeichnis enthält den eigentlichen Inhalt des Dokuments.
+
+Die Kapitel werden durch einen zweistelligen Präfix automatisch in die gewünschte Reihenfolge gebracht. Beispielsweise:
+
+\begin{itemize}
+    \item \path{10_introduction.tex}
+    \item \path{20_getting_started.tex}
+    \item \path{30_project_structure.tex}
+\end{itemize}
+
+\begin{quote}
+Die Dateien werden beim Build automatisch erkannt und in numerischer Reihenfolge in das Dokument eingebunden.
+\end{quote}
+
+\subsection*{assets}
+
+Dieses Verzeichnis enthält statische Ressourcen wie Bilder, Logos oder weitere Dokumente, die im Dokument verwendet werden.
