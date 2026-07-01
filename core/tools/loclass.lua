@@ -16,17 +16,20 @@ local VERSION = "0.1.0"
 -- Shell
 --------------------------------------------------
 
-local function run(command)
+local function run(command, background)
 	print()
 	print("----------------------------------------")
 	print("> " .. command)
 	print("----------------------------------------")
 
+	if background then
+		command = command .. " >/dev/null 2>&1 &"
+	end
+
 	os.execute(command)
 
 	print()
 end
-
 --------------------------------------------------
 -- Commands
 --------------------------------------------------
@@ -49,7 +52,7 @@ local function watch()
 end
 
 local function open()
-	run("xdg-open " .. PDF)
+	run("xdg-open " .. PDF, true)
 end
 
 --------------------------------------------------
