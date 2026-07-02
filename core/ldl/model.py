@@ -28,3 +28,8 @@ class Code:
 class Heading:
     level: str
     title: str
+
+
+@dataclass(frozen=True)
+class Raw:
+    text: str

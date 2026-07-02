@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, Table
+from .model import Code, Heading, Image, Raw, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -105,3 +105,7 @@ def render_document_latex(document: list[object]) -> str:
         parts.append(renderer(element))
 
     return "\n".join(parts)
+
+
+def render_raw_latex(raw: Raw) -> str:
+    return raw.text

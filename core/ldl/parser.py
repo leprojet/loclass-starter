@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, Table
+from .model import Code, Heading, Image, Raw, Table
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -240,30 +240,97 @@ def _directive_name(line: str) -> str:
 
 
 def _split_blocks(source: str) -> list[str]:
+    known_directives = {
+        "chapter",
+        "section",
+        "subsection",
+        "table",
+        "image",
+        "code",
+    }
+
+    heading_directives = {
+        "chapter",
+        "section",
+        "subsection",
+    }
+
     lines = [line.rstrip() for line in source.splitlines()]
+    blocks: list[str] = []
 
-    blocks: list[list[str]] = []
-    current: list[str] = []
+    i = 0
 
-    for line in lines:
+    while i < len(lines):
+        line = lines[i]
         stripped = line.strip()
 
         if not stripped:
-            if current:
-                current.append(line)
+            i += 1
             continue
 
-        if not line.startswith(" ") and stripped:
-            if current:
-                blocks.append(current)
-            current = [line]
-        else:
-            current.append(line)
+        is_directive = not line.startswith(" ") and stripped in known_directives
 
-    if current:
-        blocks.append(current)
+        if is_directive:
+            directive = stripped
 
-    return ["\n".join(block).strip("\n") for block in blocks]
+            if directive in heading_directives:
+                block = [line]
+
+                if i + 1 < len(lines):
+                    block.append(lines[i + 1])
+                    i += 2
+                else:
+                    i += 1
+
+                blocks.append("\n".join(block).strip("\n"))
+                continue
+
+            block = [line]
+            i += 1
+
+            while i < len(lines):
+                next_line = lines[i]
+                next_stripped = next_line.strip()
+
+                next_is_directive = (
+                    bool(next_stripped)
+                    and not next_line.startswith(" ")
+                    and next_stripped in known_directives
+                )
+
+                if next_is_directive:
+                    break
+
+                block.append(next_line)
+                i += 1
+
+            blocks.append("\n".join(block).strip("\n"))
+            continue
+
+        raw_block = []
+
+        while i < len(lines):
+            next_line = lines[i]
+            next_stripped = next_line.strip()
+
+            next_is_directive = (
+                bool(next_stripped)
+                and not next_line.startswith(" ")
+                and next_stripped in known_directives
+            )
+
+            if next_is_directive:
+                break
+
+            raw_block.append(next_line)
+            i += 1
+
+        raw_text = "\n".join(raw_block).strip("\n")
+
+        if raw_text:
+            blocks.append(raw_text)
+
+    return blocks
 
 
 def parse_document(source: str) -> list[object]:
@@ -272,12 +339,15 @@ def parse_document(source: str) -> list[object]:
     elements: list[object] = []
 
     for block in _split_blocks(source):
+        if not block.strip():
+            continue
+
         first_line = block.splitlines()[0]
         directive = _directive_name(first_line)
 
-        if directive not in PARSERS:
-            raise ValueError(f"Unsupported LDL directive: {directive}")
-
-        elements.append(PARSERS[directive](block))
+        if directive in PARSERS:
+            elements.append(PARSERS[directive](block))
+        else:
+            elements.append(Raw(text=block))
 
     return elements
