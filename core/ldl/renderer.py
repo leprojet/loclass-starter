@@ -93,3 +93,15 @@ def render_heading_latex(heading: Heading) -> str:
     command = commands[heading.level]
 
     return rf"\{command}{{{_latex_escape(heading.title)}}}"
+
+
+def render_document_latex(document: list[object]) -> str:
+    from .registry import RENDERERS
+
+    parts: list[str] = []
+
+    for element in document:
+        renderer = RENDERERS[type(element)]
+        parts.append(renderer(element))
+
+    return "\n".join(parts)
