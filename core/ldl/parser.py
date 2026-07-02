@@ -1,4 +1,4 @@
-from .model import Code, Image, Table
+from .model import Chapter, Code, Image, Table
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -211,3 +211,20 @@ def parse_code(source: str) -> Code:
         language=language,
         body=body,
     )
+
+
+def parse_chapter(source: str) -> Chapter:
+    lines = _normalize_lines(source)
+
+    if not lines or lines[0].strip() != "chapter":
+        raise ValueError("LDL chapter block must start with 'chapter'.")
+
+    if len(lines) < 2:
+        raise ValueError("Chapter requires a title.")
+
+    title = lines[1].strip()
+
+    if not title:
+        raise ValueError("Chapter requires a title.")
+
+    return Chapter(title=title)

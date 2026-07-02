@@ -2,30 +2,21 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-
-from core.ldl import (
-    parse_code,
-    parse_image,
-    parse_table,
-    render_code_latex,
-    render_image_latex,
-    render_table_latex,
-)
+from core.ldl import PARSERS, RENDERERS
 
 
 def render_ldl(source: str) -> str:
     stripped = source.lstrip()
+    directive = stripped.splitlines()[0].strip()
 
-    if stripped.startswith("table"):
-        return render_table_latex(parse_table(source))
+    if directive not in PARSERS:
+        supported = ", ".join(sorted(PARSERS))
+        raise ValueError(f"Unsupported LDL block. Currently supported: {supported}")
 
-    if stripped.startswith("image"):
-        return render_image_latex(parse_image(source))
+    element = PARSERS[directive](source)
+    renderer = RENDERERS[type(element)]
 
-    if stripped.startswith("code"):
-        return render_code_latex(parse_code(source))
-
-    raise ValueError("Unsupported LDL block. Currently supported: table, image, code")
+    return renderer(element)
 
 
 def render_file(input_path: Path, output_path: Path | None = None) -> str:

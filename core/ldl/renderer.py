@@ -1,4 +1,4 @@
-from .model import Code, Image, Table
+from .model import Chapter, Code, Image, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -81,3 +81,7 @@ def render_code_latex(code: Code) -> str:
             r"\end{locode}",
         ]
     )
+
+
+def render_chapter_latex(chapter: Chapter) -> str:
+    return rf"\chapter{{{_latex_escape(chapter.title)}}}"

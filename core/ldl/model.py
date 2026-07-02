@@ -22,3 +22,8 @@ class Code:
     caption: str | None
     language: str
     body: list[str]
+
+
+@dataclass(frozen=True)
+class Chapter:
+    title: str
