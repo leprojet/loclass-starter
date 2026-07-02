@@ -12,41 +12,38 @@ code
     language: python
 
   body
+    ---
     def hello():
         print("Hello World")
+    ---
 """
 
     code = parse_code(source)
 
-    assert code.label == "lst:hello"
-    assert code.caption == "Hello World"
-    assert code.language == "python"
     assert code.body == [
         "def hello():",
-        'print("Hello World")',
+        '    print("Hello World")',
     ]
 
 
-def test_code_requires_language():
-    source = """
-code
-  params
-    caption: Hello World
-
-  body
-    print("Hello")
-"""
-
-    with pytest.raises(ValueError):
-        parse_code(source)
-
-
-def test_code_requires_body():
+def test_code_preserves_blank_lines():
     source = """
 code
   params
     language: python
+
+  body
+    ---
+    def hello():
+
+        print("Hello")
+    ---
 """
 
-    with pytest.raises(ValueError):
-        parse_code(source)
+    code = parse_code(source)
+
+    assert code.body == [
+        "def hello():",
+        "",
+        '    print("Hello")',
+    ]

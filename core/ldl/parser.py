@@ -29,6 +29,24 @@ def _parse_common_params(params: dict[str, str]) -> tuple[str | None, str | None
     return label, caption
 
 
+def _parse_fenced_body(lines: list[str]) -> list[str]:
+    if not lines or lines[0].strip() != "---":
+        raise ValueError("Body block must start with '---'.")
+
+    body: list[str] = []
+
+    for line in lines[1:]:
+        if line.strip() == "---":
+            return body
+
+        if line.startswith("    "):
+            body.append(line[4:])
+        else:
+            body.append(line)
+
+    raise ValueError("Body block must end with '---'.")
+
+
 def parse_table(source: str) -> Table:
     lines = _normalize_lines(source)
 
@@ -139,19 +157,25 @@ def parse_image(source: str) -> Image:
 
 
 def parse_code(source: str) -> Code:
-    lines = _normalize_lines(source)
+    lines = [line.rstrip() for line in source.splitlines()]
+
+    while lines and not lines[0].strip():
+        lines.pop(0)
 
     if not lines or lines[0].strip() != "code":
         raise ValueError("LDL code block must start with 'code'.")
 
     params: dict[str, str] = {}
-    body: list[str] = []
+    body_lines: list[str] = []
 
     section: str | None = None
 
     for line in lines[1:]:
         stripped = line.strip()
         indent = _indent(line)
+
+        if not stripped and section != "body":
+            continue
 
         if indent == 2 and stripped in {"params", "body"}:
             section = stripped
@@ -166,13 +190,14 @@ def parse_code(source: str) -> Code:
             params[key] = value
 
         elif section == "body":
-            body.append(stripped)
+            body_lines.append(line)
 
         else:
             raise ValueError(f"Line outside known code section: {line}")
 
     label, caption = _parse_common_params(params)
     language = params.get("language")
+    body = _parse_fenced_body(body_lines)
 
     if not language:
         raise ValueError("Code requires a language.")
