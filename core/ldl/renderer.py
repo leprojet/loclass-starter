@@ -1,4 +1,4 @@
-from .model import Image, Table
+from .model import Code, Image, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -59,5 +59,25 @@ def render_image_latex(image: Image) -> str:
             rf"    \caption{{{_latex_escape(image.caption)}}}",
             rf"    \label{{{_render_label(image.label)}}}",
             r"\end{figure}",
+        ]
+    )
+
+
+def render_code_latex(code: Code) -> str:
+    options = [f"language={_latex_escape(code.language)}"]
+
+    if code.caption:
+        options.append(f"caption={{{_latex_escape(code.caption)}}}")
+
+    if code.label:
+        options.append(f"label={{{_render_label(code.label)}}}")
+
+    body = "\n".join(code.body)
+
+    return "\n".join(
+        [
+            rf"\begin{{locode}}[{', '.join(options)}]",
+            body,
+            r"\end{locode}",
         ]
     )

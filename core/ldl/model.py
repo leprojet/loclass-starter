@@ -14,3 +14,11 @@ class Image:
     label: str | None
     caption: str
     file: str
+
+
+@dataclass(frozen=True)
+class Code:
+    label: str | None
+    caption: str | None
+    language: str
+    body: list[str]

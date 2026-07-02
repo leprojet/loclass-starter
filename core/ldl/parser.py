@@ -1,4 +1,4 @@
-from .model import Image, Table
+from .model import Code, Image, Table
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -135,4 +135,54 @@ def parse_image(source: str) -> Image:
         label=label,
         caption=caption,
         file=file,
+    )
+
+
+def parse_code(source: str) -> Code:
+    lines = _normalize_lines(source)
+
+    if not lines or lines[0].strip() != "code":
+        raise ValueError("LDL code block must start with 'code'.")
+
+    params: dict[str, str] = {}
+    body: list[str] = []
+
+    section: str | None = None
+
+    for line in lines[1:]:
+        stripped = line.strip()
+        indent = _indent(line)
+
+        if indent == 2 and stripped in {"params", "body"}:
+            section = stripped
+            continue
+
+        if section == "params":
+            key, value = _parse_param_line(line)
+
+            if key not in {"label", "caption", "language"}:
+                raise ValueError(f"Unknown code parameter: {key}")
+
+            params[key] = value
+
+        elif section == "body":
+            body.append(stripped)
+
+        else:
+            raise ValueError(f"Line outside known code section: {line}")
+
+    label, caption = _parse_common_params(params)
+    language = params.get("language")
+
+    if not language:
+        raise ValueError("Code requires a language.")
+
+    if not body:
+        raise ValueError("Code requires a body.")
+
+    return Code(
+        label=label,
+        caption=caption,
+        language=language,
+        body=body,
     )
