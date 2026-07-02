@@ -1,0 +1,7 @@
+image
+  params
+    label: fig:logo
+    caption: Firmenlogo
+
+  file
+    LogObject_Logo.png
