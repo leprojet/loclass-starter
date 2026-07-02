@@ -2,21 +2,14 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from core.ldl import PARSERS, RENDERERS
+
+# from core.ldl import PARSERS, RENDERERS
+from core.ldl import parse_document, render_document_latex
 
 
 def render_ldl(source: str) -> str:
-    stripped = source.lstrip()
-    directive = stripped.splitlines()[0].strip()
-
-    if directive not in PARSERS:
-        supported = ", ".join(sorted(PARSERS))
-        raise ValueError(f"Unsupported LDL block. Currently supported: {supported}")
-
-    element = PARSERS[directive](source)
-    renderer = RENDERERS[type(element)]
-
-    return renderer(element)
+    document = parse_document(source)
+    return render_document_latex(document)
 
 
 def render_file(input_path: Path, output_path: Path | None = None) -> str:

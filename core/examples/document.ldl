@@ -1,0 +1,15 @@
+chapter
+  Einführung
+
+section
+  Beispiel
+
+code
+  params
+    language: python
+    caption: Hello
+
+  body
+    ---
+    print("Hallo")
+    ---
