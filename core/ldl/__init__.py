@@ -1,8 +1,8 @@
-from .model import Chapter, Code, Image, Table
-from .parser import parse_chapter, parse_code, parse_image, parse_table
+from .model import Code, Heading, Image, Table
+from .parser import parse_code, parse_heading, parse_image, parse_table
 from .renderer import (
-    render_chapter_latex,
     render_code_latex,
+    render_heading_latex,
     render_image_latex,
     render_table_latex,
 )
@@ -12,12 +12,12 @@ __all__ = [
     "Code",
     "Image",
     "Table",
-    "parse_chapter",
     "parse_code",
+    "parse_heading",
     "parse_image",
     "parse_table",
-    "render_chapter_latex",
     "render_code_latex",
+    "render_heading_latex",
     "render_image_latex",
     "render_table_latex",
     "PARSERS",

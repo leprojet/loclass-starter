@@ -1,4 +1,4 @@
-from .model import Chapter, Code, Image, Table
+from .model import Code, Heading, Image, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -83,5 +83,13 @@ def render_code_latex(code: Code) -> str:
     )
 
 
-def render_chapter_latex(chapter: Chapter) -> str:
-    return rf"\chapter{{{_latex_escape(chapter.title)}}}"
+def render_heading_latex(heading: Heading) -> str:
+    commands = {
+        "chapter": "chapter",
+        "section": "section",
+        "subsection": "subsection",
+    }
+
+    command = commands[heading.level]
+
+    return rf"\{command}{{{_latex_escape(heading.title)}}}"

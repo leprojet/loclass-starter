@@ -25,5 +25,6 @@ class Code:
 
 
 @dataclass(frozen=True)
-class Chapter:
+class Heading:
+    level: str
     title: str

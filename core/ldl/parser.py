@@ -1,4 +1,4 @@
-from .model import Chapter, Code, Image, Table
+from .model import Code, Heading, Image, Table
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -213,18 +213,71 @@ def parse_code(source: str) -> Code:
     )
 
 
-def parse_chapter(source: str) -> Chapter:
+def parse_heading(source: str) -> Heading:
     lines = _normalize_lines(source)
 
-    if not lines or lines[0].strip() != "chapter":
-        raise ValueError("LDL chapter block must start with 'chapter'.")
+    if not lines:
+        raise ValueError("LDL heading block is empty.")
+
+    level = lines[0].strip()
+
+    if level not in {"chapter", "section", "subsection"}:
+        raise ValueError(f"Unsupported heading level: {level}")
 
     if len(lines) < 2:
-        raise ValueError("Chapter requires a title.")
+        raise ValueError("Heading requires a title.")
 
     title = lines[1].strip()
 
     if not title:
-        raise ValueError("Chapter requires a title.")
+        raise ValueError("Heading requires a title.")
 
-    return Chapter(title=title)
+    return Heading(level=level, title=title)
+
+
+def _directive_name(line: str) -> str:
+    return line.strip()
+
+
+def _split_blocks(source: str) -> list[str]:
+    lines = [line.rstrip() for line in source.splitlines()]
+
+    blocks: list[list[str]] = []
+    current: list[str] = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        if not stripped:
+            if current:
+                current.append(line)
+            continue
+
+        if not line.startswith(" ") and stripped:
+            if current:
+                blocks.append(current)
+            current = [line]
+        else:
+            current.append(line)
+
+    if current:
+        blocks.append(current)
+
+    return ["\n".join(block).strip("\n") for block in blocks]
+
+
+def parse_document(source: str) -> list[object]:
+    from .registry import PARSERS
+
+    elements: list[object] = []
+
+    for block in _split_blocks(source):
+        first_line = block.splitlines()[0]
+        directive = _directive_name(first_line)
+
+        if directive not in PARSERS:
+            raise ValueError(f"Unsupported LDL directive: {directive}")
+
+        elements.append(PARSERS[directive](block))
+
+    return elements
