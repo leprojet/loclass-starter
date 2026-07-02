@@ -4,8 +4,10 @@ import argparse
 from pathlib import Path
 
 from core.ldl import (
+    parse_code,
     parse_image,
     parse_table,
+    render_code_latex,
     render_image_latex,
     render_table_latex,
 )
@@ -20,7 +22,10 @@ def render_ldl(source: str) -> str:
     if stripped.startswith("image"):
         return render_image_latex(parse_image(source))
 
-    raise ValueError("Unsupported LDL block. Currently supported: table, image")
+    if stripped.startswith("code"):
+        return render_code_latex(parse_code(source))
+
+    raise ValueError("Unsupported LDL block. Currently supported: table, image, code")
 
 
 def render_file(input_path: Path, output_path: Path | None = None) -> str:
