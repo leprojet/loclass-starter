@@ -36,15 +36,13 @@ def render_file(input_path: Path, output_path: Path | None = None) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="ldl-renderer",
+        prog="loclass-render",
         description="Render LDL blocks to LaTeX.",
     )
-
     parser.add_argument("input", type=Path)
     parser.add_argument("-o", "--output", type=Path)
 
     args = parser.parse_args()
-
     rendered = render_file(args.input, args.output)
 
     if args.output is None:

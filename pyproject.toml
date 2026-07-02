@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
 
+[project.scripts]
+loclass-render = "core.tools.ldl_renderer:main"
+
 [dependency-groups]
 dev = [
     "pytest>=9.0",
@@ -21,3 +24,10 @@ pythonpath = [
 python_files = [
     "test_*.py",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["core"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
