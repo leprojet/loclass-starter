@@ -1,4 +1,7 @@
-from .model import Table, Image
+from .model import Image, Table
+
+
+IMAGE_BASE_PATH = "assets/images"
 
 
 def _latex_escape(value: str) -> str:
@@ -19,9 +22,12 @@ def _latex_escape(value: str) -> str:
     return value
 
 
+def _render_label(label: str | None) -> str:
+    return _latex_escape(label or "")
+
+
 def render_table_latex(table: Table) -> str:
     column_spec = " ".join(["L"] * len(table.header))
-    label = table.label or ""
 
     header = " & ".join(
         rf"\loTableHeadCell{{{_latex_escape(cell)}}}" for cell in table.header
@@ -33,7 +39,7 @@ def render_table_latex(table: Table) -> str:
     ]
 
     lines = [
-        rf"\begin{{lotable}}{{{_latex_escape(label)}}}{{{_latex_escape(table.caption)}}}{{{column_spec}}}",
+        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{_latex_escape(table.caption)}}}{{{column_spec}}}",
         "    \\loTableHead{",
         f"        {header}",
         "    }",
@@ -45,11 +51,13 @@ def render_table_latex(table: Table) -> str:
 
 
 def render_image_latex(image: Image) -> str:
-    label = image.label or ""
-
-    return f"""\\begin{{figure}}[H]
-    \\centering
-    \\includegraphics[width=\\textwidth]{{assets/images/{image.file}}}
-    \\caption{{{_latex_escape(image.caption)}}}
-    \\label{{{_latex_escape(label)}}}
-\\end{{figure}}"""
+    return "\n".join(
+        [
+            r"\begin{figure}[H]",
+            r"    \centering",
+            rf"    \includegraphics[width=\textwidth]{{{IMAGE_BASE_PATH}/{_latex_escape(image.file)}}}",
+            rf"    \caption{{{_latex_escape(image.caption)}}}",
+            rf"    \label{{{_render_label(image.label)}}}",
+            r"\end{figure}",
+        ]
+    )
