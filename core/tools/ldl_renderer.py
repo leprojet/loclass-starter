@@ -3,17 +3,24 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from core.ldl import parse_table, render_table_latex
+from core.ldl import (
+    parse_image,
+    parse_table,
+    render_image_latex,
+    render_table_latex,
+)
 
 
 def render_ldl(source: str) -> str:
     stripped = source.lstrip()
 
     if stripped.startswith("table"):
-        table = parse_table(source)
-        return render_table_latex(table)
+        return render_table_latex(parse_table(source))
 
-    raise ValueError("Unsupported LDL block. Currently supported: table")
+    if stripped.startswith("image"):
+        return render_image_latex(parse_image(source))
+
+    raise ValueError("Unsupported LDL block. Currently supported: table, image")
 
 
 def render_file(input_path: Path, output_path: Path | None = None) -> str:
@@ -29,7 +36,7 @@ def render_file(input_path: Path, output_path: Path | None = None) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="ldl-render",
+        prog="ldl-renderer",
         description="Render LDL blocks to LaTeX.",
     )
 

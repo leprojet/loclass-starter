@@ -1,4 +1,4 @@
-from .model import Table
+from .model import Table, Image
 
 
 def _latex_escape(value: str) -> str:
@@ -42,3 +42,14 @@ def render_table_latex(table: Table) -> str:
     ]
 
     return "\n".join(lines)
+
+
+def render_image_latex(image: Image) -> str:
+    label = image.label or ""
+
+    return f"""\\begin{{figure}}[H]
+    \\centering
+    \\includegraphics[width=\\textwidth]{{assets/images/{image.file}}}
+    \\caption{{{_latex_escape(image.caption)}}}
+    \\label{{{_latex_escape(label)}}}
+\\end{{figure}}"""

@@ -1,4 +1,4 @@
-from .model import Table
+from .model import Image, Table
 
 
 def _indent(line: str) -> int:
@@ -68,9 +68,54 @@ def parse_table(source: str) -> Table:
                 f"Table row has {len(row)} cells, expected {column_count}: {row}"
             )
 
-    return Table(
-        label=label,
-        caption=caption,
-        header=header,
-        rows=rows,
-    )
+    return Table(label=label, caption=caption, header=header, rows=rows)
+
+
+def parse_image(source: str) -> Image:
+    lines = [line.rstrip() for line in source.splitlines() if line.strip()]
+
+    if not lines or lines[0].strip() != "image":
+        raise ValueError("LDL image block must start with 'image'.")
+
+    label: str | None = None
+    caption: str | None = None
+    file: str | None = None
+
+    section: str | None = None
+
+    for line in lines[1:]:
+        stripped = line.strip()
+        indent = _indent(line)
+
+        if indent == 2 and stripped in {"params", "file"}:
+            section = stripped
+            continue
+
+        if section == "params":
+            if ":" not in stripped:
+                raise ValueError(f"Invalid parameter line: {line}")
+
+            key, value = stripped.split(":", 1)
+            key = key.strip()
+            value = value.strip()
+
+            if key == "label":
+                label = value or None
+            elif key == "caption":
+                caption = value
+            else:
+                raise ValueError(f"Unknown image parameter: {key}")
+
+        elif section == "file":
+            file = stripped
+
+        else:
+            raise ValueError(f"Line outside known image section: {line}")
+
+    if not caption:
+        raise ValueError("Image requires a caption.")
+
+    if not file:
+        raise ValueError("Image requires a file.")
+
+    return Image(label=label, caption=caption, file=file)
