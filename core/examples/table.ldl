@@ -1,0 +1,12 @@
+table
+  params
+    label: tab:ports
+    caption: Netzwerkports
+
+  head
+    Dienst | Port | Protokoll
+
+  body
+    HTTP  | 80  | TCP
+    HTTPS | 443 | TCP
+    DNS   | 53  | UDP
