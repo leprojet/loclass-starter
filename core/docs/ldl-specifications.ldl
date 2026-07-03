@@ -1,0 +1,20 @@
+chapter
+  LDL Specification
+
+Raw
+
+LDL (Loclass Document Language) is a semantic markup language for technical
+documentation.
+
+Its primary goal is to describe the logical structure of a document instead of
+its visual representation.
+
+LDL is backend-independent. A renderer is responsible for translating LDL into
+a concrete output format such as LaTeX, HTML or DOCX.
+
+When LDL does not yet provide a suitable directive, backend-specific code may
+be embedded directly into the document. This code is passed through unchanged
+to the corresponding renderer.
+
+section
+  Design Principles
