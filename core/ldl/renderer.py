@@ -1,47 +1,31 @@
+from .inline import latex_escape, render_inline_latex
 from .model import Code, Heading, Image, List, Raw, Shell, Table
+
 
 IMAGE_BASE_PATH = "assets/images"
 
 
-def _latex_escape(value: str) -> str:
-    replacements = {
-        "\\": r"\textbackslash{}",
-        "&": r"\&",
-        "%": r"\%",
-        "$": r"\$",
-        "#": r"\#",
-        "_": r"\_",
-        "{": r"\{",
-        "}": r"\}",
-    }
-
-    for old, new in replacements.items():
-        value = value.replace(old, new)
-
-    return value
-
-
 def _render_label(label: str | None) -> str:
-    return _latex_escape(label or "")
+    return latex_escape(label or "")
 
 
 def render_table_latex(table: Table) -> str:
     column_spec = " ".join(["L"] * len(table.header))
 
     header = " & ".join(
-        rf"\loTableHeadCell{{{_latex_escape(cell)}}}" for cell in table.header
+        rf"\loTableHeadCell{{{render_inline_latex(cell)}}}" for cell in table.header
     )
 
     rows = [
-        "    " + " & ".join(_latex_escape(cell) for cell in row) + r" \\"
+        "    " + " & ".join(render_inline_latex(cell) for cell in row) + r" \\"
         for row in table.rows
     ]
 
     lines = [
-        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{_latex_escape(table.caption)}}}{{{column_spec}}}",
-        "    \\loTableHead{",
+        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{render_inline_latex(table.caption)}}}{{{column_spec}}}",
+        r"    \loTableHead{",
         f"        {header}",
-        "    }",
+        r"    }",
         *rows,
         r"\end{lotable}",
     ]
@@ -54,8 +38,8 @@ def render_image_latex(image: Image) -> str:
         [
             r"\begin{figure}[H]",
             r"    \centering",
-            rf"    \includegraphics[width=\textwidth]{{{IMAGE_BASE_PATH}/{_latex_escape(image.file)}}}",
-            rf"    \caption{{{_latex_escape(image.caption)}}}",
+            rf"    \includegraphics[width=\textwidth]{{{IMAGE_BASE_PATH}/{latex_escape(image.file)}}}",
+            rf"    \caption{{{render_inline_latex(image.caption)}}}",
             rf"    \label{{{_render_label(image.label)}}}",
             r"\end{figure}",
         ]
@@ -63,10 +47,10 @@ def render_image_latex(image: Image) -> str:
 
 
 def render_code_latex(code: Code) -> str:
-    options = [f"language={_latex_escape(code.language)}"]
+    options = [f"language={latex_escape(code.language)}"]
 
     if code.caption:
-        options.append(f"caption={{{_latex_escape(code.caption)}}}")
+        options.append(f"caption={{{render_inline_latex(code.caption)}}}")
 
     if code.label:
         options.append(f"label={{{_render_label(code.label)}}}")
@@ -91,7 +75,7 @@ def render_heading_latex(heading: Heading) -> str:
 
     command = commands[heading.level]
 
-    return rf"\{command}{{{_latex_escape(heading.title)}}}"
+    return rf"\{command}{{{render_inline_latex(heading.title)}}}"
 
 
 def render_document_latex(document: list[object]) -> str:
@@ -120,7 +104,7 @@ def render_list_latex(lst: List) -> str:
 
     lines = [
         rf"\begin{{{environment}}}",
-        *[rf"\item {_latex_escape(item)}" for item in lst.items],
+        *[rf"\item {render_inline_latex(item)}" for item in lst.items],
         rf"\end{{{environment}}}",
     ]
 
@@ -128,10 +112,10 @@ def render_list_latex(lst: List) -> str:
 
 
 def render_shell_latex(shell: Shell) -> str:
-    options = [f"style={_latex_escape(shell.style)}"]
+    options = [f"style={latex_escape(shell.style)}"]
 
     if shell.title:
-        options.append(f"title={{{_latex_escape(shell.title)}}}")
+        options.append(f"title={{{render_inline_latex(shell.title)}}}")
 
     return "\n".join(
         [
