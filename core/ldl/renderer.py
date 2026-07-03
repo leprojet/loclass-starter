@@ -1,5 +1,4 @@
-from .model import Code, Heading, Image, Raw, Table
-
+from .model import Code, Heading, Image, List, Raw, Shell, Table
 
 IMAGE_BASE_PATH = "assets/images"
 
@@ -109,3 +108,35 @@ def render_document_latex(document: list[object]) -> str:
 
 def render_raw_latex(raw: Raw) -> str:
     return raw.text
+
+
+def render_list_latex(lst: List) -> str:
+    environments = {
+        "unordered": "itemize",
+        "ordered": "enumerate",
+    }
+
+    environment = environments[lst.type]
+
+    lines = [
+        rf"\begin{{{environment}}}",
+        *[rf"\item {_latex_escape(item)}" for item in lst.items],
+        rf"\end{{{environment}}}",
+    ]
+
+    return "\n".join(lines)
+
+
+def render_shell_latex(shell: Shell) -> str:
+    options = [f"style={_latex_escape(shell.style)}"]
+
+    if shell.title:
+        options.append(f"title={{{_latex_escape(shell.title)}}}")
+
+    return "\n".join(
+        [
+            rf"\begin{{loshell}}[{','.join(options)}]",
+            *shell.body,
+            r"\end{loshell}",
+        ]
+    )

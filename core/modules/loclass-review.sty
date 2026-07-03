@@ -1,0 +1,197 @@
+%%
+%% loclass-review.sty
+%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{loclass-review}[2026/06/30 v0.1.0 Review annotations]
+
+\PackageInfo{loclass-review}{Package loaded successfully}
+
+\RequirePackage{rerunfilecheck}
+\RequirePackage{pifont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Package Options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\iflr@draft
+\lr@drafttrue
+
+\DeclareOption{draft}{\lr@drafttrue}
+\DeclareOption{final}{\lr@draftfalse}
+
+\ExecuteOptions{draft}
+\ProcessOptions\relax
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dependencies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{xcolor}
+\RequirePackage[most]{tcolorbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{lrIssueTodoFrame}{HTML}{C97A00}
+\definecolor{lrIssueTodoBack}{HTML}{FFF7E6}
+
+\definecolor{lrIssueFixmeFrame}{HTML}{B54747}
+\definecolor{lrIssueFixmeBack}{HTML}{FDF0F0}
+
+\definecolor{lrIssueQuestionFrame}{HTML}{2F6F8F}
+\definecolor{lrIssueQuestionBack}{HTML}{EEF7FB}
+
+\definecolor{lrIssueNoteFrame}{HTML}{5E8C61}
+\definecolor{lrIssueNoteBack}{HTML}{F1F8F2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Icons
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lrTodoIcon}{\ding{46}}
+\newcommand{\lrFixmeIcon}{\ding{115}}
+\newcommand{\lrQuestionIcon}{\ding{72}}
+\newcommand{\lrNoteIcon}{\ding{96}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Rendering
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtcolorbox{lrIssueBox}[3]{
+	enhanced,
+	colframe=#2,
+	colback=#3,
+	boxrule=0.8pt,
+	arc=1mm,
+	left=2mm,
+	right=2mm,
+	top=1mm,
+	bottom=1mm,
+	title=#1,
+	fonttitle=\bfseries\color{white},
+}
+
+\newcommand{\lrRenderIssue}[4]{%
+	\begin{lrIssueBox}{#1}{#2}{#3}
+		#4
+	\end{lrIssueBox}
+
+}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Internal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RerunFileCheck
+{\jobname.lor}
+{\immediate\closeout\lr@out}
+{Rerun to get List of Issues right}
+\newwrite\lr@out
+
+\AtBeginDocument{%
+	\immediate\openout\lr@out=\jobname.lor
+}
+
+\newcommand{\lrWriteIssueEntry}[2]{%
+	\immediate\write\lr@out{%
+		\string\lrIssueEntry
+		{#1}
+		{\thepage}
+		{#2}%
+	}%
+}
+
+
+\AtEndDocument{%
+	\immediate\closeout\lr@out
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Reader
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lrIssueEntry}[3]{%
+	\par\medskip
+	\textbf{#1}\hfill Seite~#2
+
+	#3
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Core Backend
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lrIssue}[2]{%
+	\lrIssueStyle{#1}%
+	\lrWriteIssueEntry{#1}{#2}%
+	\iflr@draft
+		\lrRenderIssue
+		{\lrTitle}
+		{\lrFrameColor}
+		{\lrBackColor}
+		{#2}%
+	\fi
+}
+
+\newcommand{\lrIssueStyle}[1]{%
+	\csname lrIssueStyle#1\endcsname
+}
+
+\newcommand{\lrIssueStyleTODO}{%
+	\def\lrTitle{\lrTodoIcon\hspace{0.5em}TODO}%
+	\def\lrFrameColor{lrIssueTodoFrame}%
+	\def\lrBackColor{lrIssueTodoBack}%
+}
+
+\newcommand{\lrIssueStyleFIXME}{%
+	\def\lrTitle{\lrFixmeIcon\hspace{0.5em}FIXME}%
+	\def\lrFrameColor{lrIssueFixmeFrame}%
+	\def\lrBackColor{lrIssueFixmeBack}%
+}
+
+\newcommand{\lrIssueStyleQUESTION}{%
+	\def\lrTitle{\lrQuestionIcon\hspace{0.5em}QUESTION}%
+	\def\lrFrameColor{lrIssueQuestionFrame}%
+	\def\lrBackColor{lrIssueQuestionBack}%
+}
+
+\newcommand{\lrIssueStyleNOTE}{%
+	\def\lrTitle{\lrNoteIcon\hspace{0.5em}NOTE}%
+	\def\lrFrameColor{lrIssueNoteFrame}%
+	\def\lrBackColor{lrIssueNoteBack}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Public API
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% listofissues
+\newcommand{\listofissues}{%
+	\iflr@draft
+		\immediate\closeout\lr@out
+
+		\section*{List of Issues}
+
+		\InputIfFileExists{\jobname.lor}
+		{}
+		{Keine Issues gefunden.}%
+	\fi
+}
+
+%% Keywords
+\newcommand{\TODO}[1]{%
+	\lrIssue{TODO}{#1}
+}
+
+\newcommand{\FIXME}[1]{%
+	\lrIssue{FIXME}{#1}
+}
+
+\newcommand{\QUESTION}[1]{%
+	\lrIssue{QUESTION}{#1}
+}
+
+\newcommand{\NOTE}[1]{%
+	\lrIssue{NOTE}{#1}
+}

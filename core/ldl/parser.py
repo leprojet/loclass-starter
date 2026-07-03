@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, Raw, Table
+from .model import Code, Heading, Image, List, Raw, Shell, Table
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -351,3 +351,100 @@ def parse_document(source: str) -> list[object]:
             elements.append(Raw(text=block))
 
     return elements
+
+
+def parse_list(source: str) -> List:
+    lines = [line.rstrip() for line in source.splitlines()]
+
+    while lines and not lines[0].strip():
+        lines.pop(0)
+
+    if not lines or lines[0].strip() != "list":
+        raise ValueError("LDL list block must start with 'list'.")
+
+    params: dict[str, str] = {}
+    body_lines: list[str] = []
+
+    section: str | None = None
+
+    for line in lines[1:]:
+        stripped = line.strip()
+        indent = _indent(line)
+
+        if not stripped and section != "body":
+            continue
+
+        if indent == 2 and stripped in {"params", "body"}:
+            section = stripped
+            continue
+
+        if section == "params":
+            key, value = _parse_param_line(line)
+
+            if key != "type":
+                raise ValueError(f"Unknown list parameter: {key}")
+
+            params[key] = value
+
+        elif section == "body":
+            body_lines.append(line)
+
+        else:
+            raise ValueError(f"Line outside known list section: {line}")
+
+    list_type = params.get("type")
+
+    if list_type not in {"unordered", "ordered"}:
+        raise ValueError("List requires type 'unordered' or 'ordered'.")
+
+    items = [item for item in _parse_fenced_body(body_lines) if item.strip()]
+
+    if not items:
+        raise ValueError("List requires at least one item.")
+
+    return List(type=list_type, items=items)
+    raise NotImplementedError
+
+
+def parse_shell(source: str) -> Shell:
+    lines = _normalize_lines(source)
+
+    if not lines or lines[0].strip() != "shell":
+        raise ValueError("LDL shell block must start with 'shell'.")
+
+    params: dict[str, str] = {}
+    body_lines: list[str] = []
+
+    section: str | None = None
+
+    for line in lines[1:]:
+        stripped = line.strip()
+
+        if not stripped and section != "body":
+            continue
+
+        indent = _indent(line)
+
+        if indent == 2 and stripped in {"params", "body"}:
+            section = stripped
+            continue
+
+        if section == "params":
+            key, value = _parse_param_line(line)
+            params[key] = value
+
+        elif section == "body":
+            body_lines.append(line)
+
+    style = params.get("style")
+
+    if style not in {"linux", "windows", "macos"}:
+        raise ValueError("Invalid shell style.")
+
+    body = _parse_fenced_body(body_lines)
+
+    return Shell(
+        style=style,
+        title=params.get("title"),
+        body=body,
+    )
