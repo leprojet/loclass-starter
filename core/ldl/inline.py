@@ -1,3 +1,6 @@
+import re
+
+
 def latex_escape(value: str) -> str:
     replacements = {
         "\\": r"\textbackslash{}",
@@ -16,5 +19,23 @@ def latex_escape(value: str) -> str:
     return value
 
 
-def render_inline_latex(value: str) -> str:
-    return latex_escape(value)
+def _render_bold(text: str) -> str:
+    return re.sub(
+        r"\*(.+?)\*",
+        r"\\textbf{\1}",
+        text,
+    )
+
+
+INLINE_RENDERERS = [
+    _render_bold,
+]
+
+
+def render_inline_latex(text: str) -> str:
+    text = latex_escape(text)
+
+    for renderer in INLINE_RENDERERS:
+        text = renderer(text)
+
+    return text
