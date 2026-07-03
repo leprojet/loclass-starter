@@ -46,3 +46,13 @@ class Shell:
     style: str
     title: str | None
     body: list[str]
+
+
+@dataclass(frozen=True)
+class Text:
+    text: str
+
+
+@dataclass(frozen=True)
+class Bold:
+    text: str

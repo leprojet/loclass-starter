@@ -17,7 +17,7 @@ latex.out/
 
 content/_inputs.tex
 project/_inputs.tex
-
+content/10_ldl_specification.tex
 # --------------------------------------------------
 # Python
 # --------------------------------------------------

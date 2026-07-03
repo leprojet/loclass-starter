@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from .model import InlineBold, InlineText
+from .model import Bold, Text
 
 
 def latex_escape(value: str) -> str:
@@ -30,7 +30,7 @@ def lex_inline(text: str) -> list[object]:
     while i < len(text):
         if text[i] == "*":
             if buffer:
-                tokens.append(InlineText("".join(buffer)))
+                tokens.append(Text("".join(buffer)))
                 buffer = []
 
             end = text.find("*", i + 1)
@@ -40,7 +40,7 @@ def lex_inline(text: str) -> list[object]:
                 i += 1
                 continue
 
-            tokens.append(InlineBold(text[i + 1 : end]))
+            tokens.append(Bold(text[i + 1 : end]))
             i = end + 1
             continue
 
@@ -48,22 +48,22 @@ def lex_inline(text: str) -> list[object]:
         i += 1
 
     if buffer:
-        tokens.append(InlineText("".join(buffer)))
+        tokens.append(Text("".join(buffer)))
 
     return tokens
 
 
-def _render_text(token: InlineText) -> str:
+def _render_text(token: Text) -> str:
     return latex_escape(token.text)
 
 
-def _render_bold(token: InlineBold) -> str:
+def _render_bold(token: Bold) -> str:
     return rf"\textbf{{{latex_escape(token.text)}}}"
 
 
 INLINE_TOKEN_RENDERERS: dict[type, Callable[[object], str]] = {
-    InlineText: _render_text,
-    InlineBold: _render_bold,
+    Text: _render_text,
+    Bold: _render_bold,
 }
 
 

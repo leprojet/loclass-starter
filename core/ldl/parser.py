@@ -247,6 +247,8 @@ def _split_blocks(source: str) -> list[str]:
         "table",
         "image",
         "code",
+        "list",
+        "shell",
     }
 
     heading_directives = {
@@ -403,7 +405,6 @@ def parse_list(source: str) -> List:
         raise ValueError("List requires at least one item.")
 
     return List(type=list_type, items=items)
-    raise NotImplementedError
 
 
 def parse_shell(source: str) -> Shell:
