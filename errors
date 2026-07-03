@@ -1,0 +1,157 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.5, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/frqnk/10_Projekte/loclass-starter
+configfile: pyproject.toml
+testpaths: core/tests
+collected 11 items / 10 errors
+
+==================================== ERRORS ====================================
+____________ ERROR collecting core/tests/parser/test_parser_code.py ____________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/parser/test_parser_code.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/parser/test_parser_code.py:3: in <module>
+    from core.ldl.parser import parse_code
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+___________ ERROR collecting core/tests/parser/test_parser_shell.py ____________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/parser/test_parser_shell.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/parser/test_parser_shell.py:4: in <module>
+    from core.ldl.parser import parse_shell
+E   ImportError: cannot import name 'parse_shell' from 'core.ldl.parser' (/home/frqnk/10_Projekte/loclass-starter/core/ldl/parser.py)
+___________ ERROR collecting core/tests/parser/test_parser_table.py ____________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/parser/test_parser_table.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/parser/test_parser_table.py:3: in <module>
+    from core.ldl import parse_table
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+__________ ERROR collecting core/tests/renderer/test_renderer_code.py __________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_code.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_code.py:2: in <module>
+    from core.ldl.renderer import render_code_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+________ ERROR collecting core/tests/renderer/test_renderer_document.py ________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_document.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_document.py:2: in <module>
+    from core.ldl.renderer import render_document_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+________ ERROR collecting core/tests/renderer/test_renderer_heading.py _________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_heading.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_heading.py:2: in <module>
+    from core.ldl.renderer import render_heading_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+_________ ERROR collecting core/tests/renderer/test_renderer_image.py __________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_image.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_image.py:2: in <module>
+    from core.ldl.renderer import render_image_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+__________ ERROR collecting core/tests/renderer/test_renderer_list.py __________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_list.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_list.py:2: in <module>
+    from core.ldl.renderer import render_list_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+__________ ERROR collecting core/tests/renderer/test_renderer_raw.py ___________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_raw.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_raw.py:2: in <module>
+    from core.ldl.renderer import render_raw_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+_________ ERROR collecting core/tests/renderer/test_renderer_table.py __________
+ImportError while importing test module '/home/frqnk/10_Projekte/loclass-starter/core/tests/renderer/test_renderer_table.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../.local/share/uv/python/cpython-3.14.5-linux-x86_64-gnu/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/tests/renderer/test_renderer_table.py:2: in <module>
+    from core.ldl.renderer import render_table_latex
+core/ldl/__init__.py:10: in <module>
+    from .renderer import (
+core/ldl/renderer.py:131: in <module>
+    from core.ldl.renderer import render_shell_latex
+E   ImportError: cannot import name 'render_shell_latex' from partially initialized module 'core.ldl.renderer' (most likely due to a circular import) (/home/frqnk/10_Projekte/loclass-starter/core/ldl/renderer.py)
+=========================== short test summary info ============================
+ERROR core/tests/parser/test_parser_code.py
+ERROR core/tests/parser/test_parser_shell.py
+ERROR core/tests/parser/test_parser_table.py
+ERROR core/tests/renderer/test_renderer_code.py
+ERROR core/tests/renderer/test_renderer_document.py
+ERROR core/tests/renderer/test_renderer_heading.py
+ERROR core/tests/renderer/test_renderer_image.py
+ERROR core/tests/renderer/test_renderer_list.py
+ERROR core/tests/renderer/test_renderer_raw.py
+ERROR core/tests/renderer/test_renderer_table.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 10 errors during collection !!!!!!!!!!!!!!!!!!!
+============================== 10 errors in 0.10s ==============================

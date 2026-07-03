@@ -33,3 +33,16 @@ class Heading:
 @dataclass(frozen=True)
 class Raw:
     text: str
+
+
+@dataclass(frozen=True)
+class List:
+    type: str
+    items: list[str]
+
+
+@dataclass(frozen=True)
+class Shell:
+    style: str
+    title: str | None
+    body: list[str]
