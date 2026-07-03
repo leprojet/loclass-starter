@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, List, Table, Raw
+from .model import Code, Heading, Image, List, Raw, Shell, Table
 from .parser import (
     parse_code,
     parse_heading,
@@ -7,14 +7,14 @@ from .parser import (
     parse_shell,
     parse_table,
 )
-
 from .renderer import (
     render_code_latex,
     render_heading_latex,
     render_image_latex,
     render_list_latex,
-    render_table_latex,
     render_raw_latex,
+    render_shell_latex,
+    render_table_latex,
 )
 
 PARSERS = {
@@ -23,8 +23,8 @@ PARSERS = {
     "subsection": parse_heading,
     "table": parse_table,
     "image": parse_image,
-    "list": parse_list,
     "code": parse_code,
+    "list": parse_list,
     "shell": parse_shell,
 }
 
@@ -32,7 +32,8 @@ RENDERERS = {
     Heading: render_heading_latex,
     Table: render_table_latex,
     Image: render_image_latex,
-    List: render_list_latex,
     Code: render_code_latex,
+    List: render_list_latex,
+    Shell: render_shell_latex,
     Raw: render_raw_latex,
 }
