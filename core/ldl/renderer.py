@@ -1,4 +1,4 @@
-from .inline import latex_escape, render_inline_latex
+from .inline import latex_escape, render_inline
 from .model import Code, Heading, Image, List, Raw, Shell, Table
 
 
@@ -13,16 +13,16 @@ def render_table_latex(table: Table) -> str:
     column_spec = " ".join(["L"] * len(table.header))
 
     header = " & ".join(
-        rf"\loTableHeadCell{{{render_inline_latex(cell)}}}" for cell in table.header
+        rf"\loTableHeadCell{{{render_inline(cell)}}}" for cell in table.header
     )
 
     rows = [
-        "    " + " & ".join(render_inline_latex(cell) for cell in row) + r" \\"
+        "    " + " & ".join(render_inline(cell) for cell in row) + r" \\"
         for row in table.rows
     ]
 
     lines = [
-        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{render_inline_latex(table.caption)}}}{{{column_spec}}}",
+        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{render_inline(table.caption)}}}{{{column_spec}}}",
         r"    \loTableHead{",
         f"        {header}",
         r"    }",
@@ -39,7 +39,7 @@ def render_image_latex(image: Image) -> str:
             r"\begin{figure}[H]",
             r"    \centering",
             rf"    \includegraphics[width=\textwidth]{{{IMAGE_BASE_PATH}/{latex_escape(image.file)}}}",
-            rf"    \caption{{{render_inline_latex(image.caption)}}}",
+            rf"    \caption{{{render_inline(image.caption)}}}",
             rf"    \label{{{_render_label(image.label)}}}",
             r"\end{figure}",
         ]
@@ -50,7 +50,7 @@ def render_code_latex(code: Code) -> str:
     options = [f"language={latex_escape(code.language)}"]
 
     if code.caption:
-        options.append(f"caption={{{render_inline_latex(code.caption)}}}")
+        options.append(f"caption={{{render_inline(code.caption)}}}")
 
     if code.label:
         options.append(f"label={{{_render_label(code.label)}}}")
@@ -75,7 +75,7 @@ def render_heading_latex(heading: Heading) -> str:
 
     command = commands[heading.level]
 
-    return rf"\{command}{{{render_inline_latex(heading.title)}}}"
+    return rf"\{command}{{{render_inline(heading.title)}}}"
 
 
 def render_document_latex(document: list[object]) -> str:
@@ -104,7 +104,7 @@ def render_list_latex(lst: List) -> str:
 
     lines = [
         rf"\begin{{{environment}}}",
-        *[rf"\item {render_inline_latex(item)}" for item in lst.items],
+        *[rf"\item {render_inline(item)}" for item in lst.items],
         rf"\end{{{environment}}}",
     ]
 
@@ -115,7 +115,7 @@ def render_shell_latex(shell: Shell) -> str:
     options = [f"style={latex_escape(shell.style)}"]
 
     if shell.title:
-        options.append(f"title={{{render_inline_latex(shell.title)}}}")
+        options.append(f"title={{{render_inline(shell.title)}}}")
 
     return "\n".join(
         [

@@ -1,4 +1,5 @@
 import re
+from collections.abc import Callable
 
 
 def latex_escape(value: str) -> str:
@@ -27,12 +28,12 @@ def _render_bold(text: str) -> str:
     )
 
 
-INLINE_RENDERERS = [
+INLINE_RENDERERS: list[Callable[[str], str]] = [
     _render_bold,
 ]
 
 
-def render_inline_latex(text: str) -> str:
+def render_inline(text: str) -> str:
     text = latex_escape(text)
 
     for renderer in INLINE_RENDERERS:
