@@ -1,5 +1,6 @@
-import re
 from collections.abc import Callable
+
+from .model import InlineBold, InlineText
 
 
 def latex_escape(value: str) -> str:
@@ -20,23 +21,59 @@ def latex_escape(value: str) -> str:
     return value
 
 
-def _render_bold(text: str) -> str:
-    return re.sub(
-        r"\*(.+?)\*",
-        r"\\textbf{\1}",
-        text,
-    )
+def lex_inline(text: str) -> list[object]:
+    tokens: list[object] = []
+    buffer: list[str] = []
+
+    i = 0
+
+    while i < len(text):
+        if text[i] == "*":
+            if buffer:
+                tokens.append(InlineText("".join(buffer)))
+                buffer = []
+
+            end = text.find("*", i + 1)
+
+            if end == -1:
+                buffer.append(text[i])
+                i += 1
+                continue
+
+            tokens.append(InlineBold(text[i + 1 : end]))
+            i = end + 1
+            continue
+
+        buffer.append(text[i])
+        i += 1
+
+    if buffer:
+        tokens.append(InlineText("".join(buffer)))
+
+    return tokens
 
 
-INLINE_RENDERERS: list[Callable[[str], str]] = [
-    _render_bold,
-]
+def _render_text(token: InlineText) -> str:
+    return latex_escape(token.text)
+
+
+def _render_bold(token: InlineBold) -> str:
+    return rf"\textbf{{{latex_escape(token.text)}}}"
+
+
+INLINE_TOKEN_RENDERERS: dict[type, Callable[[object], str]] = {
+    InlineText: _render_text,
+    InlineBold: _render_bold,
+}
 
 
 def render_inline(text: str) -> str:
-    text = latex_escape(text)
+    tokens = lex_inline(text)
 
-    for renderer in INLINE_RENDERERS:
-        text = renderer(text)
+    rendered: list[str] = []
 
-    return text
+    for token in tokens:
+        renderer = INLINE_TOKEN_RENDERERS[type(token)]
+        rendered.append(renderer(token))
+
+    return "".join(rendered)
