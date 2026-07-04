@@ -1,11 +1,8 @@
 from collections.abc import Callable
 
-from .model import Bold, Italic, Text
+from .model import Bold, Italic, Text, Underline
 
-INLINE_MARKERS = {
-    "*": Bold,
-    "/": Italic,
-}
+INLINE_MARKERS = {"*": Bold, "/": Italic, "+": Underline}
 
 
 def latex_escape(value: str) -> str:
@@ -113,10 +110,15 @@ def _render_italic(token: Italic) -> str:
     return rf"\textit{{{latex_escape(token.text)}}}"
 
 
+def _render_underline(token: Underline) -> str:
+    return rf"\underline{{{latex_escape(token.text)}}}"
+
+
 INLINE_TOKEN_RENDERERS: dict[type, Callable[[object], str]] = {
     Text: _render_text,
     Bold: _render_bold,
     Italic: _render_italic,
+    Underline: _render_underline,
 }
 
 

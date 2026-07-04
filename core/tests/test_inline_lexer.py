@@ -1,5 +1,5 @@
 from core.ldl.inline import lex_inline
-from core.ldl.model import Bold, Italic, Text
+from core.ldl.model import Bold, Italic, Text, Underline
 
 
 def test_lex_plain_text():
@@ -16,4 +16,10 @@ def test_lex_bold():
         Text("Hello "),
         Bold("World"),
         Text("!"),
+    ]
+
+
+def test_lex_underline():
+    assert lex_inline("+underline+") == [
+        Underline("underline"),
     ]

@@ -61,3 +61,8 @@ class Bold:
 @dataclass(frozen=True)
 class Italic:
     text: str
+
+
+@dataclass(frozen=True)
+class Underline:
+    text: str
