@@ -1,8 +1,14 @@
 from collections.abc import Callable
 
-from .model import Bold, Italic, Text, Underline
+from .model import Bold, Italic, Strike, Text, Underline
 
-INLINE_MARKERS = {"*": Bold, "/": Italic, "+": Underline}
+
+INLINE_MARKERS = {
+    "--": Strike,
+    "*": Bold,
+    "/": Italic,
+    "+": Underline,
+}
 
 
 def latex_escape(value: str) -> str:
@@ -23,73 +29,43 @@ def latex_escape(value: str) -> str:
     return value
 
 
+def _find_marker_at(text: str, position: int) -> str | None:
+    for marker in INLINE_MARKERS:
+        if text.startswith(marker, position):
+            return marker
+
+    return None
+
+
 def lex_inline(text: str) -> list[object]:
     tokens: list[object] = []
     buffer: list[str] = []
-    tokens: list[object] = []
-    buffer: list[str] = []
 
     i = 0
 
     while i < len(text):
-        marker = text[i]
+        marker = _find_marker_at(text, i)
 
-        if marker in INLINE_MARKERS:
+        if marker is not None:
             if buffer:
                 tokens.append(Text("".join(buffer)))
                 buffer = []
 
-            end = text.find(marker, i + 1)
+            end = text.find(marker, i + len(marker))
 
             if end == -1:
                 buffer.append(marker)
-                i += 1
+                i += len(marker)
                 continue
 
-            content = text[i + 1 : end]
-
+            content = text[i + len(marker) : end]
             token_class = INLINE_MARKERS[marker]
             tokens.append(token_class(content))
 
-            i = end + 1
+            i = end + len(marker)
             continue
 
-        buffer.append(marker)
-        i += 1
-
-    if buffer:
-        tokens.append(Text("".join(buffer)))
-
-    return tokens
-
-    i = 0
-
-    while i < len(text):
-        marker = text[i]
-
-        if marker in ("*", "/"):
-            if buffer:
-                tokens.append(Text("".join(buffer)))
-                buffer = []
-
-            end = text.find(marker, i + 1)
-
-            if end == -1:
-                buffer.append(marker)
-                i += 1
-                continue
-
-            content = text[i + 1 : end]
-
-            if marker == "*":
-                tokens.append(Bold(content))
-            elif marker == "/":
-                tokens.append(Italic(content))
-
-            i = end + 1
-            continue
-
-        buffer.append(marker)
+        buffer.append(text[i])
         i += 1
 
     if buffer:
@@ -114,11 +90,16 @@ def _render_underline(token: Underline) -> str:
     return rf"\underline{{{latex_escape(token.text)}}}"
 
 
+def _render_strike(token: Strike) -> str:
+    return rf"\sout{{{latex_escape(token.text)}}}"
+
+
 INLINE_TOKEN_RENDERERS: dict[type, Callable[[object], str]] = {
     Text: _render_text,
     Bold: _render_bold,
     Italic: _render_italic,
     Underline: _render_underline,
+    Strike: _render_strike,
 }
 
 

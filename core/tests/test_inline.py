@@ -8,3 +8,7 @@ def test_render_bold():
 
 def test_render_underline():
     assert render_inline("+underline+") == r"\underline{underline}"
+
+
+def test_render_strike():
+    assert render_inline("--strike--") == r"\sout{strike}"

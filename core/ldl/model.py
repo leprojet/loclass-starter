@@ -66,3 +66,8 @@ class Italic:
 @dataclass(frozen=True)
 class Underline:
     text: str
+
+
+@dataclass(frozen=True)
+class Strike:
+    text: str
