@@ -71,3 +71,24 @@ class Underline:
 @dataclass(frozen=True)
 class Strike:
     text: str
+
+
+@dataclass(frozen=True)
+class Document:
+    metadata: Metadata
+    elements: list[object]
+
+
+@dataclass(frozen=True)
+class Metadata:
+    title: str | None = None
+    subtitle: str | None = None
+    author: str | None = None
+    date: str | None = None
+    version: str | None = None
+
+    company: str | None = None
+    customer: str | None = None
+    language: str | None = None
+    theme: str | None = None
+    revision: str | None = None
