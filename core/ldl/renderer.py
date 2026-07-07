@@ -1,5 +1,5 @@
 from .inline import latex_escape, render_inline
-from .model import Code, Heading, Image, List, Raw, Shell, Table
+from .model import Code, Document, Heading, Image, List, Raw, Shell, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -78,12 +78,12 @@ def render_heading_latex(heading: Heading) -> str:
     return rf"\{command}{{{render_inline(heading.title)}}}"
 
 
-def render_document_latex(document: list[object]) -> str:
+def render_document_latex(document: Document) -> str:
     from .registry import RENDERERS
 
     parts: list[str] = []
 
-    for element in document:
+    for element in document.elements:
         renderer = RENDERERS[type(element)]
         parts.append(renderer(element))
 
