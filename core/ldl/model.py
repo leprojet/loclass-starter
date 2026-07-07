@@ -92,3 +92,8 @@ class Metadata:
     language: str | None = None
     theme: str | None = None
     revision: str | None = None
+
+
+@dataclass(frozen=True)
+class Path:
+    text: str

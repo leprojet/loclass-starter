@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from .model import Bold, Italic, Strike, Text, Underline
+from .model import Bold, Italic, Path, Strike, Text, Underline
 
 
 INLINE_MARKERS = {
@@ -45,6 +45,24 @@ def lex_inline(text: str) -> list[object]:
 
     while i < len(text):
         marker = _find_marker_at(text, i)
+
+        if text.startswith("__path{", i):
+            if buffer:
+                tokens.append(Text("".join(buffer)))
+                buffer = []
+
+            end = text.find("}", i + len("__path{"))
+
+            if end == -1:
+                buffer.append(text[i])
+                i += 1
+                continue
+
+            content = text[i + len("__path{") : end]
+            tokens.append(Path(content))
+
+            i = end + 1
+            continue
 
         if marker is not None:
             if buffer:
@@ -94,12 +112,17 @@ def _render_strike(token: Strike) -> str:
     return rf"\sout{{{latex_escape(token.text)}}}"
 
 
-INLINE_TOKEN_RENDERERS: dict[type, Callable[[object], str]] = {
+def _render_path(token: Path) -> str:
+    return rf"\locPath{{{latex_escape(token.text)}}}"
+
+
+INLINE_TOKEN_RENDERERS: dict[type, Callable[..., str]] = {
     Text: _render_text,
     Bold: _render_bold,
     Italic: _render_italic,
     Underline: _render_underline,
     Strike: _render_strike,
+    Path: _render_path,
 }
 
 
