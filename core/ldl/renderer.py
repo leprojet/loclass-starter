@@ -124,7 +124,3 @@ def render_shell_latex(shell: Shell) -> str:
             r"\end{loshell}",
         ]
     )
-
-
-def _render_strike(token: Strike) -> str:
-    return rf"\sout{{{latex_escape(token.text)}}}"
