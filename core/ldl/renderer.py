@@ -91,6 +91,9 @@ def render_document_latex(document: Document) -> str:
 
 
 def render_raw_latex(raw: Raw) -> str:
+    if "__" in raw.text:
+        return render_inline(raw.text)
+
     return raw.text
 
 

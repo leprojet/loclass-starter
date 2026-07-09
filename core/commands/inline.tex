@@ -1,5 +1,43 @@
-\newcommand{\locPath}[1]{\texttt{#1}}
-\newcommand{\locCmd}[1]{\texttt{\$ #1}}
-\newcommand{\locKeys}[1]{\fbox{\strut\textsf{#1}}}
-\newcommand{\locUrl}[1]{\href{#1}{\texttt{#1}}}
-\newcommand{\locCode}[1]{\texttt{#1}}
+%%
+%% Inline commands
+%%
+
+\providecommand{\locInlineBase}[1]{%
+	\begingroup
+	\ttfamily
+	\small
+	#1%
+	\endgroup
+}
+
+\providecommand{\locInlineBox}[1]{%
+	\begingroup
+	\setlength{\fboxsep}{2pt}%
+	\setlength{\fboxrule}{0.35pt}%
+	\fbox{\strut #1}%
+	\endgroup
+}
+
+\providecommand{\locPath}[1]{%
+	\locInlineBase{#1}%
+}
+
+\providecommand{\locCmd}[1]{%
+	\locInlineBase{\$ #1}%
+}
+
+\providecommand{\locCode}[1]{%
+	\locInlineBase{#1}%
+}
+
+\providecommand{\locUrl}[1]{%
+	\href{#1}{\locInlineBase{#1}}%
+}
+
+\providecommand{\locKeys}[1]{%
+	\begingroup
+	\sffamily
+	\small
+	\locInlineBox{#1}%
+	\endgroup
+}
