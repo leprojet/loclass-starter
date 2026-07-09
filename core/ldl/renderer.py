@@ -1,5 +1,5 @@
 from .inline import latex_escape, render_inline
-from .model import Code, Document, Heading, Image, List, Raw, Shell, Table
+from .model import Code, Document, Heading, Image, List, Paragraph, Raw, Shell, Table
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -88,6 +88,10 @@ def render_document_latex(document: Document) -> str:
         parts.append(renderer(element))
 
     return "\n".join(parts)
+
+
+def render_paragraph_latex(paragraph: Paragraph) -> str:
+    return render_inline(paragraph.text)
 
 
 def render_raw_latex(raw: Raw) -> str:

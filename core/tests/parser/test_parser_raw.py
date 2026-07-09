@@ -1,4 +1,4 @@
-from core.ldl.model import Document, Heading, Metadata, Raw
+from core.ldl.model import Document, Heading, Metadata, Paragraph
 from core.ldl.parser import parse_document
 
 
@@ -23,7 +23,7 @@ section
         metadata=Metadata(),
         elements=[
             Heading(level="chapter", title="Einführung"),
-            Raw(
+            Paragraph(
                 text=r"""Das ist normaler LaTeX-Text.
 
 \begin{itemize}

@@ -104,6 +104,11 @@ class Input:
 
 
 @dataclass(frozen=True)
+class Paragraph:
+    text: str
+
+
+@dataclass(frozen=True)
 class Metadata:
     title: str | None = None
     subtitle: str | None = None
@@ -117,7 +122,7 @@ class Metadata:
     revision: str | None = None
 
 
-Element = Heading | Raw | Input | Table | Image | Code | List | Shell
+Element = Heading | Paragraph | Raw | Input | Table | Image | Code | List | Shell
 
 
 @dataclass(frozen=True)

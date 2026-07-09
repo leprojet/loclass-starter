@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, List, Raw, Shell, Table
+from .model import Code, Heading, Image, List, Paragraph, Raw, Shell, Table
 from .parser import (
     parse_code,
     parse_heading,
@@ -13,6 +13,7 @@ from .renderer import (
     render_heading_latex,
     render_image_latex,
     render_list_latex,
+    render_paragraph_latex,
     render_raw_latex,
     render_shell_latex,
     render_table_latex,
@@ -32,6 +33,7 @@ PARSERS = {
 
 RENDERERS = {
     Heading: render_heading_latex,
+    Paragraph: render_paragraph_latex,
     Table: render_table_latex,
     Image: render_image_latex,
     Code: render_code_latex,
