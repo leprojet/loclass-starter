@@ -1,4 +1,14 @@
-from .model import Code, Heading, Image, Input, List, Raw, Table
+from .model import (
+    Code,
+    Heading,
+    Image,
+    Input,
+    List,
+    Paragraph,
+    Raw,
+    Shell,
+    Table,
+)
 from .parser import (
     parse_code,
     parse_document,
@@ -23,10 +33,12 @@ from .registry import PARSERS, RENDERERS
 __all__ = [
     "Code",
     "Heading",
+    "Paragraph",
     "Image",
     "Input",
     "List",
     "Raw",
+    "Shell",
     "Table",
     "parse_code",
     "parse_document",

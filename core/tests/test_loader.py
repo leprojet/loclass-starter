@@ -1,5 +1,6 @@
 from core.ldl.loader import LdlInputError, load_document
-from core.ldl.model import Document, Heading, Raw
+from core.ldl.model import Document, Heading, Paragraph
+
 import pytest
 
 
@@ -20,7 +21,7 @@ Das ist normaler Text.
     assert document == Document(
         elements=[
             Heading(level="chapter", title="Hauptdokument"),
-            Raw(text="Das ist normaler Text."),
+            Paragraph(text="Das ist normaler Text."),
         ],
     )
 
@@ -54,7 +55,7 @@ Das kommt aus der Kinddatei.
         elements=[
             Heading(level="chapter", title="Hauptdokument"),
             Heading(level="section", title="Eingebunden"),
-            Raw(text="Das kommt aus der Kinddatei."),
+            Paragraph(text="Das kommt aus der Kinddatei."),
         ],
     )
 

@@ -2,6 +2,7 @@ from .model import (
     Code,
     Document,
     Heading,
+    Paragraph,
     Image,
     Input,
     List,
@@ -450,7 +451,7 @@ def parse_document(source: str) -> Document:
         if directive in PARSERS:
             elements.append(PARSERS[directive](block))
         else:
-            elements.append(Raw(text=block))
+            elements.append(Paragraph(text=block))
 
     return Document(
         metadata=metadata,
