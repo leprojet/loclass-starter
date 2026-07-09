@@ -1,4 +1,3 @@
-cat > core / ldl / inline.py << "PY"
 from collections.abc import Callable
 
 from .model import (
@@ -187,6 +186,3 @@ def render_inline(text: str) -> str:
         rendered.append(renderer(token))
 
     return "".join(rendered)
-
-
-PY

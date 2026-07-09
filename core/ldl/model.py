@@ -96,3 +96,23 @@ class Url:
 @dataclass(frozen=True)
 class InlineCode:
     text: str
+
+
+@dataclass(frozen=True)
+class Metadata:
+    title: str | None = None
+    subtitle: str | None = None
+    author: str | None = None
+    version: str | None = None
+    date: str | None = None
+    company: str | None = None
+    customer: str | None = None
+    language: str | None = None
+    theme: str | None = None
+    revision: str | None = None
+
+
+@dataclass(frozen=True)
+class Document:
+    metadata: Metadata = field(default_factory=Metadata)
+    elements: list[object] = field(default_factory=list)
