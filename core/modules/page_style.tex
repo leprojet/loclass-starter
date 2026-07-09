@@ -4,15 +4,21 @@
 \usepackage[headsepline]{scrlayer-scrpage}
 
 \clearpairofpagestyles
-\automark*{section}
+\automark[section]{chapter}
 
-\ihead{}
+\setkomafont{pageheadfoot}{\normalfont\sffamily\small\color{locTextMuted}}
+\setkomafont{pagenumber}{\normalfont\sffamily\small\color{locTextMuted}}
+\addtokomafont{headsepline}{\color{locLine}}
+
+\ihead{\textbf{\color{locAccent}loclass}}
 \chead{}
-\ohead{}
+\ohead{\headmark}
 
+\ifoot{}
+\cfoot{}
 \ofoot{\pagemark}
 
-\setlength{\headheight}{1.8cm}
+\setlength{\headheight}{18pt}
 
 \renewcommand*\chapterpagestyle{scrheadings}
 
