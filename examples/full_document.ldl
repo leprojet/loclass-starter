@@ -11,15 +11,8 @@ revision: 1
 date: 2026-07-09
 ---
 
-chapter
-  Einführung
-
-Dies ist ein LDL-Testdokument.
-
-Die Konfiguration liegt unter __path{/etc/nginx/nginx.conf}.
-
-section
-  Ausführung
+input
+  content/10_chapterone.ldl
 
 Starte die Tests mit __cmd{uv run pytest}.
 

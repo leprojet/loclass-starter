@@ -99,6 +99,11 @@ class InlineCode:
 
 
 @dataclass(frozen=True)
+class Input:
+    path: str
+
+
+@dataclass(frozen=True)
 class Metadata:
     title: str | None = None
     subtitle: str | None = None
@@ -112,7 +117,10 @@ class Metadata:
     revision: str | None = None
 
 
+Element = Heading | Raw | Input | Table | Image | Code | List | Shell
+
+
 @dataclass(frozen=True)
 class Document:
     metadata: Metadata = field(default_factory=Metadata)
-    elements: list[object] = field(default_factory=list)
+    elements: list[Element] = field(default_factory=list)

@@ -1,4 +1,15 @@
-from .model import Code, Document, Heading, Image, List, Metadata, Raw, Shell, Table
+from .model import (
+    Code,
+    Document,
+    Heading,
+    Image,
+    Input,
+    List,
+    Metadata,
+    Raw,
+    Shell,
+    Table,
+)
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -277,6 +288,23 @@ def parse_heading(source: str) -> Heading:
     return Heading(level=level, title=title)
 
 
+def parse_input(source: str) -> Input:
+    lines = _normalize_lines(source)
+
+    if not lines or lines[0].strip() != "input":
+        raise ValueError("LDL input block must start with 'input'.")
+
+    if len(lines) < 2:
+        raise ValueError("Input requires a path.")
+
+    path = lines[1].strip()
+
+    if not path:
+        raise ValueError("Input requires a path.")
+
+    return Input(path=path)
+
+
 def _directive_name(line: str) -> str:
     return line.strip()
 
@@ -286,6 +314,7 @@ def _split_blocks(source: str) -> list[str]:
         "chapter",
         "section",
         "subsection",
+        "input",
         "table",
         "image",
         "code",
@@ -298,6 +327,8 @@ def _split_blocks(source: str) -> list[str]:
         "section",
         "subsection",
     }
+
+    single_value_directives = heading_directives | {"input"}
 
     lines = [line.rstrip() for line in source.splitlines()]
     blocks: list[str] = []
@@ -317,7 +348,7 @@ def _split_blocks(source: str) -> list[str]:
         if is_directive:
             directive = stripped
 
-            if directive in heading_directives:
+            if directive in single_value_directives:
                 block = [line]
 
                 if i + 1 < len(lines):
