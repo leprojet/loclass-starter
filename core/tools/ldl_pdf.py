@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 
 from core.ldl.inline import latex_escape
-from core.ldl.parser import parse_document
+from core.ldl.loader import load_document
 from core.ldl.renderer import render_document_latex
 from core.ldl.model import Metadata
 
@@ -72,8 +72,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
     if input_path.suffix != ".ldl":
         raise ValueError(f"Expected .ldl file, got: {input_path}")
 
-    source = input_path.read_text(encoding="utf-8")
-    document = parse_document(source)
+    document = load_document(input_path)
 
     stem = input_path.stem
 
