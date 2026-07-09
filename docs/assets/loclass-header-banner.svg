@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2172" height="724" viewBox="0 0 2172 724" role="img" aria-labelledby="title desc">
+  <title id="title">loclass header banner</title>
+  <desc id="desc">A blue gradient loclass banner with the slogan Write here • Read everywhere.</desc>
+
+  <defs>
+    <linearGradient id="loclass-bg" x1="0" y1="0" x2="2172" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#061B83"/>
+      <stop offset="0.45" stop-color="#0B3BC5"/>
+      <stop offset="0.74" stop-color="#1182F2"/>
+      <stop offset="1" stop-color="#2DBBFF"/>
+    </linearGradient>
+
+    <radialGradient id="loclass-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1880 300) rotate(90) scale(510 600)">
+      <stop offset="0" stop-color="#7DDAFF" stop-opacity="0.48"/>
+      <stop offset="0.62" stop-color="#39AFFF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#39AFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="loclass-wordmark" x1="0" y1="150" x2="0" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EEF6FF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2172" height="724" fill="url(#loclass-bg)"/>
+  <rect width="2172" height="724" fill="url(#loclass-glow)"/>
+
+  <!-- decorative ring system, left -->
+  <circle cx="-115" cy="700" r="465" fill="none" stroke="#2480FF" stroke-width="34" stroke-opacity="0.52"/>
+  <circle cx="-115" cy="700" r="604" fill="none" stroke="#2677FF" stroke-width="10" stroke-opacity="0.36"/>
+  <circle cx="-115" cy="700" r="764" fill="none" stroke="#1E5EDB" stroke-width="8" stroke-opacity="0.24"/>
+
+  <!-- decorative ring system, right -->
+  <circle cx="1920" cy="292" r="210" fill="none" stroke="#DFF4FF" stroke-width="5" stroke-opacity="0.74"/>
+  <circle cx="1920" cy="292" r="305" fill="none" stroke="#C8EDFF" stroke-width="5" stroke-opacity="0.54"/>
+  <circle cx="1920" cy="292" r="396" fill="none" stroke="#9EE5FF" stroke-width="4" stroke-opacity="0.25"/>
+
+  <!-- wordmark -->
+  <text x="1086" y="395"
+        text-anchor="middle"
+        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+        font-size="258"
+        font-weight="800"
+        letter-spacing="-8"
+        fill="url(#loclass-wordmark)">loclass</text>
+
+  <!-- slogan -->
+  <text x="1004" y="514"
+        text-anchor="end"
+        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+        font-size="72"
+        font-weight="500"
+        letter-spacing="1.2"
+        fill="#F6FBFF">Write here</text>
+  <circle cx="1086" cy="492" r="11" fill="#2FC8FF"/>
+  <text x="1168" y="514"
+        text-anchor="start"
+        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+        font-size="72"
+        font-weight="500"
+        letter-spacing="1.2"
+        fill="#F6FBFF">Read everywhere</text>
+</svg>

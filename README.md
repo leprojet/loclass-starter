@@ -1,4 +1,10 @@
-# loclass Starter Paket
+#<p align="center">
+<img src="docs/assets/loclass-readme-header.svg" alt="loclass – Write here • Read everywhere" width="100%">
+</p>
+
+# loclass-starter
+
+A practical starter project for building structured documents with loclass and LDL. loclass Starter Paket
 
 ## Roadmap
 
