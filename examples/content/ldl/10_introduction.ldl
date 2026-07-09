@@ -1,0 +1,37 @@
+chapter
+  Einführung
+
+LDL ist die loclass document language.
+
+LDL beschreibt technische Dokumente in einer einfachen, zeilenorientierten Form. Der Fokus liegt auf lesbaren Quellen, klarer Dokumentstruktur und einem nachvollziehbaren Build-Weg.
+
+Ein LDL-Dokument enthält Inhalt und Struktur. Die konkrete Darstellung wird nicht im Dokument selbst festgelegt, sondern durch loclass und das verwendete Ausgabe-Backend.
+
+section
+  Ziel von LDL
+
+LDL soll das Schreiben technischer Dokumentation einfacher machen.
+
+Statt direkt LaTeX zu schreiben, beschreibt der Autor die Struktur des Dokuments. Kapitel, Abschnitte, Tabellen, Code-Beispiele, Listen und Bilder werden als eigenständige Elemente notiert.
+
+Das Dokument bleibt dadurch auch ohne gerendertes PDF gut lesbar.
+
+section
+  Was LDL nicht ist
+
+LDL ist keine allgemeine Programmiersprache.
+
+LDL ist auch kein Ersatz für LaTeX in allen Details. Es ist eine bewusst kleinere Dokumentensprache für wiederkehrende technische Dokumente.
+
+Wenn ein Dokument sehr spezielle typografische Anforderungen hat, bleibt LaTeX weiterhin das mächtigere Werkzeug. LDL ist für den Normalfall gedacht: technische Dokumentation, Handbücher, Konzepte, Spezifikationen und ähnliche Dokumente.
+
+section
+  Grundidee
+
+Ein LDL-Dokument besteht aus einem Manifest und anschließendem Inhalt.
+
+Das Manifest beschreibt das Dokument. Dort stehen zum Beispiel Titel, Autor, Version und Datum.
+
+Der Inhalt besteht aus Blöcken. Ein Block kann ein Kapitel, ein Abschnitt, ein Code-Beispiel, eine Tabelle oder einfacher Fließtext sein.
+
+Größere Dokumente können mit input in mehrere Dateien aufgeteilt werden.

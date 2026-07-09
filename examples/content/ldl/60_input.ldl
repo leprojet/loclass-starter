@@ -1,0 +1,51 @@
+chapter
+  Modulare Dokumente mit input
+
+Mit input können LDL-Dokumente in mehrere Dateien aufgeteilt werden.
+
+Das ist besonders nützlich für längere Dokumente. Die Hauptdatei bleibt übersichtlich, während einzelne Kapitel oder Abschnitte in eigenen Dateien gepflegt werden.
+
+section
+  Grundprinzip
+
+input bindet eine andere LDL-Datei ein.
+
+Die eingebundene Datei wird geladen, geparst und an der Stelle des input in den Dokumentbaum eingefügt.
+
+Für den Autor wirkt das Ergebnis wie ein einziges zusammenhängendes Dokument.
+
+section
+  Relative Pfade
+
+Pfade werden relativ zu der Datei aufgelöst, in der das input steht.
+
+Wenn die Hauptdatei im Verzeichnis __code{examples} liegt und dort __code{content/ldl/10_introduction.ldl} eingebunden wird, sucht loclass die Datei relativ zu examples.
+
+Das macht Dokumentbäume verschiebbar und vermeidet unnötige absolute Pfade.
+
+section
+  Inhaltsmodule
+
+Eingebundene Dateien sind Inhaltsmodule.
+
+Sie enthalten keine eigenen Metadaten und kein eigenes Manifest. Sie liefern nur Dokumentelemente wie Kapitel, Abschnitte oder Fließtext.
+
+Dadurch bleibt der Dokumentaufbau eindeutig.
+
+section
+  Fehlerfälle
+
+Wenn eine eingebundene Datei nicht gefunden wird, bricht loclass mit einer verständlichen Fehlermeldung ab.
+
+Wenn input-Dateien sich gegenseitig im Kreis einbinden, wird dieser Zyklus erkannt und ebenfalls abgebrochen.
+
+Wenn eine eingebundene Datei ein eigenes Manifest enthält, wird das Dokument nicht geladen. Das Manifest ist ausschließlich der Hauptdatei vorbehalten.
+
+section
+  Empfehlung
+
+Für längere Dokumente empfiehlt sich eine nummerierte Dateistruktur.
+
+Dateinamen wie __code{10_introduction.ldl, 20_document_structure.ldl und 30_manifest.ldl} machen die Reihenfolge auch im Dateisystem sichtbar.
+
+Die Nummern müssen nicht vom Parser ausgewertet werden. Sie dienen nur der Ordnung für den Autor.

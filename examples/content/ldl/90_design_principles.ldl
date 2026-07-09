@@ -1,0 +1,58 @@
+chapter
+  Designprinzipien
+
+LDL folgt einigen einfachen Designprinzipien.
+
+Diese Prinzipien sollen dafür sorgen, dass Dokumente lesbar, wartbar und zuverlässig renderbar bleiben.
+
+section
+  Lesbare Quellen
+
+Eine LDL-Datei soll auch ohne Renderer verständlich sein.
+
+Der Autor soll erkennen können, welche Struktur das Dokument hat und welche Inhalte dargestellt werden.
+
+Deshalb ist LDL zeilenorientiert und vermeidet unnötige Sonderzeichen.
+
+section
+  Trennung von Inhalt und Darstellung
+
+LDL beschreibt Inhalt und Struktur.
+
+Die Darstellung wird durch loclass, das gewählte Theme und das Ausgabe-Backend bestimmt.
+
+Dadurch kann dasselbe Dokument perspektivisch in unterschiedliche Zielformate übertragen werden.
+
+section
+  Kleine Sprache
+
+LDL soll bewusst klein bleiben.
+
+Nicht jede typografische Feinheit wird als Sprachfunktion abgebildet. Wiederkehrende Dokumentelemente erhalten eigene Blöcke. Spezialfälle bleiben Aufgabe des Backends oder späterer Erweiterungen.
+
+Eine kleine Sprache ist leichter zu lernen, leichter zu testen und leichter stabil zu halten.
+
+section
+  Modulare Dokumente
+
+Größere Dokumente sollen aus mehreren übersichtlichen Dateien bestehen können.
+
+input bildet dafür die Grundlage. Es macht aus einzelnen LDL-Dateien einen modularen Dokumentbaum.
+
+section
+  Ein eindeutiger Dokumentkontext
+
+Ein Dokument hat genau ein Manifest.
+
+Damit gibt es genau eine Stelle für Titel, Version, Datum und andere Metadaten.
+
+Diese Regel ist einfach, aber wichtig. Sie verhindert widersprüchliche Dokumentinformationen und erleichtert den Build-Prozess.
+
+section
+  Wiedererkennbare Ausgabe
+
+loclass-Dokumente sollen wiedererkennbar aussehen.
+
+Das betrifft nicht die LDL-Syntax selbst, sondern die Ausgabe. Farben, Typografie, Linien und Titelseiten werden über Themes gesteuert.
+
+LDL bleibt dabei der strukturierte Inhalt. Die Optik bleibt Aufgabe der Darstellungsschicht.

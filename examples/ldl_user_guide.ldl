@@ -1,0 +1,33 @@
+---
+title: LDL Benutzerhandbuch
+subtitle: Strukturierte Dokumente mit loclass schreiben
+author: Frank Sieger
+company: LogObject
+customer: loclass
+language: de
+theme: default
+version: 0.1.0
+revision: 1
+date: 2026-07-09
+---
+
+input
+  content/ldl/10_introduction.ldl
+
+input
+  content/ldl/20_document_structure.ldl
+
+input
+  content/ldl/30_manifest.ldl
+
+input
+  content/ldl/40_block_elements.ldl
+
+input
+  content/ldl/50_inline_markup.ldl
+
+input
+  content/ldl/60_input.ldl
+
+input
+  content/ldl/90_design_principles.ldl

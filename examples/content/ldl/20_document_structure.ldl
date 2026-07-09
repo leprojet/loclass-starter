@@ -1,0 +1,35 @@
+chapter
+  Dokumentstruktur
+
+Ein LDL-Dokument besteht aus einem Manifest und einem Inhaltsbereich.
+
+Das Manifest steht am Anfang der Hauptdatei. Es beschreibt das Dokument als Ganzes. Dazu gehören zum Beispiel Titel, Untertitel, Autor, Version und Datum.
+
+Nach dem Manifest folgt der eigentliche Inhalt. Der Inhalt wird aus Blöcken aufgebaut. Jeder Block beschreibt ein strukturelles oder inhaltliches Element des Dokuments.
+
+section
+  Hauptdatei
+
+Die Hauptdatei ist der Einstiegspunkt eines LDL-Dokuments.
+
+Sie enthält das Manifest und kann danach direkt Inhalt enthalten oder weitere LDL-Dateien über input einbinden.
+
+Für größere Dokumente sollte die Hauptdatei möglichst übersichtlich bleiben. Sie beschreibt dann vor allem die Reihenfolge der eingebundenen Inhaltsdateien.
+
+section
+  Inhaltsdateien
+
+Inhaltsdateien enthalten keine eigenen Dokument-Metadaten.
+
+Sie bestehen nur aus Blöcken wie Kapiteln, Abschnitten, Texten, Tabellen, Bildern, Listen oder Code-Beispielen.
+
+Dadurch bleibt klar, welche Datei das Dokument beschreibt und welche Dateien nur Inhalt liefern.
+
+section
+  Ein Manifest pro Dokument
+
+Ein LDL-Dokument hat genau ein Manifest.
+
+Dieses Manifest steht in der Hauptdatei. Eingebundene Dateien dürfen kein eigenes Manifest enthalten.
+
+Diese Regel macht Dokumente einfacher nachvollziehbar. Titel, Version, Datum und andere Metadaten haben genau eine Quelle.

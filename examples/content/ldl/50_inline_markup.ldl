@@ -1,0 +1,51 @@
+chapter
+  Inline-Auszeichnungen
+
+Inline-Auszeichnungen markieren kurze Textbestandteile innerhalb eines Absatzes.
+
+Sie werden verwendet, wenn ein einzelner Begriff, ein Kommando, eine Taste, eine URL oder ein Codewert anders dargestellt werden soll als normaler Fließtext.
+
+section
+  Kommandos
+
+Kommandos werden mit dem Inline-Typ cmd ausgezeichnet.
+
+Ein Kommando ist etwas, das der Benutzer im Terminal ausführen kann.
+
+Beispiel: Starte die Tests mit __cmd{uv run pytest}.
+
+section
+  Tastenkombinationen
+
+Tastenkombinationen werden mit dem Inline-Typ keys ausgezeichnet.
+
+Sie beschreiben Eingaben über die Tastatur.
+
+Beispiel: Öffne ein Terminal mit __keys{Ctrl+Alt+T}.
+
+section
+  URLs
+
+URLs werden mit dem Inline-Typ url ausgezeichnet.
+
+Sie beschreiben Webadressen oder technische Verweise.
+
+Beispiel: Weitere Informationen stehen unter __url{https://example.org/docs}.
+
+section
+  Codewerte
+
+Codewerte werden mit dem Inline-Typ code ausgezeichnet.
+
+Sie eignen sich für kurze Werte, Dateinamen, Rückgabewerte oder Bezeichner innerhalb eines Satzes.
+
+Beispiel: Der Rückgabewert ist __code{None}.
+
+section
+  Abgrenzung zu Blockelementen
+
+Inline-Auszeichnungen sind für kurze Bestandteile eines Absatzes gedacht.
+
+Längere Beispiele sollten als eigenes Blockelement geschrieben werden. Ein mehrzeiliger Quelltext gehört in einen Code-Block. Eine Folge von Befehlen gehört in einen Shell-Block.
+
+Diese Trennung hält den Fließtext lesbar und macht strukturierte Inhalte besser renderbar.
