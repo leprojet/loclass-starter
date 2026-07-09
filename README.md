@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/loclass-readme-header.svg" alt="loclass – Write here • Read everywhere" width="100%">
+  <img src="./assets/images/loclass-readme-header.svg" alt="loclass – Write here • Read everywhere" width="100%">
 </p>
 
 # loclass Starter Paket
