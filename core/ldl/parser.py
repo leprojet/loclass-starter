@@ -367,13 +367,39 @@ def _split_blocks(source: str) -> list[str]:
                 next_line = lines[i]
                 next_stripped = next_line.strip()
 
+                if not next_stripped:
+                    j = i + 1
+
+                    while j < len(lines) and not lines[j].strip():
+                        j += 1
+
+                    if j >= len(lines):
+                        break
+
+                    following_line = lines[j]
+                    following_stripped = following_line.strip()
+
+                    following_is_unindented = bool(
+                        following_stripped
+                    ) and not following_line.startswith(" ")
+
+                    if following_is_unindented:
+                        break
+
+                    block.append(next_line)
+                    i += 1
+                    continue
+
                 next_is_directive = (
-                    bool(next_stripped)
-                    and not next_line.startswith(" ")
-                    and next_stripped in known_directives
+                    not next_line.startswith(" ") and next_stripped in known_directives
                 )
 
-                if next_is_directive:
+                next_is_unindented_text = (
+                    not next_line.startswith(" ")
+                    and next_stripped not in known_directives
+                )
+
+                if next_is_directive or next_is_unindented_text:
                     break
 
                 block.append(next_line)
