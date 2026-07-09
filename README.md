@@ -1,14 +1,13 @@
 <p align="center">
-  <img src="./assets/images/loclass-readme-header.svg" alt="loclass – Write here • Read everywhere" width="100%">
+  <strong>loclass</strong><br>
+  <em>Write here • Read everywhere</em>
 </p>
 
 # loclass Starter Paket
 
 Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit **loclass** und **LDL**.
 
-**Write here • Read everywhere**
-
-`loclass-starter` zeigt, wie aus einer einfachen LDL-Quelle ein vollständiges PDF-Dokument gebaut wird. Das Projekt dient gleichzeitig als Referenzstruktur für spätere loclass-Dokumente.
+`loclass-starter` zeigt, wie aus einer einfachen LDL-Quelle ein vollständiges PDF-Dokument gebaut wird. Das Repository dient gleichzeitig als Referenzstruktur für spätere loclass-Dokumente.
 
 ---
 
@@ -21,7 +20,7 @@ Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit 
 | `loclass-review`     | Review-Boxen für TODO, FIXME, QUESTION und NOTE    | nutzbar   |
 | `loclass-versioning` | Versionshistorien aus YAML erzeugen                | nutzbar   |
 | `loclass-acronyms`   | Gemeinsame Abkürzungsverzeichnisse für Dokumente   | nutzbar   |
-| `loclass`            | Parser, Renderer und CLI für LDL                   | im Aufbau |
+| `loclass`            | späterer Kern für Parser, Renderer und CLI         | im Aufbau |
 
 ---
 
@@ -29,20 +28,38 @@ Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit 
 
 **loclass** ist ein schlankes Dokumentationssystem für technische Dokumente.
 
-Die Idee:
+Die Grundidee:
 
-- Inhalte werden in einer einfachen Textsyntax geschrieben.
-- Layout, Metadaten und Rendering werden zentral gesteuert.
-- Dokumente können später in verschiedene Zielformate gerendert werden.
-- Der erste produktive Backend-Pfad ist aktuell LaTeX/PDF.
+- Inhalte werden in einer einfachen, lesbaren Textsyntax geschrieben.
+- Metadaten, Struktur und Darstellung bleiben getrennt.
+- Dokumente können modular aufgebaut werden.
+- Der erste produktive Ausgabepfad ist aktuell LaTeX/PDF.
+- Weitere Ausgabeformate bleiben perspektivisch möglich.
 
-LDL steht dabei für **loclass document language**.
+LDL steht für **loclass document language**.
 
 ---
 
-## Was kann dieses Starter-Paket aktuell?
+## Was ist dieses Repository?
 
-Aktuell unterstützt das Projekt:
+`loclass-starter` ist aktuell ein kombiniertes Starter- und Arbeitsrepository.
+
+Es enthält:
+
+- eine LaTeX-Projektstruktur
+- einen LDL-Prototyp
+- Parser, Model, Registry, Loader und Renderer
+- ein PDF-Build-Werkzeug
+- ein vollständiges Beispieldokument
+- Tests für die LDL-Grundfunktionen
+
+Das Repository ist damit noch kein reiner Endanwender-Template-Stand, sondern der aktuelle praktische Entwicklungsstand von loclass für PDF-Dokumente.
+
+---
+
+## Aktueller Funktionsumfang
+
+Aktuell unterstützt LDL in diesem Repository:
 
 - Manifest mit Dokument-Metadaten
 - Kapitel und Abschnitte
@@ -52,9 +69,40 @@ Aktuell unterstützt das Projekt:
 - Code-Blöcke
 - Listen
 - Shell-Blöcke
-- Inline-Auszeichnungen wie `__cmd{...}`, `__keys{...}`, `__url{...}` und `__code{...}`
+- Inline-Auszeichnungen
 - modulare LDL-Dateien über `input`
 - PDF-Erzeugung über LaTeX
+
+Unterstützte Inline-Auszeichnungen:
+
+```ldl
+__cmd{uv run pytest}
+__keys{Ctrl+Alt+T}
+__url{https://example.org/docs}
+__code{None}
+```
+
+---
+
+## Schnellstart
+
+Tests ausführen:
+
+```bash
+uv run pytest
+```
+
+Beispieldokument bauen:
+
+```bash
+./loclass ldl examples/full_document.ldl
+```
+
+Ergebnis:
+
+```text
+build/full_document.pdf
+```
 
 ---
 
@@ -88,7 +136,7 @@ Weitere Informationen stehen unter __url{https://example.org/docs}.
 Der Rückgabewert ist __code{None}.
 ```
 
-Die eingebundene Datei kann zum Beispiel so aussehen:
+Eine eingebundene Datei kann zum Beispiel so aussehen:
 
 ```ldl
 chapter
@@ -116,11 +164,11 @@ input
 Regeln:
 
 - Pfade werden relativ zu der Datei aufgelöst, in der das `input` steht.
-- Eingebundene Dateien liefern nur Inhaltselemente.
-- Das Manifest steht nur in der Hauptdatei.
+- Eingebundene Dateien enthalten nur Inhalt.
+- Das Manifest steht ausschließlich in der Hauptdatei.
 - Ein Dokument hat genau ein Manifest.
+- Fehlende Dateien werden verständlich gemeldet.
 - Zirkuläre Includes werden erkannt und abgebrochen.
-- Fehlende Dateien werden mit einer verständlichen Fehlermeldung gemeldet.
 
 Beispielstruktur:
 
@@ -144,7 +192,6 @@ examples/
 │   ├── ldl/
 │   └── tools/
 ├── examples/
-│   ├── full_document.ldl
 │   └── content/
 ├── project/
 ├── main.tex
@@ -154,72 +201,52 @@ examples/
 └── README.md
 ```
 
-Wichtige Bereiche:
-
-| Pfad             | Zweck                                            |
-| ---------------- | ------------------------------------------------ |
-| `core/ldl/`      | LDL-Model, Parser, Registry, Loader und Renderer |
-| `core/tools/`    | Werkzeuge für den Build, z. B. PDF-Erzeugung     |
-| `examples/`      | Beispielhafte LDL-Dokumente                      |
-| `project/`       | Projektbezogene LaTeX-Anpassungen                |
-| `content/`       | LaTeX-Content für klassische Dokumentstruktur    |
-| `assets/images/` | Bilder und Branding-Assets                       |
-| `main.tex`       | LaTeX-Einstiegspunkt                             |
-| `loclass`        | lokaler Build-Wrapper                            |
+| Pfad             | Zweck                                               |
+| ---------------- | --------------------------------------------------- |
+| `assets/images/` | Bilder, Logos und Branding-Assets                   |
+| `content/`       | LaTeX-Content-Bereich für den Build                 |
+| `core/ldl/`      | LDL-Model, Parser, Registry, Loader und Renderer    |
+| `core/tools/`    | Build-Werkzeuge, aktuell insbesondere PDF-Erzeugung |
+| `examples/`      | LDL-Beispieldokumente                               |
+| `project/`       | projektbezogene LaTeX-Konfiguration                 |
+| `main.tex`       | LaTeX-Haupteinstieg                                 |
+| `latexmkrc`      | latexmk-Konfiguration                               |
+| `loclass`        | lokaler Build-Wrapper                               |
+| `pyproject.toml` | Python-Projektkonfiguration                         |
 
 ---
 
-## Build
+## Build-Ablauf
 
-Ein LDL-Dokument wird so gebaut:
+Beim Aufruf
 
 ```bash
 ./loclass ldl examples/full_document.ldl
 ```
 
-Das erzeugt:
+passiert grob:
 
 ```text
-build/full_document.pdf
-```
-
-Intern wird dabei das LDL-Dokument geladen, rekursiv aufgelöst, nach LaTeX gerendert und anschließend mit `latexmk` gebaut.
-
----
-
-## Entwicklung
-
-Tests ausführen:
-
-```bash
-uv run pytest
-```
-
-PDF direkt über das Tool bauen:
-
-```bash
-uv run python core/tools/ldl_pdf.py examples/full_document.ldl
-```
-
-Typischer Arbeitsablauf:
-
-```bash
-uv run pytest
-./loclass ldl examples/full_document.ldl
+LDL-Datei laden
+→ input-Dateien rekursiv auflösen
+→ Dokumentbaum erzeugen
+→ LaTeX-Dateien generieren
+→ latexmk ausführen
+→ PDF schreiben
 ```
 
 ---
 
 ## Roadmap
 
-| Version | Ziel                                 |
-| ------- | ------------------------------------ |
-| `v0.1`  | `main.tex` bereinigt                 |
-| `v0.2`  | erste modulare LaTeX-Struktur        |
-| `v0.3`  | erste `loclass.tex`-Struktur         |
-| `v0.4`  | `loclass.cls`                        |
-| `v0.5`  | erstes Dokument komplett mit loclass |
-| `v1.0`  | produktiv nutzbarer Dokumentenbau    |
+| Version | Ziel                              |
+| ------- | --------------------------------- |
+| `v0.1`  | bereinigter LaTeX-Startpunkt      |
+| `v0.2`  | modulare LaTeX-Struktur           |
+| `v0.3`  | LDL-Grundsyntax                   |
+| `v0.4`  | LDL-Renderer nach LaTeX           |
+| `v0.5`  | modulares LDL über `input`        |
+| `v1.0`  | produktiv nutzbarer Dokumentenbau |
 
 ---
 
@@ -228,22 +255,9 @@ uv run pytest
 loclass folgt einigen einfachen Regeln:
 
 - Dokumente sollen lesbar bleiben.
-- Die Syntax soll kleiner sein als LaTeX.
+- LDL soll einfacher sein als direktes LaTeX.
 - Struktur und Darstellung bleiben getrennt.
 - Ein Dokument besitzt genau ein Manifest.
-- Eingebundene Dateien sind Inhaltsmodule.
-- Der LaTeX-Backendpfad bleibt transparent und nachvollziehbar.
+- Eingebundene LDL-Dateien sind Inhaltsmodule.
+- Der LaTeX-Backendpfad bleibt nachvollziehbar.
 - Erweiterungen sollen modular bleiben.
-
----
-
-## Status
-
-Dieses Repository ist ein Arbeitsstand.
-
-Der aktuelle Schwerpunkt liegt auf:
-
-- stabiler LDL-Grundsyntax
-- modularem Dokumentbaum über `input`
-- PDF-Erzeugung über LaTeX
-- einheitlichem loclass-Branding
