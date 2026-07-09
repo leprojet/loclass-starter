@@ -1,6 +1,5 @@
-
 # -------------------------------------------------
-# Inputs 
+# Inputs
 # -------------------------------------------------
 
 $ENV{'TEXINPUTS'} = "core//:";
@@ -16,13 +15,17 @@ $pdf_mode = 1;
 # Main document
 # -------------------------------------------------
 
-system("perl core/tools/generate_inputs.pl");
-
 @default_files = ('main.tex');
 
+# -------------------------------------------------
+# Pre-build
+# -------------------------------------------------
+
+system("uv run loclass-render core/docs/ldl-specification.ldl -o content/10_ldl_specification.tex");
+system("perl core/tools/generate_inputs.pl");
 
 # -------------------------------------------------
-# Clean up 
+# Clean up
 # -------------------------------------------------
 
 $clean_ext .= " lor";

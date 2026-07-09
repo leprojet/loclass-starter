@@ -1,0 +1,63 @@
+chapter
+  LDL Specification
+
+LDL (Loclass Document Language) is a semantic markup language for technical
+documentation.
+
+Its primary goal is to describe the logical structure of a document instead of
+its visual representation.
+
+LDL is backend-independent. A renderer is responsible for translating LDL into
+a concrete output format such as LaTeX, HTML or DOCX.
+
+When LDL does not yet provide a suitable directive, backend-specific code may
+be embedded directly into the document. This code is passed through unchanged
+to the corresponding renderer.
+
+section
+  Design Principles
+
+LDL describes meaning, not appearance.
+
+section
+  What is LDL 
+
+section
+  Design Priciples 
+
+section
+  Document Model 
+
+section 
+  Directives 
+
+section
+  Rendering 
+
+section 
+  Grammar 
+
+section 
+  Examples
+
+section
+  Initial Inline Elements
+
+The following inline elements are part of the initial LDL specification.
+
+list
+  params
+    type: unordered
+
+  body
+    ---
+    *text* — Strong emphasis
+    /text/ — Emphasis
+    +text+ — Underlined text
+    --text-- — Strikethrough text
+    \_\_path "/path/to/file" — Filesystem path
+    \_\_url "https://example.org" — URL
+    \_\_keys "Ctrl+C" — Keyboard shortcut
+    \_\_cmd "uv run pytest" — Command line
+    \_\_code "printf()" — Inline source code
+    ---

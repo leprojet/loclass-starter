@@ -26,10 +26,13 @@ local function run(command, background)
 		command = command .. " >/dev/null 2>&1 &"
 	end
 
-	os.execute(command)
-
-	print()
+	return os.execute(command)
 end
+
+local function shell_quote(value)
+	return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+end
+
 --------------------------------------------------
 -- Commands
 --------------------------------------------------
@@ -52,7 +55,21 @@ local function watch()
 end
 
 local function open()
-	run("xdg-open " .. PDF, true)
+	run("xdg-open " .. shell_quote(PDF), true)
+end
+
+local function render_ldl(path)
+	if path == nil or path == "" then
+		print("Usage: loclass ldl <file.ldl>")
+		return
+	end
+
+	if not path:match("%.ldl$") then
+		print("Error: expected a .ldl file")
+		return
+	end
+
+	run("uv run python core/tools/ldl_pdf.py " .. shell_quote(path))
 end
 
 --------------------------------------------------
@@ -60,19 +77,15 @@ end
 --------------------------------------------------
 
 local commands = {
-
 	build = build,
-
 	rebuild = rebuild,
-
 	clean = clean,
-
 	watch = watch,
-
 	open = open,
+	ldl = render_ldl,
 }
 
-local function execute(name)
+local function execute(name, ...)
 	local command = commands[name]
 
 	if not command then
@@ -80,7 +93,7 @@ local function execute(name)
 		return
 	end
 
-	command()
+	command(...)
 end
 
 --------------------------------------------------
@@ -88,15 +101,10 @@ end
 --------------------------------------------------
 
 local menu_items = {
-
 	{ name = "build", label = "Build" },
-
 	{ name = "rebuild", label = "Rebuild" },
-
 	{ name = "clean", label = "Clean" },
-
 	{ name = "watch", label = "Watch" },
-
 	{ name = "open", label = "Open PDF" },
 }
 
@@ -131,6 +139,7 @@ local function menu()
 		end
 	end
 end
+
 --------------------------------------------------
 -- Help
 --------------------------------------------------
@@ -142,13 +151,14 @@ local function help()
 	print("  loclass <command>")
 	print()
 	print("Commands:")
-	print("  build      Build the document")
-	print("  rebuild    Clean and rebuild")
-	print("  clean      Remove build artifacts")
-	print("  watch      Continuous build")
-	print("  open       Open generated PDF")
-	print("  version    Show version")
-	print("  help       Show this help")
+	print("  build              Build the document")
+	print("  rebuild            Clean and rebuild")
+	print("  clean              Remove build artifacts")
+	print("  watch              Continuous build")
+	print("  open               Open generated PDF")
+	print("  ldl <file.ldl>     Build a complete LDL document as PDF")
+	print("  version            Show version")
+	print("  help               Show this help")
 	print()
 	print("Without arguments an interactive menu is shown.")
 end
@@ -177,10 +187,11 @@ local function main()
 	end
 
 	if #arg > 0 then
-		execute(arg[1])
+		execute(arg[1], arg[2])
 		return
 	end
 
 	menu()
 end
+
 main()

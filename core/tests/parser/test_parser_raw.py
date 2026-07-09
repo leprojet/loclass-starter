@@ -1,4 +1,4 @@
-from core.ldl.model import Heading, Raw
+from core.ldl.model import Document, Heading, Metadata, Raw
 from core.ldl.parser import parse_document
 
 
@@ -14,20 +14,23 @@ Das ist normaler LaTeX-Text.
 \end{itemize}
 
 section
-  Danach
+  Danach 
 """
 
     document = parse_document(source)
 
-    assert document == [
-        Heading(level="chapter", title="Einführung"),
-        Raw(
-            text=r"""Das ist normaler LaTeX-Text.
+    assert document == Document(
+        metadata=Metadata(),
+        elements=[
+            Heading(level="chapter", title="Einführung"),
+            Raw(
+                text=r"""Das ist normaler LaTeX-Text.
 
 \begin{itemize}
 \item Eins
 \item Zwei
 \end{itemize}"""
-        ),
-        Heading(level="section", title="Danach"),
-    ]
+            ),
+            Heading(level="section", title="Danach"),
+        ],
+    )

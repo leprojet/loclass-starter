@@ -1,4 +1,15 @@
-from .model import Code, Heading, Image, List, Raw, Shell, Table
+from .model import (
+    Code,
+    Document,
+    Heading,
+    Image,
+    Input,
+    List,
+    Metadata,
+    Raw,
+    Shell,
+    Table,
+)
 
 
 def _normalize_lines(source: str) -> list[str]:
@@ -30,21 +41,63 @@ def _parse_common_params(params: dict[str, str]) -> tuple[str | None, str | None
 
 
 def _parse_fenced_body(lines: list[str]) -> list[str]:
+    if not lines:
+        raise ValueError("Missing body.")
+
+    if lines[0].strip() != "---":
+        raise ValueError("Body must start with '---'.")
+
+    if lines[-1].strip() != "---":
+        raise ValueError("Body must end with '---'.")
+
+    body = lines[1:-1]
+
+    return [line[4:] if line.startswith("    ") else line for line in body]
+
+
+def _parse_manifest(source: str) -> tuple[Metadata, str]:
+    lines = source.splitlines()
+
     if not lines or lines[0].strip() != "---":
-        raise ValueError("Body block must start with '---'.")
+        return Metadata(), source
 
-    body: list[str] = []
+    values: dict[str, str] = {}
 
-    for line in lines[1:]:
+    allowed_keys = {
+        "title",
+        "subtitle",
+        "author",
+        "version",
+        "date",
+        "company",
+        "customer",
+        "language",
+        "theme",
+        "revision",
+    }
+
+    i = 1
+
+    while i < len(lines):
+        line = lines[i]
+
         if line.strip() == "---":
-            return body
+            body = "\n".join(lines[i + 1 :])
+            return Metadata(**values), body
 
-        if line.startswith("    "):
-            body.append(line[4:])
-        else:
-            body.append(line)
+        if ":" not in line:
+            raise ValueError(f"Invalid manifest line: {line}")
 
-    raise ValueError("Body block must end with '---'.")
+        key, value = line.split(":", 1)
+        key = key.strip()
+
+        if key not in allowed_keys:
+            raise ValueError(f"Unknown metadata field: {key}")
+
+        values[key] = value.strip()
+        i += 1
+
+    raise ValueError("Manifest must end with '---'.")
 
 
 def parse_table(source: str) -> Table:
@@ -235,6 +288,23 @@ def parse_heading(source: str) -> Heading:
     return Heading(level=level, title=title)
 
 
+def parse_input(source: str) -> Input:
+    lines = _normalize_lines(source)
+
+    if not lines or lines[0].strip() != "input":
+        raise ValueError("LDL input block must start with 'input'.")
+
+    if len(lines) < 2:
+        raise ValueError("Input requires a path.")
+
+    path = lines[1].strip()
+
+    if not path:
+        raise ValueError("Input requires a path.")
+
+    return Input(path=path)
+
+
 def _directive_name(line: str) -> str:
     return line.strip()
 
@@ -244,9 +314,12 @@ def _split_blocks(source: str) -> list[str]:
         "chapter",
         "section",
         "subsection",
+        "input",
         "table",
         "image",
         "code",
+        "list",
+        "shell",
     }
 
     heading_directives = {
@@ -254,6 +327,8 @@ def _split_blocks(source: str) -> list[str]:
         "section",
         "subsection",
     }
+
+    single_value_directives = heading_directives | {"input"}
 
     lines = [line.rstrip() for line in source.splitlines()]
     blocks: list[str] = []
@@ -273,7 +348,7 @@ def _split_blocks(source: str) -> list[str]:
         if is_directive:
             directive = stripped
 
-            if directive in heading_directives:
+            if directive in single_value_directives:
                 block = [line]
 
                 if i + 1 < len(lines):
@@ -333,12 +408,13 @@ def _split_blocks(source: str) -> list[str]:
     return blocks
 
 
-def parse_document(source: str) -> list[object]:
+def parse_document(source: str) -> Document:
     from .registry import PARSERS
 
+    metadata, body = _parse_manifest(source)
     elements: list[object] = []
 
-    for block in _split_blocks(source):
+    for block in _split_blocks(body):
         if not block.strip():
             continue
 
@@ -350,7 +426,10 @@ def parse_document(source: str) -> list[object]:
         else:
             elements.append(Raw(text=block))
 
-    return elements
+    return Document(
+        metadata=metadata,
+        elements=elements,
+    )
 
 
 def parse_list(source: str) -> List:
@@ -403,7 +482,6 @@ def parse_list(source: str) -> List:
         raise ValueError("List requires at least one item.")
 
     return List(type=list_type, items=items)
-    raise NotImplementedError
 
 
 def parse_shell(source: str) -> Shell:

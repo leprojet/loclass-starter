@@ -1,4 +1,4 @@
-from .model import Code, Heading, Image, List, Raw, Table
+from .model import Code, Heading, Image, Input, List, Raw, Table
 from .parser import (
     parse_code,
     parse_document,
@@ -24,6 +24,8 @@ __all__ = [
     "Code",
     "Heading",
     "Image",
+    "Input",
+    "List",
     "Raw",
     "Table",
     "parse_code",
