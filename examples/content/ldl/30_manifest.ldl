@@ -1,0 +1,100 @@
+chapter
+  Manifest
+
+Das Manifest enthält die Metadaten eines LDL-Dokuments.
+
+Es steht am Anfang der Hauptdatei und beschreibt das Dokument als Ganzes. Das Manifest ist bewusst einfach gehalten und besteht aus Schlüssel-Wert-Zeilen.
+
+section
+  Zweck
+
+Das Manifest trennt Dokument-Metadaten vom eigentlichen Inhalt.
+
+Der Autor muss Titel, Version oder Datum nicht im Fließtext pflegen. Diese Angaben können vom Ausgabe-Backend genutzt werden, zum Beispiel für Titelseite, Kopfzeile oder PDF-Metadaten.
+
+section
+  Beispiel
+
+Ein typisches Manifest sieht so aus:
+
+code
+  params
+    label: manifest-example
+    caption: Beispiel für ein LDL-Manifest
+    language: yaml
+  body
+    ---
+    ---
+    title: LDL Benutzerhandbuch
+    subtitle: Strukturierte Dokumente mit loclass schreiben
+    author: Frank Sieger
+    company: LogObject
+    customer: loclass
+    language: de
+    theme: default
+    version: 0.1.0
+    revision: 1
+    date: 2026-07-09
+    ---
+    ---
+
+section
+  Aufbau
+
+Das Manifest wird durch drei Bindestriche eröffnet und durch drei Bindestriche geschlossen.
+
+Zwischen diesen beiden Markierungen stehen die Metadaten des Dokuments. Jede Zeile besteht aus einem Feldnamen, einem Doppelpunkt und dem dazugehörigen Wert.
+
+Das Manifest wird durch drei Bindestriche eröffnet und durch drei Bindestriche geschlossen.
+
+Zwischen diesen beiden Markierungen stehen die Metadaten des Dokuments. Jede Zeile besteht aus einem Feldnamen, einem Doppelpunkt und dem dazugehörigen Wert.
+
+section
+  Felder
+
+Die folgenden Felder werden im aktuellen Stand unterstützt:
+
+table
+  params
+    label: manifest-fields
+    caption: Unterstützte Manifest-Felder
+  head
+    Feld | Pflicht | Bedeutung
+  body
+    title | empfohlen | Titel des Dokuments
+    subtitle | optional | Untertitel oder nähere Beschreibung
+    author | empfohlen | Autor oder verantwortliche Person
+    company | optional | Eigene Organisation oder herausgebende Stelle
+    customer | optional | Kunde, Projekt oder Zielkontext
+    language | optional | Sprache des Dokuments
+    theme | optional | Gewähltes Ausgabe-Theme
+    version | empfohlen | Version des Dokuments
+    revision | optional | Revisionsnummer oder interner Änderungsstand
+    date | empfohlen | Dokumentdatum
+
+section
+  Empfohlene Mindestangaben
+
+Die Felder title, author, version und date sind im aktuellen Parser technisch nicht zwingend erforderlich. Für reguläre Dokumente sollten sie trotzdem gesetzt werden.
+
+Ohne title fehlt der Titelseite die wichtigste Information. Ohne version und date ist der Dokumentstand schwer nachvollziehbar.
+
+section
+  Pflicht und Optionalität
+
+Das Manifest selbst gehört in die Hauptdatei des Dokuments.
+
+Eingebundene Inhaltsdateien dürfen kein eigenes Manifest enthalten. Sie liefern nur Inhaltselemente wie Kapitel, Abschnitte, Tabellen oder Fließtext.
+
+Dadurch gibt es genau eine Quelle für die Dokument-Metadaten.
+
+section
+  Regeln
+
+Das Manifest steht nur in der Hauptdatei.
+
+Ein LDL-Dokument hat genau ein Manifest.
+
+Eingebundene Dateien enthalten kein Manifest. Wenn eine eingebundene Datei ein Manifest enthält, wird das Dokument nicht geladen.
+
+Diese Regel verhindert widersprüchliche Metadaten und macht den Dokumentaufbau eindeutig.

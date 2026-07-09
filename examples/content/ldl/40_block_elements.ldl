@@ -1,0 +1,71 @@
+chapter
+  Blockelemente
+
+Der Inhalt eines LDL-Dokuments besteht aus Blöcken.
+
+Ein Block beginnt mit einer Direktive oder mit normalem Text. Direktiven beschreiben strukturierte Elemente wie Kapitel, Abschnitte, Tabellen, Bilder, Listen oder Code.
+
+section
+  Überschriften
+
+LDL unterstützt derzeit chapter, section und subsection.
+
+chapter erzeugt ein Kapitel.
+
+section erzeugt einen Abschnitt.
+
+subsection erzeugt einen Unterabschnitt.
+
+Die Überschrift steht in der eingerückten Zeile direkt unter der Direktive.
+
+section
+  Rohtext
+
+Normaler Text kann direkt geschrieben werden.
+
+Ein Rohtextblock benötigt keine eigene Direktive. Dadurch bleibt LDL für einfache Absätze sehr leicht lesbar.
+
+Der Renderer behandelt diesen Text als normalen Fließtext.
+
+section
+  Tabellen
+
+Tabellen werden als eigenes Blockelement beschrieben.
+
+Eine Tabelle enthält Metadaten wie Beschriftung und optional ein Label. Danach folgen Kopfzeile und Tabellenkörper.
+
+Tabellen sollten verwendet werden, wenn Daten vergleichbar oder strukturiert dargestellt werden sollen.
+
+section
+  Bilder
+
+Bilder werden über ein eigenes Bildelement eingebunden.
+
+Ein Bild enthält mindestens eine Datei und eine Beschriftung. Optional kann ein Label vergeben werden.
+
+Die konkrete Darstellung, Größe und Platzierung übernimmt das Ausgabe-Backend.
+
+section
+  Code
+
+Code-Blöcke dienen dazu, Quelltext oder Konfigurationsbeispiele darzustellen.
+
+Ein Code-Block enthält eine Sprache, optional eine Beschriftung und den eigentlichen Code-Inhalt.
+
+Für kurze Code-Fragmente im Fließtext sollte stattdessen ein Inline-Element verwendet werden.
+
+section
+  Listen
+
+Listen beschreiben geordnete oder ungeordnete Aufzählungen.
+
+Sie eignen sich für kurze, gleichartige Punkte. Längere erklärende Abschnitte sollten eher als normale Absätze geschrieben werden.
+
+section
+  Shell-Blöcke
+
+Shell-Blöcke sind für Kommandozeilenbeispiele gedacht.
+
+Sie unterscheiden sich von allgemeinen Code-Blöcken dadurch, dass sie ausdrücklich eine Ausführungssituation beschreiben.
+
+Typische Inhalte sind Befehle, die auf Linux, Windows oder macOS ausgeführt werden.

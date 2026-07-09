@@ -34,3 +34,40 @@
 }
 
 \lstset{style=locDefault}
+
+% -------------------------------------------------
+% Code Listings
+% -------------------------------------------------
+
+\lstdefinelanguage{yaml}{
+  keywords={true,false,null,y,n},
+  keywordstyle=\bfseries,
+  sensitive=false,
+  comment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]",
+}
+
+\lstdefinestyle{locode}{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=single,
+  rulecolor=\color{locLine},
+  backgroundcolor=\color{locSurface},
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  framesep=6pt,
+  captionpos=b,
+}
+
+\makeatletter
+\@ifundefined{locode}{%
+  \lstnewenvironment{locode}[1][]{%
+    \lstset{style=locode,#1}%
+  }{}%
+}{}
+\makeatother
