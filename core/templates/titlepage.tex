@@ -5,12 +5,11 @@
 \makeatletter
 
 \begin{titlepage}
-
-    \centering
-    \scshape
+    \sffamily
+    \thispagestyle{empty}
 
     % -------------------------------------------------
-    % Cover Image
+    % Optional Cover Image
     % -------------------------------------------------
 
     \ifdefempty{\locCoverImage}
@@ -21,54 +20,74 @@
             \hspace*{-1in}
             \includegraphics[
                 width=\paperwidth,
-                height=.33\paperheight
+                height=.28\paperheight
             ]{\locCoverImage}
 
-            \vspace{1cm}
-    }
+            \vspace{1.2cm}
+        }
+
+    % -------------------------------------------------
+    % Brand
+    % -------------------------------------------------
+
+    \noindent
+    {\Large\bfseries\color{locAccent}loclass\par}
+
+    \vspace{0.15cm}
+
+    \noindent
+    {\small\color{locTextMuted}Write here \textbullet{} Read everywhere\par}
+
+    \vspace{0.6cm}
+
+    \noindent
+    {\color{locAccent}\rule{0.28\textwidth}{1.2pt}}
+
+    \vspace{1.8cm}
+
     % -------------------------------------------------
     % Title
     % -------------------------------------------------
 
-    {\Huge\bfseries\@title\par}
+    \noindent
+    {\Huge\bfseries\color{locText}\@title\par}
 
-    \ifdefempty{\@subtitle}
+    \ifdefempty{\locSubtitle}
         {}
         {
-            \vspace{0.6cm}
-            {\Large\normalfont\@subtitle\par}
+            \vspace{0.45cm}
+            \noindent
+            {\Large\mdseries\color{locTextMuted}\locSubtitle\par}
         }
 
-    \vspace{1.6cm}
+    \vspace{1.4cm}
 
     % -------------------------------------------------
-    % Author
+    % Document Context
     % -------------------------------------------------
 
-    {\Large\@author\par}
+    \noindent
+    \begin{minipage}{0.68\textwidth}
+        \ifdefempty{\@author}
+            {}
+            {
+                {\large\color{locText}\@author\par}
+            }
 
-    \vspace{0.6cm}
+        \ifdefempty{\locCompany}
+            {}
+            {
+                \vspace{0.25cm}
+                {\normalsize\color{locTextMuted}\locCompany\par}
+            }
 
-    % -------------------------------------------------
-    % Company
-    % -------------------------------------------------
-
-    \ifdefempty{\locCompany}
-        {}
-        {
-            {\large\locCompany\par}
-        }
-
-    % -------------------------------------------------
-    % Customer
-    % -------------------------------------------------
-
-    \ifdefempty{\locCustomer}
-        {}
-        {
-            \vspace{0.25cm}
-            {\large\locCustomer\par}
-        }
+        \ifdefempty{\locCustomer}
+            {}
+            {
+                \vspace{0.10cm}
+                {\normalsize\color{locTextMuted}\locCustomer\par}
+            }
+    \end{minipage}
 
     \vfill
 
@@ -81,41 +100,51 @@
         {
             \ifdefempty{\locRightLogo}
                 {
-                    % Ein Logo -> zentrieren
+                    \noindent
                     \includegraphics[
-                        width=.22\textwidth
+                        width=.20\textwidth
                     ]{\locLeftLogo}
                 }
                 {
-                    % Zwei Logos
                     \noindent
                     \makebox[\textwidth]{%
                         \includegraphics[
-                            width=.20\textwidth
+                            width=.18\textwidth
                         ]{\locLeftLogo}%
                         \hfill
                         \includegraphics[
-                            width=.20\textwidth
+                            width=.18\textwidth
                         ]{\locRightLogo}%
                     }
                 }
-        }
 
-    \vspace{0.8cm}
+            \vspace{0.8cm}
+        }
 
     % -------------------------------------------------
-    % Version & Date
+    % Footer Metadata
     % -------------------------------------------------
 
-    \ifdefempty{\locVersion}
-        {
-            {\large\@date\par}
-        }
-        {
-            {\large Version \locVersion\par}
-            \vspace{0.15cm}
-            {\normalsize\@date\par}
-        }
+    \noindent
+    {\color{locLine}\rule{\textwidth}{0.5pt}}
+
+    \vspace{0.35cm}
+
+    \noindent
+    \begin{minipage}{0.48\textwidth}
+        \ifdefempty{\locVersion}
+            {}
+            {
+                {\small\color{locTextMuted}Version\par}
+                {\normalsize\color{locText}\locVersion\par}
+            }
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \raggedleft
+        {\small\color{locTextMuted}Datum\par}
+        {\normalsize\color{locText}\@date\par}
+    \end{minipage}
 
 \end{titlepage}
 

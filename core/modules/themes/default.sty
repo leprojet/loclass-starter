@@ -7,13 +7,26 @@
 % Accent
 % ==================================================
 
-\colorlet{locAccent}{blue!45!black}
+% ==================================================
+% Brand Colors
+% ==================================================
+
+\definecolor{locBrandBlue}{HTML}{2F6FDD}
+\definecolor{locBrandBlueDark}{HTML}{1F4F9F}
+\definecolor{locBrandBlueLight}{HTML}{EEF4FF}
+
+\definecolor{locText}{HTML}{1F2937}
+\definecolor{locTextMuted}{HTML}{6B7280}
+\definecolor{locSurface}{HTML}{F8FAFC}
+\definecolor{locLine}{HTML}{D6DEE8}
+
+\colorlet{locAccent}{locBrandBlue}
 
 % ==================================================
 % Semantic Colors
 % ==================================================
 
-\colorlet{locNote}{blue!45!black}
+\colorlet{locNote}{locBrandBlue}
 \colorlet{locTip}{green!45!black}
 \colorlet{locWarning}{orange!75!black}
 \colorlet{locImportant}{red!60!black}
@@ -23,7 +36,7 @@
 % ==================================================
 
 \colorlet{locNoteBorder}{locNote}
-\colorlet{locNoteBackground}{locNote!5}
+\colorlet{locNoteBackground}{locBrandBlueLight}
 \colorlet{locNoteTitle}{locNote}
 
 \colorlet{locTipBorder}{locTip}
@@ -42,10 +55,10 @@
 % Neutral Colors
 % ==================================================
 
-\colorlet{locLight}{black!3}
-\colorlet{locMedium}{black!15}
-\colorlet{locBorder}{black!40}
-\colorlet{locDark}{black!80}
+\colorlet{locLight}{locSurface}
+\colorlet{locMedium}{locLine}
+\colorlet{locBorder}{locLine}
+\colorlet{locDark}{locText}
 
 % ==================================================
 % Dimensions
