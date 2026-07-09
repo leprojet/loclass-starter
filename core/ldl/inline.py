@@ -1,13 +1,32 @@
+cat > core / ldl / inline.py << "PY"
 from collections.abc import Callable
 
-from .model import Bold, Italic, Path, Strike, Text, Underline
-
+from .model import (
+    Bold,
+    Cmd,
+    InlineCode,
+    Italic,
+    Keys,
+    Path,
+    Strike,
+    Text,
+    Underline,
+    Url,
+)
 
 INLINE_MARKERS = {
     "--": Strike,
     "*": Bold,
     "/": Italic,
     "+": Underline,
+}
+
+BRACE_DIRECTIVES = {
+    "__path": Path,
+    "__cmd": Cmd,
+    "__keys": Keys,
+    "__url": Url,
+    "__code": InlineCode,
 }
 
 
@@ -37,6 +56,14 @@ def _find_marker_at(text: str, position: int) -> str | None:
     return None
 
 
+def _find_brace_directive_at(text: str, position: int) -> str | None:
+    for directive in BRACE_DIRECTIVES:
+        if text.startswith(directive + "{", position):
+            return directive
+
+    return None
+
+
 def lex_inline(text: str) -> list[object]:
     tokens: list[object] = []
     buffer: list[str] = []
@@ -44,25 +71,29 @@ def lex_inline(text: str) -> list[object]:
     i = 0
 
     while i < len(text):
-        marker = _find_marker_at(text, i)
+        directive = _find_brace_directive_at(text, i)
 
-        if text.startswith("__path{", i):
+        if directive is not None:
             if buffer:
                 tokens.append(Text("".join(buffer)))
                 buffer = []
 
-            end = text.find("}", i + len("__path{"))
+            start = i + len(directive) + 1
+            end = text.find("}", start)
 
             if end == -1:
                 buffer.append(text[i])
                 i += 1
                 continue
 
-            content = text[i + len("__path{") : end]
-            tokens.append(Path(content))
+            content = text[start:end]
+            token_class = BRACE_DIRECTIVES[directive]
+            tokens.append(token_class(content))
 
             i = end + 1
             continue
+
+        marker = _find_marker_at(text, i)
 
         if marker is not None:
             if buffer:
@@ -116,6 +147,22 @@ def _render_path(token: Path) -> str:
     return rf"\locPath{{{latex_escape(token.text)}}}"
 
 
+def _render_cmd(token: Cmd) -> str:
+    return rf"\locCmd{{{latex_escape(token.text)}}}"
+
+
+def _render_keys(token: Keys) -> str:
+    return rf"\locKeys{{{latex_escape(token.text)}}}"
+
+
+def _render_url(token: Url) -> str:
+    return rf"\locUrl{{{latex_escape(token.text)}}}"
+
+
+def _render_inline_code(token: InlineCode) -> str:
+    return rf"\locCode{{{latex_escape(token.text)}}}"
+
+
 INLINE_TOKEN_RENDERERS: dict[type, Callable[..., str]] = {
     Text: _render_text,
     Bold: _render_bold,
@@ -123,6 +170,10 @@ INLINE_TOKEN_RENDERERS: dict[type, Callable[..., str]] = {
     Underline: _render_underline,
     Strike: _render_strike,
     Path: _render_path,
+    Cmd: _render_cmd,
+    Keys: _render_keys,
+    Url: _render_url,
+    InlineCode: _render_inline_code,
 }
 
 
@@ -136,3 +187,6 @@ def render_inline(text: str) -> str:
         rendered.append(renderer(token))
 
     return "".join(rendered)
+
+
+PY
