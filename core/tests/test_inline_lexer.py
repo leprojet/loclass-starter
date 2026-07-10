@@ -1,5 +1,5 @@
 from core.ldl.inline import lex_inline
-from core.ldl.model import Bold, Italic, Strike, Text, Underline
+from core.ldl.model import Bold, Italic, Text, Underline
 
 
 def test_lex_plain_text():

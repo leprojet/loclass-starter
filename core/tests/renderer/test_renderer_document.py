@@ -1,11 +1,9 @@
-from core.ldl.model import Code, Document, Heading
+from core.ldl.model import Code, Document, Heading, Metadata
 from core.ldl.renderer import render_document_latex
 
 
-from core.ldl.model import Code, Document, Heading
-
 document = Document(
-    metadata={},
+    metadata=Metadata(),
     elements=[
         Heading(level="chapter", title="Einführung"),
         Heading(level="section", title="Beispiel"),

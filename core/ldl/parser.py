@@ -1,13 +1,13 @@
 from .model import (
     Code,
     Document,
+    Element,
     Heading,
     Paragraph,
     Image,
     Input,
     List,
     Metadata,
-    Raw,
     Shell,
     Table,
 )
@@ -413,7 +413,7 @@ def parse_document(source: str) -> Document:
     from .registry import PARSERS
 
     metadata, body = _parse_manifest(source)
-    elements: list[object] = []
+    elements: list[Element] = []
 
     for block in _split_blocks(body):
         if not block.strip():

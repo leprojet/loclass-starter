@@ -15,12 +15,3 @@ def test_render_raw_with_inline_directive():
         render_raw_latex(raw)
         == r"Die Konfiguration liegt unter \locPath{/etc/nginx/nginx.conf}."
     )
-
-
-def test_render_raw_with_inline_directive():
-    raw = Raw("Die Konfiguration liegt unter __path{/etc/nginx/nginx.conf}.")
-
-    assert (
-        render_raw_latex(raw)
-        == r"Die Konfiguration liegt unter \locPath{/etc/nginx/nginx.conf}."
-    )

@@ -1,5 +1,16 @@
 from .inline import latex_escape, render_inline
-from .model import Code, Document, Heading, Image, List, Paragraph, Raw, Shell, Table
+from .model import (
+    Code,
+    Document,
+    Heading,
+    Image,
+    Input,
+    List,
+    Paragraph,
+    Raw,
+    Shell,
+    Table,
+)
 
 
 IMAGE_BASE_PATH = "assets/images"
@@ -131,3 +142,7 @@ def render_shell_latex(shell: Shell) -> str:
             r"\end{loshell}",
         ]
     )
+
+
+def render_input_latex(input_: Input) -> str:
+    return rf"\input{{{input_.path}}}"

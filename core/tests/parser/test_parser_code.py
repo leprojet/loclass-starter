@@ -1,5 +1,3 @@
-import pytest
-
 from core.ldl.parser import parse_code
 
 
