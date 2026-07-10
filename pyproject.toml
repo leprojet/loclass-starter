@@ -12,6 +12,8 @@ loclass-render = "core.tools.ldl_renderer:main"
 [dependency-groups]
 dev = [
     "pytest>=9.0",
+    "ruff",
+    "mypy",
 ]
 
 [tool.pytest.ini_options]
@@ -31,3 +33,9 @@ packages = ["core"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.loclass.dev]
+tex_main = "main.tex"
+build_dir = "build"
+typecheck = ["core"]
+lint = ["."]

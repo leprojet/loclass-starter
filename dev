@@ -1,0 +1,409 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+TEX_MAIN="${TEX_MAIN:-}"
+
+bold() { printf '\033[1m%s\033[0m\n' "$*"; }
+ok() { printf 'ok  %s\n' "$*"; }
+warn() { printf '!!  %s\n' "$*"; }
+fail() { printf 'xx  %s\n' "$*"; }
+
+has() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+python_label() {
+    if has python; then
+        printf '%s\n' "python"
+    elif has python3; then
+        printf '%s\n' "python3"
+    elif has uv; then
+        printf '%s\n' "uv run python"
+    else
+        printf '%s\n' ""
+    fi
+}
+
+python_available() {
+    [[ -n "$(python_label)" ]]
+}
+
+run_python() {
+    if has python; then
+        command python "$@"
+    elif has python3; then
+        command python3 "$@"
+    elif has uv; then
+        command uv run python "$@"
+    else
+        return 127
+    fi
+}
+
+pyproject_get() {
+    local key="$1"
+    local default="${2:-}"
+
+    if [[ ! -f "pyproject.toml" ]] || ! python_available; then
+        printf '%s\n' "$default"
+        return 0
+    fi
+
+    run_python - "$key" "$default" <<'PY'
+import sys
+from pathlib import Path
+import tomllib
+
+key = sys.argv[1]
+default = sys.argv[2]
+
+path = Path("pyproject.toml")
+
+try:
+    data = tomllib.loads(path.read_text(encoding="utf-8"))
+except Exception:
+    print(default)
+    raise SystemExit(0)
+
+value = data
+for part in key.split("."):
+    if isinstance(value, dict) and part in value:
+        value = value[part]
+    else:
+        print(default)
+        raise SystemExit(0)
+
+if isinstance(value, list):
+    print(" ".join(str(item) for item in value))
+elif isinstance(value, bool):
+    print("true" if value else "false")
+elif value is None:
+    print(default)
+else:
+    print(str(value))
+PY
+}
+
+BUILD_DIR="${BUILD_DIR:-$(pyproject_get tool.loclass.dev.build_dir build)}"
+
+repo_root() {
+    if has git && git rev-parse --show-toplevel >/dev/null 2>&1; then
+        git rev-parse --show-toplevel
+    else
+        pwd
+    fi
+}
+
+detect_tex_main() {
+    local configured
+    configured="$(pyproject_get tool.loclass.dev.tex_main "")"
+
+    if [[ -n "$TEX_MAIN" ]]; then
+        printf '%s\n' "$TEX_MAIN"
+    elif [[ -n "$configured" ]]; then
+        printf '%s\n' "$configured"
+    elif [[ -f "examples/main.tex" ]]; then
+        printf '%s\n' "examples/main.tex"
+    elif [[ -f "main.tex" ]]; then
+        printf '%s\n' "main.tex"
+    else
+        printf '%s\n' ""
+    fi
+}
+
+detect_tests() {
+    local configured
+    local pytest_configured
+
+    configured="$(pyproject_get tool.loclass.dev.tests "")"
+    pytest_configured="$(pyproject_get tool.pytest.ini_options.testpaths "")"
+
+    if [[ -n "$configured" ]]; then
+        printf '%s\n' "$configured"
+    elif [[ -n "$pytest_configured" ]]; then
+        printf '%s\n' "$pytest_configured"
+    elif [[ -d "tests" ]]; then
+        printf '%s\n' "tests"
+    else
+        printf '%s\n' ""
+    fi
+}
+
+detect_lint_targets() {
+    local configured
+    configured="$(pyproject_get tool.loclass.dev.lint "")"
+
+    if [[ -n "$configured" ]]; then
+        printf '%s\n' "$configured"
+    else
+        printf '%s\n' "."
+    fi
+}
+
+detect_typecheck_targets() {
+    local configured
+    configured="$(pyproject_get tool.loclass.dev.typecheck "")"
+
+    if [[ -n "$configured" ]]; then
+        printf '%s\n' "$configured"
+    elif [[ -d "src" ]]; then
+        printf '%s\n' "src"
+    else
+        printf '%s\n' ""
+    fi
+}
+
+is_python_project() {
+    [[ -f "pyproject.toml" ]]
+}
+
+is_latex_project() {
+    [[ -n "$(detect_tex_main)" ]] || compgen -G "tex/*.sty" >/dev/null
+}
+
+cmd_help() {
+    cat <<'HELP'
+Usage:
+  ./dev doctor
+  ./dev test
+  ./dev lint
+  ./dev typecheck
+  ./dev build
+  ./dev example
+  ./dev clean
+  ./dev release-check
+  ./dev help
+
+Environment overrides:
+  TEX_MAIN=examples/main.tex ./dev build
+  BUILD_DIR=build ./dev clean
+
+Project config:
+  [tool.loclass.dev]
+  tex_main = "main.tex"
+  build_dir = "build"
+  typecheck = ["core"]
+  lint = ["."]
+HELP
+}
+
+cmd_doctor() {
+    local missing=0
+
+    bold "Developer doctor"
+    printf 'Root: %s\n\n' "$(repo_root)"
+
+    if is_python_project; then
+        bold "Python"
+
+        local py
+        py="$(python_label)"
+
+        if [[ -n "$py" ]]; then
+            ok "$py found"
+        else
+            fail "python missing"
+            missing=1
+        fi
+
+        if has uv; then ok "uv found"; else
+            fail "uv missing"
+            missing=1
+        fi
+        local test_paths
+        test_paths="$(detect_tests)"
+
+        if [[ -n "$test_paths" ]]; then
+            ok "tests found: $test_paths"
+        else
+            warn "tests not configured"
+        fi
+
+        local typecheck_targets
+        typecheck_targets="$(detect_typecheck_targets)"
+
+        if [[ -n "$typecheck_targets" ]]; then
+            ok "typecheck target: $typecheck_targets"
+        else
+            warn "typecheck target not configured"
+        fi
+    else
+        warn "no pyproject.toml found"
+    fi
+
+    printf '\n'
+
+    if is_latex_project; then
+        bold "LaTeX"
+
+        local tex_main
+        tex_main="$(detect_tex_main)"
+
+        if [[ -n "$tex_main" ]]; then
+            ok "TeX main found: $tex_main"
+        else
+            warn "no main TeX file found"
+        fi
+
+        ok "build dir: $BUILD_DIR"
+
+        if has latexmk; then ok "latexmk found"; else
+            fail "latexmk missing"
+            missing=1
+        fi
+        if has pdflatex; then ok "pdflatex found"; else
+            fail "pdflatex missing"
+            missing=1
+        fi
+    else
+        warn "no LaTeX project detected"
+    fi
+
+    printf '\n'
+
+    bold "Repository"
+    if has git && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        ok "git repository found"
+    else
+        warn "not inside a git repository"
+    fi
+
+    return "$missing"
+}
+
+cmd_test() {
+    local test_paths
+    test_paths="$(detect_tests)"
+
+    if is_python_project && [[ -n "$test_paths" ]]; then
+        bold "Running Python tests"
+        uv run pytest $test_paths
+    else
+        warn "no Python tests configured"
+    fi
+}
+
+cmd_lint() {
+    if is_python_project; then
+        local lint_targets
+        lint_targets="$(detect_lint_targets)"
+
+        bold "Running ruff"
+        uv run ruff check $lint_targets
+        uv run ruff format --check $lint_targets
+    else
+        warn "no Python project found"
+    fi
+}
+
+cmd_typecheck() {
+    local typecheck_targets
+    typecheck_targets="$(detect_typecheck_targets)"
+
+    if is_python_project && [[ -n "$typecheck_targets" ]]; then
+        bold "Running mypy"
+        uv run mypy $typecheck_targets
+    else
+        warn "no Python typecheck target configured"
+    fi
+}
+
+cmd_build() {
+    local tex_main
+    tex_main="$(detect_tex_main)"
+
+    if [[ -z "$tex_main" ]]; then
+        warn "no TeX main file found"
+        return 0
+    fi
+
+    bold "Building PDF"
+    mkdir -p "$BUILD_DIR"
+    latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir="$BUILD_DIR" "$tex_main"
+}
+
+cmd_example() {
+    cmd_build
+}
+
+cmd_clean() {
+    bold "Cleaning"
+
+    local tex_main
+    tex_main="$(detect_tex_main)"
+
+    if [[ -n "$tex_main" ]] && has latexmk; then
+        latexmk -C "$tex_main" >/dev/null 2>&1 || true
+    fi
+
+    rm -rf \
+        "$BUILD_DIR" \
+        .pytest_cache \
+        .mypy_cache \
+        .ruff_cache \
+        .coverage \
+        htmlcov
+
+    find . -type d -name "__pycache__" -prune -exec rm -rf {} +
+
+    ok "clean"
+}
+
+cmd_release_check() {
+    bold "Release check"
+
+    cmd_doctor
+    printf '\n'
+
+    cmd_test
+    printf '\n'
+
+    if is_python_project; then
+        cmd_lint
+        printf '\n'
+        cmd_typecheck
+        printf '\n'
+    fi
+
+    cmd_build
+    printf '\n'
+
+    bold "searching todo/fixme comments"
+    if grep -r --line-number \
+        --exclude-dir=.git \
+        --exclude-dir=.venv \
+        --exclude-dir=build \
+        --exclude-dir=__pycache__ \
+        -e '(^|[[:space:]])(#|//|%|--).*\b(todo|fixme)\b' .; then
+        warn "todo/fixme comments found"
+    else
+        ok "no todo/fixme comments found"
+    fi
+
+    printf '\n'
+
+    bold "git status"
+    if has git && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        git status --short
+    else
+        warn "not inside a git repository"
+    fi
+}
+
+case "${1:-help}" in
+doctor) cmd_doctor ;;
+test) cmd_test ;;
+lint) cmd_lint ;;
+typecheck) cmd_typecheck ;;
+build) cmd_build ;;
+example) cmd_example ;;
+clean) cmd_clean ;;
+release-check) cmd_release_check ;;
+help | -h | --help) cmd_help ;;
+*)
+    fail "unknown command: $1"
+    printf '\n'
+    cmd_help
+    exit 1
+    ;;
+esac
