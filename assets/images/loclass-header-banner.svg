@@ -1,63 +1,263 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2172" height="724" viewBox="0 0 2172 724" role="img" aria-labelledby="title desc">
-  <title id="title">loclass header banner</title>
-  <desc id="desc">A blue gradient loclass banner with the slogan Write here • Read everywhere.</desc>
-
-  <defs>
-    <linearGradient id="loclass-bg" x1="0" y1="0" x2="2172" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#061B83"/>
-      <stop offset="0.45" stop-color="#0B3BC5"/>
-      <stop offset="0.74" stop-color="#1182F2"/>
-      <stop offset="1" stop-color="#2DBBFF"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="2172"
+   height="724"
+   viewBox="0 0 2172 724"
+   role="img"
+   aria-labelledby="title desc"
+   version="1.1"
+   id="svg17"
+   sodipodi:docname="loclass-header-banner.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   inkscape:export-filename="lheader.png"
+   inkscape:export-xdpi="44.198895"
+   inkscape:export-ydpi="44.198895"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="834.386"
+     inkscape:cy="531.7443"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg17" />
+  <title
+     id="title">loclass header banner</title>
+  <desc
+     id="desc">A blue gradient loclass banner with the slogan Write here • Read everywhere.</desc>
+  <defs
+     id="defs9">
+    <linearGradient
+       id="loclass-bg"
+       x1="0"
+       y1="0"
+       x2="2172"
+       y2="0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.31240237,0,0,0.31240237,721.11403,201.42518)">
+      <stop
+         offset="0"
+         stop-color="#061B83"
+         id="stop1" />
+      <stop
+         offset="0.45"
+         stop-color="#0B3BC5"
+         id="stop2" />
+      <stop
+         offset="0.74"
+         stop-color="#1182F2"
+         id="stop3" />
+      <stop
+         offset="1"
+         stop-color="#2DBBFF"
+         id="stop4" />
     </linearGradient>
-
-    <radialGradient id="loclass-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1880 300) rotate(90) scale(510 600)">
-      <stop offset="0" stop-color="#7DDAFF" stop-opacity="0.48"/>
-      <stop offset="0.62" stop-color="#39AFFF" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#39AFFF" stop-opacity="0"/>
+    <radialGradient
+       id="loclass-glow"
+       cx="0"
+       cy="0"
+       r="1"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,73.354148,-86.298999,0,991.51756,244.57468)">
+      <stop
+         offset="0"
+         stop-color="#7DDAFF"
+         stop-opacity="0.48"
+         id="stop5" />
+      <stop
+         offset="0.62"
+         stop-color="#39AFFF"
+         stop-opacity="0.18"
+         id="stop6" />
+      <stop
+         offset="1"
+         stop-color="#39AFFF"
+         stop-opacity="0"
+         id="stop7" />
     </radialGradient>
-
-    <linearGradient id="loclass-wordmark" x1="0" y1="150" x2="0" y2="430" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#EEF6FF"/>
+    <linearGradient
+       id="loclass-wordmark"
+       x1="0"
+       y1="150"
+       x2="0"
+       y2="430"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.31240237,0,0,0.31240237,721.11403,201.42518)">
+      <stop
+         offset="0"
+         stop-color="#FFFFFF"
+         id="stop8" />
+      <stop
+         offset="1"
+         stop-color="#EEF6FF"
+         id="stop9" />
     </linearGradient>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath17">
+      <rect
+         style="fill:#5fd35f;stroke:#000000"
+         id="rect18"
+         width="678.53796"
+         height="226.17931"
+         x="721.11401"
+         y="201.42519" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath18">
+      <rect
+         style="fill:#5fd35f;stroke:#000000"
+         id="rect19"
+         width="678.53796"
+         height="226.17931"
+         x="721.11401"
+         y="201.42519" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath19">
+      <rect
+         style="fill:#5fd35f;stroke:#000000"
+         id="rect20"
+         width="678.53796"
+         height="226.17931"
+         x="721.11401"
+         y="201.42519" />
+    </clipPath>
   </defs>
-
-  <rect width="2172" height="724" fill="url(#loclass-bg)"/>
-  <rect width="2172" height="724" fill="url(#loclass-glow)"/>
-
   <!-- decorative ring system, left -->
-  <circle cx="-115" cy="700" r="465" fill="none" stroke="#2480FF" stroke-width="34" stroke-opacity="0.52"/>
-  <circle cx="-115" cy="700" r="604" fill="none" stroke="#2677FF" stroke-width="10" stroke-opacity="0.36"/>
-  <circle cx="-115" cy="700" r="764" fill="none" stroke="#1E5EDB" stroke-width="8" stroke-opacity="0.24"/>
-
   <!-- decorative ring system, right -->
-  <circle cx="1920" cy="292" r="210" fill="none" stroke="#DFF4FF" stroke-width="5" stroke-opacity="0.74"/>
-  <circle cx="1920" cy="292" r="305" fill="none" stroke="#C8EDFF" stroke-width="5" stroke-opacity="0.54"/>
-  <circle cx="1920" cy="292" r="396" fill="none" stroke="#9EE5FF" stroke-width="4" stroke-opacity="0.25"/>
-
   <!-- wordmark -->
-  <text x="1086" y="395"
-        text-anchor="middle"
-        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
-        font-size="258"
-        font-weight="800"
-        letter-spacing="-8"
-        fill="url(#loclass-wordmark)">loclass</text>
-
   <!-- slogan -->
-  <text x="1004" y="514"
-        text-anchor="end"
-        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
-        font-size="72"
-        font-weight="500"
-        letter-spacing="1.2"
-        fill="#F6FBFF">Write here</text>
-  <circle cx="1086" cy="492" r="11" fill="#2FC8FF"/>
-  <text x="1168" y="514"
-        text-anchor="start"
-        font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
-        font-size="72"
-        font-weight="500"
-        letter-spacing="1.2"
-        fill="#F6FBFF">Read everywhere</text>
+  <g
+     id="g20"
+     transform="matrix(1.3809317,0,0,1.3809317,-274.6952,-64.114815)">
+    <rect
+       width="678.53796"
+       height="226.17932"
+       fill="url(#loclass-bg)"
+       id="rect9"
+       style="fill:url(#loclass-bg);stroke-width:0.312402"
+       x="721.11401"
+       y="201.42519" />
+    <rect
+       width="312.40237"
+       height="104.13412"
+       fill="url(#loclass-glow)"
+       id="rect10"
+       style="fill:url(#loclass-glow);stroke-width:0.143832"
+       x="721.11401"
+       y="201.42519" />
+    <circle
+       cx="685.18774"
+       cy="420.10684"
+       r="145.26711"
+       fill="none"
+       stroke="#2480ff"
+       stroke-width="10.6217"
+       stroke-opacity="0.52"
+       id="circle10"
+       clip-path="url(#clipPath19)" />
+    <circle
+       cx="685.18774"
+       cy="420.10684"
+       r="188.69102"
+       fill="none"
+       stroke="#2677ff"
+       stroke-width="3.12402"
+       stroke-opacity="0.36"
+       id="circle11"
+       clip-path="url(#clipPath18)" />
+    <circle
+       cx="685.18774"
+       cy="420.10684"
+       r="238.67542"
+       fill="none"
+       stroke="#1e5edb"
+       stroke-width="2.49922"
+       stroke-opacity="0.24"
+       id="circle12"
+       clip-path="url(#clipPath17)" />
+    <circle
+       cx="1320.9266"
+       cy="292.64667"
+       r="65.6045"
+       fill="none"
+       stroke="#dff4ff"
+       stroke-width="1.56201"
+       stroke-opacity="0.74"
+       id="circle13" />
+    <circle
+       cx="1320.9266"
+       cy="292.64667"
+       r="95.282722"
+       fill="none"
+       stroke="#c8edff"
+       stroke-width="1.56201"
+       stroke-opacity="0.54"
+       id="circle14" />
+    <circle
+       cx="1320.9266"
+       cy="292.64667"
+       r="123.71134"
+       fill="none"
+       stroke="#9ee5ff"
+       stroke-width="1.24961"
+       stroke-opacity="0.25"
+       id="circle15" />
+    <text
+       x="1060.3831"
+       y="324.82413"
+       text-anchor="middle"
+       font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+       font-size="80.5998px"
+       font-weight="800"
+       letter-spacing="-8"
+       fill="url(#loclass-wordmark)"
+       id="text15"
+       style="fill:url(#loclass-wordmark);stroke-width:0.312402">loclass</text>
+    <text
+       x="1034.766"
+       y="362"
+       text-anchor="end"
+       font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+       font-size="22.493px"
+       font-weight="500"
+       letter-spacing="1.2"
+       fill="#f6fbff"
+       id="text16"
+       style="stroke-width:0.312402">Write here</text>
+    <circle
+       cx="1060.3831"
+       cy="355.12714"
+       r="3.4364262"
+       fill="#2fc8ff"
+       id="circle16"
+       style="stroke-width:0.312402" />
+    <text
+       x="1086"
+       y="362"
+       text-anchor="start"
+       font-family="Aptos, Poppins, Montserrat, Inter, Arial, sans-serif"
+       font-size="22.493px"
+       font-weight="500"
+       letter-spacing="1.2"
+       fill="#f6fbff"
+       id="text17"
+       style="stroke-width:0.312402">Read everywhere</text>
+  </g>
 </svg>

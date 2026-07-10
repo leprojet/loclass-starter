@@ -1,8 +1,6 @@
 <p align="center">
-  <strong>loclass</strong><br>
-  <em>Write here • Read everywhere</em>
+  <img src="assets/images/banner.png" alt="loclass – Write here • Read everywhere" width="100%">
 </p>
-
 # loclass Starter Paket
 
 Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit **loclass** und **LDL**.
