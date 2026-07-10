@@ -153,6 +153,8 @@ uv.lock
 *.mlf
 *.mlt
 
+*.lor
+
 *.spell.bad
 *.spell.txt
 
