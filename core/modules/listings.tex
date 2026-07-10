@@ -34,3 +34,52 @@
 }
 
 \lstset{style=locDefault}
+
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+
+\lstdefinelanguage{text}{}
+
+\lstdefinelanguage{ldl}{
+	morekeywords={
+			chapter,
+			section,
+			subsection,
+			input,
+			table,
+			image,
+			code,
+			list,
+			shell,
+			params,
+			head,
+			body,
+			file
+		},
+	sensitive=true,
+	morecomment=[l]{\#},
+	morestring=[b]"
+}
+
+\makeatletter
+\@ifundefined{locode}
+{\typeout{LOCODE-BEGIN: undefined}}
+{\typeout{LOCODE-BEGIN: \meaning\locode}}
+
+\@ifundefined{endlocode}
+{\typeout{LOCODE-END: undefined}}
+{\typeout{LOCODE-END: \meaning\endlocode}}
+\makeatother
+\lstnewenvironment{locode}[1][]
+{
+	\lstset{
+		basicstyle=\ttfamily\small,
+		breaklines=true,
+		columns=fullflexible,
+		keepspaces=true,
+		showstringspaces=false,
+		frame=single,
+		#1
+	}
+}
+{}

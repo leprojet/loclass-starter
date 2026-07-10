@@ -1,5 +1,5 @@
 from core.ldl.parser import parse_document
-from core.ldl.model import Heading, Code, Document, Metadata
+from core.ldl.model import Heading, Code, Document, Metadata, List, Paragraph
 
 
 def test_parse_document_with_multiple_directives():
@@ -36,3 +36,29 @@ code
             ),
         ],
     )
+
+
+def test_parse_list_followed_by_paragraph():
+    source = """list
+  params
+    type: unordered
+
+  body
+    ---
+    first item
+    ---
+
+Paragraph after the list.
+"""
+
+    document = parse_document(source)
+
+    assert document.elements == [
+        List(
+            type="unordered",
+            items=["first item"],
+        ),
+        Paragraph(
+            text="Paragraph after the list.",
+        ),
+    ]

@@ -1,49 +1,520 @@
+---
+title: LDL Specification
+subtitle: Normative specification of the loclass Document Language
+author: loclass project
+language: en
+version: 0.1.0
+revision: 1
+date: 2026-07-10
+---
+
 chapter
   LDL Specification
 
-LDL (Loclass Document Language) is a semantic markup language for technical
-documentation.
+LDL stands for loclass Document Language.
 
-Its primary goal is to describe the logical structure of a document instead of
-its visual representation.
+LDL is a semantic markup language for structured documents. It describes the
+logical meaning and organization of document content independently of a
+concrete output format.
 
-LDL is backend-independent. A renderer is responsible for translating LDL into
-a concrete output format such as LaTeX, HTML or DOCX.
+A renderer translates an LDL document into an output format such as PDF, HTML,
+DOCX or ODT.
 
-When LDL does not yet provide a suitable directive, backend-specific code may
-be embedded directly into the document. This code is passed through unchanged
-to the corresponding renderer.
+This document is the normative specification of LDL.
+
+section
+  Status of This Specification
+
+This file is the single normative source for the LDL language.
+
+Other documents, including README files, user documentation, generated
+Markdown files and implementation notes, are informative only.
+
+If another document contradicts this specification, this specification takes
+precedence.
+
+The parser, renderer, tests and user documentation MUST conform to this
+specification.
+
+section
+  Normative Language
+
+The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,
+RECOMMENDED, MAY and OPTIONAL describe normative requirements.
+
+MUST and MUST NOT define mandatory language rules.
+
+SHOULD and SHOULD NOT define recommended behavior. An implementation may
+deviate only when there is a justified reason.
+
+MAY and OPTIONAL define permitted but non-mandatory behavior.
 
 section
   Design Principles
 
-LDL describes meaning, not appearance.
+LDL describes meaning rather than appearance.
+
+LDL documents SHOULD remain readable as plain text.
+
+Document content and document presentation MUST remain separate.
+
+LDL MUST remain independent of a specific renderer or output format.
+
+Language constructs SHOULD be explicit, predictable and easy to parse.
+
+An LDL document has exactly one manifest.
+
+Included LDL files contain document content only and MUST NOT contain a
+manifest.
 
 section
-  What is LDL 
+  Document Model
+
+An LDL document consists of:
+
+list
+  params
+    type: ordered
+
+  body
+    ---
+    exactly one root document
+    exactly one manifest
+    zero or more document elements
+    zero or more included content files
+    ---
+
+The root document is the file from which processing starts.
+
+The root document owns the manifest.
+
+Included files contribute document elements to the root document. They do not
+form independent LDL documents.
+
+The logical result of resolving all input directives is one document with one
+manifest and one ordered sequence of document elements.
+
+chapter
+  Manifest
 
 section
-  Design Priciples 
+  Purpose
+
+The manifest contains metadata and document-level configuration.
+
+The manifest belongs to the complete LDL document, not to individual sections
+or included files.
+
+An LDL document MUST contain exactly one manifest.
 
 section
-  Document Model 
+  Position
 
-section 
-  Directives 
+The manifest MUST appear at the beginning of the root document.
 
-section
-  Rendering 
+The opening delimiter MUST be the first non-empty line of the root document.
 
-section 
-  Grammar 
+No document content or directive may appear before the manifest.
 
-section 
-  Examples
+An included file MUST NOT contain a manifest.
 
 section
-  Initial Inline Elements
+  Delimiters
 
-The following inline elements are part of the initial LDL specification.
+A manifest begins with a line containing exactly three hyphen characters.
+
+A manifest ends with another line containing exactly three hyphen characters.
+
+Leading or trailing whitespace around a delimiter SHOULD NOT be used.
+
+code
+  params
+    language: ldl
+    caption: Minimal manifest
+
+  body
+    ---
+    ---
+    ---
+    ---
+
+The opening and closing delimiters are not part of the manifest data.
+
+section
+  Field Syntax
+
+Each manifest field consists of a field name, a colon and a scalar value.
+
+code
+  params
+    language: ldl
+    caption: Manifest field syntax
+
+  body
+    ---
+    field-name: value
+    ---
+
+Field names are case-sensitive.
+
+Whitespace before and after the field name is ignored.
+
+Whitespace before and after the value is ignored.
+
+The first colon separates the field name from the value.
+
+Additional colons are part of the value.
+
+code
+  params
+    language: ldl
+    caption: Value containing colons
+
+  body
+    ---
+    title: Service status: production
+    ---
+
+A manifest line that does not contain a colon is invalid.
+
+section
+  Scalar Values
+
+The initial LDL manifest supports scalar values only.
+
+Nested objects, sequences and multiline values are not part of the initial
+manifest syntax.
+
+An empty value is syntactically valid and represents an unset value.
+
+code
+  params
+    language: ldl
+    caption: Empty manifest value
+
+  body
+    ---
+    subtitle:
+    ---
+
+An implementation MAY warn when a field has an empty value.
+
+section
+  Duplicate Fields
+
+A manifest field MUST NOT occur more than once.
+
+The following manifest is invalid:
+
+code
+  params
+    language: ldl
+    caption: Invalid duplicate field
+
+  body
+    ---
+    ---
+    title: First title
+    title: Second title
+    ---
+    ---
+
+An implementation MUST report a duplicate manifest field as an error.
+
+The later value MUST NOT silently replace the earlier value.
+
+section
+  Unknown Fields
+
+Only fields defined by this specification are valid manifest fields.
+
+An unknown manifest field is an error.
+
+Implementations MUST NOT silently ignore unknown fields.
+
+This rule prevents spelling errors from becoming unnoticed configuration
+errors.
+
+section
+  Defined Fields
+
+The initial LDL manifest defines the following fields:
+
+table
+  params
+    caption: Defined manifest fields
+    label: tab:manifest-fields
+
+  head
+    Field | Required | Meaning
+
+  body
+    title | no | Document title
+    subtitle | no | Document subtitle
+    author | no | Document author
+    company | no | Authoring organization
+    customer | no | Intended customer or recipient
+    language | no | Document language
+    theme | no | Requested presentation theme
+    version | no | Document version
+    revision | no | Document revision
+    date | no | Document date
+
+No individual manifest field is required in the initial LDL specification.
+
+The manifest itself remains mandatory.
+
+section
+  Title
+
+The title field contains the primary document title.
+
+code
+  params
+    language: ldl
+    caption: Title field
+
+  body
+    ---
+    title: LDL Specification
+    ---
+
+A renderer SHOULD use the title as the principal document heading or document
+metadata title.
+
+section
+  Subtitle
+
+The subtitle field contains an optional secondary document title.
+
+code
+  params
+    language: ldl
+    caption: Subtitle field
+
+  body
+    ---
+    subtitle: Normative language reference
+    ---
+
+section
+  Author
+
+The author field identifies the author or responsible editor of the document.
+
+code
+  params
+    language: ldl
+    caption: Author field
+
+  body
+    ---
+    author: Frank Sieger
+    ---
+
+section
+  Company
+
+The company field identifies the organization responsible for creating or
+publishing the document.
+
+code
+  params
+    language: ldl
+    caption: Company field
+
+  body
+    ---
+    company: Example GmbH
+    ---
+
+section
+  Customer
+
+The customer field identifies the intended customer, recipient or commissioning
+organization.
+
+code
+  params
+    language: ldl
+    caption: Customer field
+
+  body
+    ---
+    customer: Example Customer
+    ---
+
+section
+  Language
+
+The language field identifies the primary language of the document.
+
+code
+  params
+    language: ldl
+    caption: Language field
+
+  body
+    ---
+    language: de
+    ---
+
+The initial specification does not prescribe a complete language-tag validation
+scheme.
+
+Implementations SHOULD accept common language identifiers such as de, en or
+de-DE.
+
+section
+  Theme
+
+The theme field identifies the requested presentation theme.
+
+code
+  params
+    language: ldl
+    caption: Theme field
+
+  body
+    ---
+    theme: default
+    ---
+
+A theme controls presentation and MUST NOT change the semantic meaning of the
+document.
+
+The availability and implementation of themes are renderer-specific.
+
+section
+  Version
+
+The version field identifies the document version.
+
+code
+  params
+    language: ldl
+    caption: Version field
+
+  body
+    ---
+    version: 0.1.0
+    ---
+
+The initial specification treats the value as text and does not require
+semantic versioning.
+
+section
+  Revision
+
+The revision field identifies a revision within a document version.
+
+code
+  params
+    language: ldl
+    caption: Revision field
+
+  body
+    ---
+    revision: 1
+    ---
+
+The initial specification treats the value as text.
+
+section
+  Date
+
+The date field identifies the document date.
+
+code
+  params
+    language: ldl
+    caption: Date field
+
+  body
+    ---
+    date: 2026-07-10
+    ---
+
+Dates SHOULD use the ISO 8601 calendar date form YYYY-MM-DD.
+
+The initial specification does not require implementations to reject other
+textual date representations.
+
+section
+  Complete Example
+
+code
+  params
+    language: ldl
+    caption: Complete initial manifest
+
+  body
+    ---
+    ---
+    title: LDL Specification
+    subtitle: Normative language reference
+    author: Frank Sieger
+    company: loclass
+    customer:
+    language: en
+    theme: default
+    version: 0.1.0
+    revision: 1
+    date: 2026-07-10
+    ---
+    ---
+
+section
+  Output Targets
+
+Output formats are identified by user-facing artifact names such as pdf, html,
+docx and odt.
+
+Renderer technologies such as LaTeX, Pandoc or Typst are implementation details
+and MUST NOT be used as output-format names.
+
+A future revision of this specification is expected to define a targets
+manifest field.
+
+The initial manifest syntax supports scalar values only. Therefore, the targets
+field is not yet part of the language.
+
+Implementations MUST NOT introduce a temporary singular target field as a
+substitute.
+
+chapter
+  Diagnostics
+
+section
+  General Rule
+
+Diagnostics are implementation output and are not part of LDL document
+content.
+
+An implementation MUST report invalid LDL input clearly.
+
+User-caused errors SHOULD be reported as structured LDL diagnostics rather than
+raw implementation exceptions.
+
+Internal implementation failures MAY produce a language-specific traceback for
+debugging purposes.
+
+section
+  Diagnostic Format
+
+A human-readable diagnostic SHOULD follow this structure:
+
+code
+  params
+    language: text
+    caption: Structured LDL diagnostic
+
+  body
+    ---
+    [LDL:E001] document.ldl:1:1 Missing manifest.
+    ---
+
+A diagnostic SHOULD contain:
 
 list
   params
@@ -51,13 +522,62 @@ list
 
   body
     ---
-    *text* — Strong emphasis
-    /text/ — Emphasis
-    +text+ — Underlined text
-    --text-- — Strikethrough text
-    \_\_path "/path/to/file" — Filesystem path
-    \_\_url "https://example.org" — URL
-    \_\_keys "Ctrl+C" — Keyboard shortcut
-    \_\_cmd "uv run pytest" — Command line
-    \_\_code "printf()" — Inline source code
+    an LDL diagnostic prefix
+    a stable diagnostic code
+    the source file
+    the source line
+    the source column when available
+    a concise explanation
+    an optional corrective hint
+    ---
+
+Diagnostic output SHOULD remain suitable for filtering with standard
+command-line tools.
+
+section
+  Manifest Diagnostics
+
+The initial manifest diagnostics are:
+
+table
+  params
+    caption: Manifest diagnostic codes
+    label: tab:manifest-diagnostics
+
+  head
+    Code | Meaning
+
+  body
+    E001 | Missing manifest
+    E002 | Unterminated manifest
+    E003 | Invalid manifest line
+    E004 | Duplicate manifest field
+    E005 | Unknown manifest field
+    E006 | Manifest in included file
+    E007 | Manifest not at start of root document
+
+Diagnostic codes are part of the implementation contract and SHOULD remain
+stable once published.
+
+chapter
+  Further Language Elements
+
+The following parts of the LDL language will be specified in subsequent
+revisions of this document:
+
+list
+  params
+    type: unordered
+
+  body
+    ---
+    paragraphs and raw text
+    headings
+    input directives
+    block directives
+    inline elements
+    whitespace and indentation
+    error recovery
+    rendering requirements
+    formal grammar
     ---

@@ -41,8 +41,6 @@ def render_wrapper(content_tex_path: Path, metadata: Metadata) -> str:
 
     return rf"""\documentclass{{core/loclass}}
 
-\input{{core/index}}
-\input{{core/commands/index}}
 
 % Project overrides, if present.
 \InputIfFileExists{{project/packages.tex}}{{}}{{}}

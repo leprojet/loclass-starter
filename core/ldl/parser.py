@@ -59,7 +59,12 @@ def _parse_fenced_body(lines: list[str]) -> list[str]:
 def _parse_manifest(source: str) -> tuple[Metadata, str]:
     lines = source.splitlines()
 
-    if not lines or lines[0].strip() != "---":
+    start = 0
+
+    while start < len(lines) and not lines[start].strip():
+        start += 1
+
+    if start >= len(lines) or lines[start].strip() != "---":
         return Metadata(), source
 
     values: dict[str, str] = {}
@@ -77,14 +82,20 @@ def _parse_manifest(source: str) -> tuple[Metadata, str]:
         "revision",
     }
 
-    i = 1
+    i = start + 1
 
     while i < len(lines):
         line = lines[i]
+        stripped = line.strip()
 
-        if line.strip() == "---":
+        if stripped == "---":
             body = "\n".join(lines[i + 1 :])
             return Metadata(**values), body
+
+        # Empty lines inside the manifest are allowed.
+        if not stripped:
+            i += 1
+            continue
 
         if ":" not in line:
             raise ValueError(f"Invalid manifest line: {line}")
@@ -94,6 +105,9 @@ def _parse_manifest(source: str) -> tuple[Metadata, str]:
 
         if key not in allowed_keys:
             raise ValueError(f"Unknown metadata field: {key}")
+
+        if key in values:
+            raise ValueError(f"Duplicate metadata field: {key}")
 
         values[key] = value.strip()
         i += 1
@@ -368,13 +382,11 @@ def _split_blocks(source: str) -> list[str]:
                 next_line = lines[i]
                 next_stripped = next_line.strip()
 
-                next_is_directive = (
-                    bool(next_stripped)
-                    and not next_line.startswith(" ")
-                    and next_stripped in known_directives
-                )
+                next_starts_top_level_block = bool(
+                    next_stripped
+                ) and not next_line.startswith(" ")
 
-                if next_is_directive:
+                if next_starts_top_level_block:
                     break
 
                 block.append(next_line)
@@ -383,7 +395,7 @@ def _split_blocks(source: str) -> list[str]:
             blocks.append("\n".join(block).strip("\n"))
             continue
 
-        raw_block = []
+        raw_block: list[str] = []
 
         while i < len(lines):
             next_line = lines[i]
