@@ -1,7 +1,8 @@
 <p align="center">
   <img src="assets/images/banner.png" alt="loclass – Write here • Read everywhere" width="100%">
 </p>
-# loclass Starter Paket
+
+# loclass Starter-Paket
 
 Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit **loclass** und **LDL**.
 
@@ -9,7 +10,7 @@ Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit 
 
 ---
 
-## loclass Ökosystem
+## loclass-Ökosystem
 
 | Projekt              | Zweck                                              | Status    |
 | -------------------- | -------------------------------------------------- | --------- |
@@ -50,6 +51,7 @@ Es enthält:
 - ein PDF-Build-Werkzeug
 - ein vollständiges Beispieldokument
 - Tests für die LDL-Grundfunktionen
+- ein einheitliches Entwicklungs-Script
 
 Das Repository ist damit noch kein reiner Endanwender-Template-Stand, sondern der aktuelle praktische Entwicklungsstand von loclass für PDF-Dokumente.
 
@@ -84,16 +86,34 @@ __code{None}
 
 ## Schnellstart
 
+Projekt prüfen:
+
+```bash
+./dev doctor
+```
+
 Tests ausführen:
 
 ```bash
-uv run pytest
+./dev test
 ```
 
 Beispieldokument bauen:
 
 ```bash
 ./loclass ldl examples/full_document.ldl
+```
+
+Allgemeinen PDF-Build ausführen:
+
+```bash
+./dev build
+```
+
+Vollständigen Entwicklungscheck ausführen:
+
+```bash
+./dev release-check
 ```
 
 Ergebnis:
@@ -192,6 +212,7 @@ examples/
 ├── examples/
 │   └── content/
 ├── project/
+├── dev
 ├── main.tex
 ├── latexmkrc
 ├── loclass
@@ -207,10 +228,55 @@ examples/
 | `core/tools/`    | Build-Werkzeuge, aktuell insbesondere PDF-Erzeugung |
 | `examples/`      | LDL-Beispieldokumente                               |
 | `project/`       | projektbezogene LaTeX-Konfiguration                 |
+| `dev`            | einheitliches Entwicklungs-Script für Checks/Builds |
 | `main.tex`       | LaTeX-Haupteinstieg                                 |
 | `latexmkrc`      | latexmk-Konfiguration                               |
 | `loclass`        | lokaler Build-Wrapper                               |
 | `pyproject.toml` | Python-Projektkonfiguration                         |
+
+---
+
+## Entwicklung
+
+Das Repository verwendet ein einheitliches Entwicklungs-Script:
+
+```bash
+./dev doctor
+./dev test
+./dev lint
+./dev typecheck
+./dev build
+./dev release-check
+```
+
+Die projektspezifische Konfiguration liegt in `pyproject.toml`.
+
+Für dieses Repository sind insbesondere relevant:
+
+```toml
+[tool.pytest.ini_options]
+testpaths = [
+    "core/tests",
+]
+
+[tool.loclass.dev]
+tex_main = "main.tex"
+build_dir = "build"
+typecheck = ["core"]
+lint = ["."]
+```
+
+`./dev release-check` führt die wichtigsten Prüfungen gesammelt aus:
+
+```text
+doctor
+→ tests
+→ ruff
+→ mypy
+→ PDF-Build
+→ TODO/FIXME-Kommentarprüfung
+→ git status
+```
 
 ---
 
@@ -237,14 +303,14 @@ LDL-Datei laden
 
 ## Roadmap
 
-| Version | Ziel                              |
-| ------- | --------------------------------- |
-| `v0.1`  | bereinigter LaTeX-Startpunkt      |
-| `v0.2`  | modulare LaTeX-Struktur           |
-| `v0.3`  | LDL-Grundsyntax                   |
-| `v0.4`  | LDL-Renderer nach LaTeX           |
-| `v0.5`  | modulares LDL über `input`        |
-| `v1.0`  | produktiv nutzbarer Dokumentenbau |
+| Version | Ziel                              | Status   |
+| ------- | --------------------------------- | -------- |
+| `v0.1`  | bereinigter LaTeX-Startpunkt      | erledigt |
+| `v0.2`  | modulare LaTeX-Struktur           | erledigt |
+| `v0.3`  | LDL-Grundsyntax                   | erledigt |
+| `v0.4`  | LDL-Renderer nach LaTeX           | erledigt |
+| `v0.5`  | modulares LDL über `input`        | erledigt |
+| `v1.0`  | produktiv nutzbarer Dokumentenbau | offen    |
 
 ---
 
