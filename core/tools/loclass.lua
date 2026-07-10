@@ -10,6 +10,9 @@ local WATCH_COMMAND = "latexmk -pvc"
 
 local PDF = "build/main.pdf"
 
+local LDL_PDF_TOOL = "core/tools/ldl_pdf.py"
+local LDL_FORMAT_TOOL = "core/tools/ldl_format.py"
+
 local VERSION = "0.1.0"
 
 --------------------------------------------------
@@ -34,7 +37,25 @@ local function shell_quote(value)
 end
 
 --------------------------------------------------
--- Commands
+-- Validation
+--------------------------------------------------
+
+local function validate_ldl_path(path)
+	if path == nil or path == "" then
+		print("Error: missing LDL file")
+		return false
+	end
+
+	if not path:match("%.ldl$") then
+		print("Error: expected a .ldl file")
+		return false
+	end
+
+	return true
+end
+
+--------------------------------------------------
+-- Standard Commands
 --------------------------------------------------
 
 local function build()
@@ -58,18 +79,84 @@ local function open()
 	run("xdg-open " .. shell_quote(PDF), true)
 end
 
-local function render_ldl(path)
-	if path == nil or path == "" then
+--------------------------------------------------
+-- LDL Commands
+--------------------------------------------------
+
+local function build_ldl(path)
+	if not validate_ldl_path(path) then
 		print("Usage: loclass ldl <file.ldl>")
 		return
 	end
 
-	if not path:match("%.ldl$") then
-		print("Error: expected a .ldl file")
+	run("uv run python " .. shell_quote(LDL_PDF_TOOL) .. " " .. shell_quote(path))
+end
+
+local function format_ldl(path)
+	if not validate_ldl_path(path) then
+		print("Usage: loclass ldl format <file.ldl>")
 		return
 	end
 
-	run("uv run python core/tools/ldl_pdf.py " .. shell_quote(path))
+	run("uv run python " .. shell_quote(LDL_FORMAT_TOOL) .. " " .. shell_quote(path))
+end
+
+local function check_ldl(path)
+	if not validate_ldl_path(path) then
+		print("Usage: loclass ldl check <file.ldl>")
+		return
+	end
+
+	run("uv run python " .. shell_quote(LDL_FORMAT_TOOL) .. " --check " .. shell_quote(path))
+end
+
+local function print_ldl(path)
+	if not validate_ldl_path(path) then
+		print("Usage: loclass ldl stdout <file.ldl>")
+		return
+	end
+
+	run("uv run python " .. shell_quote(LDL_FORMAT_TOOL) .. " --stdout " .. shell_quote(path))
+end
+
+local function ldl(action, path)
+	if action == nil or action == "" then
+		print("Usage:")
+		print("  loclass ldl <file.ldl>")
+		print("  loclass ldl format <file.ldl>")
+		print("  loclass ldl check <file.ldl>")
+		print("  loclass ldl stdout <file.ldl>")
+		return
+	end
+
+	-- Preserve the existing command:
+	-- loclass ldl document.ldl
+	if action:match("%.ldl$") then
+		build_ldl(action)
+		return
+	end
+
+	local actions = {
+		build = build_ldl,
+		format = format_ldl,
+		check = check_ldl,
+		stdout = print_ldl,
+	}
+
+	local command = actions[action]
+
+	if not command then
+		print("Unknown LDL command: " .. tostring(action))
+		print()
+		print("Available LDL commands:")
+		print("  build")
+		print("  format")
+		print("  check")
+		print("  stdout")
+		return
+	end
+
+	command(path)
 end
 
 --------------------------------------------------
@@ -82,7 +169,7 @@ local commands = {
 	clean = clean,
 	watch = watch,
 	open = open,
-	ldl = render_ldl,
+	ldl = ldl,
 }
 
 local function execute(name, ...)
@@ -151,14 +238,18 @@ local function help()
 	print("  loclass <command>")
 	print()
 	print("Commands:")
-	print("  build              Build the document")
-	print("  rebuild            Clean and rebuild")
-	print("  clean              Remove build artifacts")
-	print("  watch              Continuous build")
-	print("  open               Open generated PDF")
-	print("  ldl <file.ldl>     Build a complete LDL document as PDF")
-	print("  version            Show version")
-	print("  help               Show this help")
+	print("  build                         Build the document")
+	print("  rebuild                       Clean and rebuild")
+	print("  clean                         Remove build artifacts")
+	print("  watch                         Continuous build")
+	print("  open                          Open generated PDF")
+	print("  ldl <file.ldl>                Build an LDL document as PDF")
+	print("  ldl build <file.ldl>          Build an LDL document as PDF")
+	print("  ldl format <file.ldl>         Format an LDL document")
+	print("  ldl check <file.ldl>          Check LDL formatting")
+	print("  ldl stdout <file.ldl>         Print formatted LDL")
+	print("  version                       Show version")
+	print("  help                          Show this help")
 	print()
 	print("Without arguments an interactive menu is shown.")
 end
@@ -187,7 +278,7 @@ local function main()
 	end
 
 	if #arg > 0 then
-		execute(arg[1], arg[2])
+		execute(arg[1], arg[2], arg[3])
 		return
 	end
 

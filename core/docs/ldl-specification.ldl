@@ -2,10 +2,10 @@
 title: LDL Specification
 subtitle: Normative specification of the loclass Document Language
 author: loclass project
-language: en
 version: 0.1.0
-revision: 1
 date: 2026-07-10
+language: en
+revision: 1
 ---
 
 chapter
@@ -129,8 +129,8 @@ Leading or trailing whitespace around a delimiter SHOULD NOT be used.
 
 code
   params
-    language: ldl
     caption: Minimal manifest
+    language: ldl
 
   body
     ---
@@ -147,8 +147,8 @@ Each manifest field consists of a field name, a colon and a scalar value.
 
 code
   params
-    language: ldl
     caption: Manifest field syntax
+    language: ldl
 
   body
     ---
@@ -167,8 +167,8 @@ Additional colons are part of the value.
 
 code
   params
-    language: ldl
     caption: Value containing colons
+    language: ldl
 
   body
     ---
@@ -189,8 +189,8 @@ An empty value is syntactically valid and represents an unset value.
 
 code
   params
-    language: ldl
     caption: Empty manifest value
+    language: ldl
 
   body
     ---
@@ -208,8 +208,8 @@ The following manifest is invalid:
 
 code
   params
-    language: ldl
     caption: Invalid duplicate field
+    language: ldl
 
   body
     ---
@@ -242,8 +242,8 @@ The initial LDL manifest defines the following fields:
 
 table
   params
-    caption: Defined manifest fields
     label: tab:manifest-fields
+    caption: Defined manifest fields
 
   head
     Field | Required | Meaning
@@ -271,8 +271,8 @@ The title field contains the primary document title.
 
 code
   params
-    language: ldl
     caption: Title field
+    language: ldl
 
   body
     ---
@@ -289,8 +289,8 @@ The subtitle field contains an optional secondary document title.
 
 code
   params
-    language: ldl
     caption: Subtitle field
+    language: ldl
 
   body
     ---
@@ -304,8 +304,8 @@ The author field identifies the author or responsible editor of the document.
 
 code
   params
-    language: ldl
     caption: Author field
+    language: ldl
 
   body
     ---
@@ -320,8 +320,8 @@ publishing the document.
 
 code
   params
-    language: ldl
     caption: Company field
+    language: ldl
 
   body
     ---
@@ -336,8 +336,8 @@ organization.
 
 code
   params
-    language: ldl
     caption: Customer field
+    language: ldl
 
   body
     ---
@@ -351,8 +351,8 @@ The language field identifies the primary language of the document.
 
 code
   params
-    language: ldl
     caption: Language field
+    language: ldl
 
   body
     ---
@@ -372,8 +372,8 @@ The theme field identifies the requested presentation theme.
 
 code
   params
-    language: ldl
     caption: Theme field
+    language: ldl
 
   body
     ---
@@ -392,8 +392,8 @@ The version field identifies the document version.
 
 code
   params
-    language: ldl
     caption: Version field
+    language: ldl
 
   body
     ---
@@ -410,8 +410,8 @@ The revision field identifies a revision within a document version.
 
 code
   params
-    language: ldl
     caption: Revision field
+    language: ldl
 
   body
     ---
@@ -427,8 +427,8 @@ The date field identifies the document date.
 
 code
   params
-    language: ldl
     caption: Date field
+    language: ldl
 
   body
     ---
@@ -445,8 +445,8 @@ section
 
 code
   params
-    language: ldl
     caption: Complete initial manifest
+    language: ldl
 
   body
     ---
@@ -506,8 +506,8 @@ A human-readable diagnostic SHOULD follow this structure:
 
 code
   params
-    language: text
     caption: Structured LDL diagnostic
+    language: text
 
   body
     ---
@@ -541,8 +541,8 @@ The initial manifest diagnostics are:
 
 table
   params
-    caption: Manifest diagnostic codes
     label: tab:manifest-diagnostics
+    caption: Manifest diagnostic codes
 
   head
     Code | Meaning
@@ -560,10 +560,14 @@ Diagnostic codes are part of the implementation contract and SHOULD remain
 stable once published.
 
 chapter
-  Further Language Elements
+  Document Structure
 
-The following parts of the LDL language will be specified in subsequent
-revisions of this document:
+section
+  Overview
+
+An LDL document is an ordered sequence of document elements.
+
+Document elements may be:
 
 list
   params
@@ -571,13 +575,256 @@ list
 
   body
     ---
-    paragraphs and raw text
+    paragraphs
     headings
     input directives
     block directives
-    inline elements
-    whitespace and indentation
-    error recovery
-    rendering requirements
-    formal grammar
     ---
+
+The manifest is document metadata and is not part of the document element sequence.
+
+After resolving all input directives, the resulting document contains one manifest and one ordered sequence of document elements.
+
+section
+  Top-Level Elements
+
+A top-level element begins at indentation level zero.
+
+A non-empty line at indentation level zero begins a new document element.
+
+Indented lines belong to the preceding directive when that directive permits nested content.
+
+A parser MUST preserve the order of all document elements.
+
+section
+  Directive Names
+
+A directive begins with its directive name on a line by itself.
+
+Directive names are case-sensitive.
+
+A directive name MUST appear at indentation level zero.
+
+code
+  params
+    caption: Heading directive
+    language: ldl
+
+  body
+    ---
+    section
+      Document Structure
+    ---
+
+The content belonging to a directive is indented relative to the directive name.
+
+section
+  Directive Boundaries
+
+A multiline directive ends before the next non-empty line at indentation level zero.
+
+The next top-level line begins a new document element.
+
+This rule applies regardless of whether the next element is another directive or a paragraph.
+
+code
+  params
+    caption: Directive followed by a paragraph
+    language: ldl
+
+  body
+    ---
+    list
+      params
+        type: unordered
+
+      body
+        ---
+        first item
+        second item
+        ---
+
+    This paragraph is not part of the list.
+    ---
+
+An implementation MUST NOT attach a following top-level paragraph to the preceding directive.
+
+section
+  Single-Value Directives
+
+Some directives consist of a directive name followed by exactly one indented value line.
+
+The initial single-value directives are:
+
+list
+  params
+    type: unordered
+
+  body
+    ---
+    chapter
+    section
+    subsection
+    input
+    ---
+
+code
+  params
+    caption: Single-value directive
+    language: ldl
+
+  body
+    ---
+    section
+      Manifest
+    ---
+
+A single-value directive ends after its value line.
+
+An empty value is invalid unless the directive specification explicitly allows it.
+
+Additional indented lines are not part of the directive.
+
+section
+  Multiline Directives
+
+A multiline directive may contain named sections such as params, head, body or file.
+
+The sections supported by a directive are defined by that directive.
+
+code
+  params
+    caption: Multiline directive
+    language: ldl
+
+  body
+    ---
+    table
+      params
+        caption: Example table
+
+      head
+        Name | Value
+
+      body
+        Alpha | One
+        Beta | Two
+    ---
+
+Section names are indented by two spaces relative to the directive name.
+
+Content inside a section is indented by four spaces relative to the directive name unless the directive defines a different structure.
+
+A directive MUST reject section names that are not defined for that directive.
+
+section
+  Paragraphs
+
+Text that does not begin with a known directive name at indentation level zero is parsed as paragraph content.
+
+A paragraph may contain one or more consecutive text lines.
+
+code
+  params
+    caption: Paragraph
+    language: ldl
+
+  body
+    ---
+    This is a paragraph.
+
+    This is another paragraph.
+    ---
+
+A paragraph ends before the next known directive at indentation level zero.
+
+Blank lines inside paragraph content are preserved according to the paragraph and raw-text rules defined later in this specification.
+
+section
+  Unknown Top-Level Names
+
+A top-level line is interpreted as a directive only when its complete content matches a known directive name.
+
+Other top-level text is paragraph content.
+
+code
+  params
+    caption: Text resembling a directive
+    language: ldl
+
+  body
+    ---
+    tables are useful in technical documentation.
+    ---
+
+The word tables does not match the directive name table and therefore remains paragraph content.
+
+An unknown word at the beginning of a paragraph MUST NOT automatically produce an unknown-directive error.
+
+section
+  Indentation
+
+The initial LDL specification uses spaces for indentation.
+
+Tabs MUST NOT be used for structural indentation.
+
+One indentation level consists of two space characters.
+
+The standard indentation levels are:
+
+table
+  params
+    label: tab:indentation-levels
+    caption: Standard indentation levels
+
+  head
+    Level | Spaces | Meaning
+
+  body
+    0 | 0 | Top-level document element
+    1 | 2 | Directive value or section name
+    2 | 4 | Section content or parameter
+    3 | 6 | Directive-specific nested content
+
+Implementations MUST interpret structural indentation consistently.
+
+An implementation SHOULD report inconsistent or unsupported indentation as an error rather than silently guessing the intended structure.
+
+section
+  Blank Lines
+
+Blank lines may separate document elements.
+
+Blank lines between top-level elements are not document elements themselves.
+
+A parser MAY ignore leading and trailing blank lines around top-level elements.
+
+Blank lines inside fenced bodies or raw content may be significant and MUST be handled according to the relevant directive specification.
+
+section
+  Element Order
+
+Document elements remain in source order.
+
+Input resolution replaces an input directive with the ordered elements of the included file.
+
+The relative order of elements before and after an input directive MUST remain unchanged.
+
+code
+  params
+    caption: Element order with input
+    language: ldl
+
+  body
+    ---
+    section
+      Before
+
+    input
+      content/details.ldl
+
+    section
+      After
+    ---
+
+After input resolution, the elements from content/details.ldl appear between the sections Before and After.
