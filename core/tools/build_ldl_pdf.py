@@ -114,7 +114,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="ldl_pdf",
+        prog="build_ldl_pdf",
         description="Render a complete LDL document to PDF.",
     )
     parser.add_argument("file", help="Path to a .ldl file")
