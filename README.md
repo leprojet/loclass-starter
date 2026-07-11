@@ -2,78 +2,75 @@
   <img src="assets/images/banner.png" alt="loclass – Write here • Read everywhere" width="100%">
 </p>
 
-# loclass Starter-Paket
+# loclass-starter
 
-Ein praktisches Starter-Projekt für strukturierte technische Dokumentation mit **loclass** und **LDL**.
+`loclass-starter` is a reference project and practical starting point for
+structured technical documentation with **loclass** and the
+**loclass document language (LDL)**.
 
-`loclass-starter` zeigt, wie aus einer einfachen LDL-Quelle ein vollständiges PDF-Dokument gebaut wird. Das Repository dient gleichzeitig als Referenzstruktur für spätere loclass-Dokumente.
+It contains a complete example document, project assets, LaTeX integration,
+and a small project frontend for common development and build tasks.
 
----
+## Role in the loclass ecosystem
 
-## loclass-Ökosystem
+The loclass ecosystem is split into three repositories:
 
-| Projekt              | Zweck                                              | Status    |
-| -------------------- | -------------------------------------------------- | --------- |
-| `loclass-starter`    | Beispiel- und Starterprojekt für loclass-Dokumente | aktiv     |
-| `loclass-branding`   | Farben, Wortmarke, Logo und gemeinsame Assets      | aktiv     |
-| `loclass-review`     | Review-Boxen für TODO, FIXME, QUESTION und NOTE    | nutzbar   |
-| `loclass-versioning` | Versionshistorien aus YAML erzeugen                | nutzbar   |
-| `loclass-acronyms`   | Gemeinsame Abkürzungsverzeichnisse für Dokumente   | nutzbar   |
-| `loclass`            | späterer Kern für Parser, Renderer und CLI         | im Aufbau |
+| Repository | Purpose |
+| --- | --- |
+| `loclass-ldl` | LDL specification, parsing, loading, formatting, and document model |
+| `loclass-base` | Conversion pipeline, CLI, and output backends |
+| `loclass-starter` | Reference project and starter structure for loclass documents |
 
----
+The processing flow is:
 
-## Was ist loclass?
+```text
+LDL source
+    ↓
+loclass-ldl
+    ↓
+neutral Document model
+    ↓
+loclass-base converter
+    ↓
+LaTeX or ODT
+    ↓
+project-specific build workflow
+```
 
-**loclass** ist ein schlankes Dokumentationssystem für technische Dokumente.
+`loclass-starter` does not contain its own LDL parser or rendering backend.
+Those responsibilities belong to `loclass-ldl` and `loclass-base`.
 
-Die Grundidee:
+## Repository contents
 
-- Inhalte werden in einer einfachen, lesbaren Textsyntax geschrieben.
-- Metadaten, Struktur und Darstellung bleiben getrennt.
-- Dokumente können modular aufgebaut werden.
-- Der erste produktive Ausgabepfad ist aktuell LaTeX/PDF.
-- Weitere Ausgabeformate bleiben perspektivisch möglich.
+The starter project provides:
 
-LDL steht für **loclass document language**.
+- an example LDL document
+- modular document content through `input`
+- project-specific assets and images
+- LaTeX templates and configuration
+- PDF generation through the loclass LaTeX backend
+- direct ODT conversion through the central loclass CLI
+- project configuration
+- development and diagnostic commands
+- a reference directory structure for new documentation projects
 
----
+## Current LDL features
 
-## Was ist dieses Repository?
+The example project demonstrates:
 
-`loclass-starter` ist aktuell ein kombiniertes Starter- und Arbeitsrepository.
+- document metadata
+- chapters and sections
+- paragraphs
+- inline elements
+- lists
+- tables
+- code blocks
+- shell blocks
+- images and captions
+- modular source files through `input`
+- LaTeX and ODT output
 
-Es enthält:
-
-- eine LaTeX-Projektstruktur
-- einen LDL-Prototyp
-- Parser, Model, Registry, Loader und Renderer
-- ein PDF-Build-Werkzeug
-- ein vollständiges Beispieldokument
-- Tests für die LDL-Grundfunktionen
-- ein einheitliches Entwicklungs-Script
-
-Das Repository ist damit noch kein reiner Endanwender-Template-Stand, sondern der aktuelle praktische Entwicklungsstand von loclass für PDF-Dokumente.
-
----
-
-## Aktueller Funktionsumfang
-
-Aktuell unterstützt LDL in diesem Repository:
-
-- Manifest mit Dokument-Metadaten
-- Kapitel und Abschnitte
-- Rohtext
-- Tabellen
-- Bilder
-- Code-Blöcke
-- Listen
-- Shell-Blöcke
-- Inline-Auszeichnungen
-- modulare LDL-Dateien über `input`
-- PDF-Erzeugung über LaTeX
-
-Unterstützte Inline-Auszeichnungen:
+Supported inline elements include:
 
 ```ldl
 __cmd{uv run pytest}
@@ -82,60 +79,55 @@ __url{https://example.org/docs}
 __code{None}
 ```
 
----
+## Quick start
 
-## Schnellstart
-
-Projekt prüfen:
+Install the dependencies:
 
 ```bash
-./dev doctor
+uv sync
 ```
 
-Tests ausführen:
+Inspect the project environment:
 
 ```bash
-./dev test
+./loclass doctor
 ```
 
-Beispieldokument bauen:
+Build the configured document:
+
+```bash
+./loclass build
+```
+
+Build the full LDL example as PDF:
 
 ```bash
 ./loclass ldl examples/full_document.ldl
 ```
 
-Allgemeinen PDF-Build ausführen:
+Convert the example directly to ODT:
 
 ```bash
-./dev build
+uv run loclass convert \
+  examples/full_document.ldl \
+  --backend odt \
+  --output build/full_document.odt
 ```
 
-Vollständigen Entwicklungscheck ausführen:
+The generated files are written to the `build/` directory.
 
-```bash
-./dev release-check
-```
+## LDL example
 
-Ergebnis:
-
-```text
-build/full_document.pdf
-```
-
----
-
-## LDL Beispiel
-
-Eine LDL-Hauptdatei besteht aus genau einem Manifest und anschließendem Inhalt.
+A root LDL file begins with one manifest followed by document content:
 
 ```ldl
 ---
-title: LDL Beispieldokument
-subtitle: Direkt aus LDL gebaut
+title: LDL Example Document
+subtitle: Built directly from LDL
 author: Frank Sieger
 company: LogObject
-customer: Beispielkunde
-language: de
+customer: Example Customer
+language: en
 theme: default
 version: 0.1.0
 revision: 1
@@ -143,63 +135,62 @@ date: 2026-07-09
 ---
 
 input
-  content/chapterone.ldl
+  content/chapter-one.ldl
 
-Starte die Tests mit __cmd{uv run pytest}.
+Run the tests with __cmd{uv run pytest}.
 
-Drücke __keys{Ctrl+Alt+T}.
+Press __keys{Ctrl+Alt+T}.
 
-Weitere Informationen stehen unter __url{https://example.org/docs}.
+Further information is available at __url{https://example.org/docs}.
 
-Der Rückgabewert ist __code{None}.
+The return value is __code{None}.
 ```
 
-Eine eingebundene Datei kann zum Beispiel so aussehen:
+An included file contains document content only:
 
 ```ldl
 chapter
-  Einführung
+  Introduction
 
-Dies ist ein LDL-Testdokument.
+This is an LDL document.
 
 section
-  Ausführung
+  Execution
 
-Die Konfiguration liegt unter __code{/etc/nginx/nginx.conf}.
+The configuration is stored in __code{/etc/nginx/nginx.conf}.
 ```
-
----
 
 ## LDL `input`
 
-Mit `input` können LDL-Dokumente modular aufgebaut werden.
+The `input` directive composes a document from multiple LDL source files:
 
 ```ldl
 input
-  content/chapterone.ldl
+  content/chapter-one.ldl
 ```
 
-Regeln:
+Rules:
 
-- Pfade werden relativ zu der Datei aufgelöst, in der das `input` steht.
-- Eingebundene Dateien enthalten nur Inhalt.
-- Das Manifest steht ausschließlich in der Hauptdatei.
-- Ein Dokument hat genau ein Manifest.
-- Fehlende Dateien werden verständlich gemeldet.
-- Zirkuläre Includes werden erkannt und abgebrochen.
+- paths are resolved relative to the file containing the directive
+- included files contain document content only
+- the manifest belongs exclusively to the root document
+- a document has exactly one manifest
+- missing files produce readable errors
+- circular includes are detected and rejected
 
-Beispielstruktur:
+Example:
 
 ```text
 examples/
 ├── full_document.ldl
 └── content/
-    └── chapterone.ldl
+    └── chapter-one.ldl
 ```
 
----
+Source composition is handled by `loclass-ldl` before an output backend is
+invoked.
 
-## Projektstruktur
+## Project structure
 
 ```text
 .
@@ -207,121 +198,63 @@ examples/
 │   └── images/
 ├── content/
 ├── core/
-│   ├── ldl/
 │   └── tools/
 ├── examples/
 │   └── content/
 ├── project/
+├── build/
 ├── dev
+├── loclass
 ├── main.tex
 ├── latexmkrc
-├── loclass
 ├── pyproject.toml
 └── README.md
 ```
 
-| Pfad             | Zweck                                               |
-| ---------------- | --------------------------------------------------- |
-| `assets/images/` | Bilder, Logos und Branding-Assets                   |
-| `content/`       | LaTeX-Content-Bereich für den Build                 |
-| `core/ldl/`      | LDL-Model, Parser, Registry, Loader und Renderer    |
-| `core/tools/`    | Build-Werkzeuge, aktuell insbesondere PDF-Erzeugung |
-| `examples/`      | LDL-Beispieldokumente                               |
-| `project/`       | projektbezogene LaTeX-Konfiguration                 |
-| `dev`            | einheitliches Entwicklungs-Script für Checks/Builds |
-| `main.tex`       | LaTeX-Haupteinstieg                                 |
-| `latexmkrc`      | latexmk-Konfiguration                               |
-| `loclass`        | lokaler Build-Wrapper                               |
-| `pyproject.toml` | Python-Projektkonfiguration                         |
+The exact contents may evolve, but the separation remains:
 
----
+- `content/` contains project document sources
+- `assets/` contains images and other document assets
+- `project/` contains project-level configuration
+- `core/tools/` contains starter-specific build helpers
+- `build/` contains generated output
 
-## Entwicklung
+## Development checks
 
-Das Repository verwendet ein einheitliches Entwicklungs-Script:
+Run the project diagnostics:
 
 ```bash
-./dev doctor
-./dev test
-./dev lint
-./dev typecheck
-./dev build
-./dev release-check
+./loclass doctor
 ```
 
-Die projektspezifische Konfiguration liegt in `pyproject.toml`.
-
-Für dieses Repository sind insbesondere relevant:
-
-```toml
-[tool.pytest.ini_options]
-testpaths = [
-    "core/tests",
-]
-
-[tool.loclass.dev]
-tex_main = "main.tex"
-build_dir = "build"
-typecheck = ["core"]
-lint = ["."]
-```
-
-`./dev release-check` führt die wichtigsten Prüfungen gesammelt aus:
-
-```text
-doctor
-→ tests
-→ ruff
-→ mypy
-→ PDF-Build
-→ TODO/FIXME-Kommentarprüfung
-→ git status
-```
-
----
-
-## Build-Ablauf
-
-Beim Aufruf
+Run Python tests:
 
 ```bash
-./loclass ldl examples/full_document.ldl
+uv run pytest
 ```
 
-passiert grob:
+Run static checks:
 
-```text
-LDL-Datei laden
-→ input-Dateien rekursiv auflösen
-→ Dokumentbaum erzeugen
-→ LaTeX-Dateien generieren
-→ latexmk ausführen
-→ PDF schreiben
+```bash
+uv run ruff check core
+uv run ruff format --check core
 ```
 
----
+Check LDL formatting:
 
-## Roadmap
+```bash
+uv run loclass format examples/full_document.ldl --check
+```
 
-| Version | Ziel                              | Status   |
-| ------- | --------------------------------- | -------- |
-| `v0.1`  | bereinigter LaTeX-Startpunkt      | erledigt |
-| `v0.2`  | modulare LaTeX-Struktur           | erledigt |
-| `v0.3`  | LDL-Grundsyntax                   | erledigt |
-| `v0.4`  | LDL-Renderer nach LaTeX           | erledigt |
-| `v0.5`  | modulares LDL über `input`        | erledigt |
-| `v1.0`  | produktiv nutzbarer Dokumentenbau | offen    |
+## Design principles
 
----
+- Document content remains separate from output formatting.
+- LDL parsing is provided by `loclass-ldl`.
+- Conversion and output backends are provided by `loclass-base`.
+- The starter contains only project-specific workflow and assets.
+- Generated files remain outside the source structure.
+- A starter project should be understandable, reproducible, and easy to copy.
 
-## Designprinzipien
+## Version
 
-loclass folgt einigen einfachen Regeln:
-
-- Dokumente sollen lesbar bleiben.
-- LDL soll einfacher sein als direktes LaTeX.
-- Struktur und Darstellung bleiben getrennt.
-- Ein Dokument besitzt genau ein Manifest.
-- Eingebundene LDL-Dateien sind Inhaltsmodule.
-- Der LaTeX-Backendpfad bleibt nachvollziehbar.
-- Erweiterungen sollen modular bleiben.
+The current development milestone is `0.1.0`.
