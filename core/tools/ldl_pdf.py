@@ -5,7 +5,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from core.backends.latex import latex_escape, render_document_latex
+from loclass.backends.latex import latex_escape
+from loclass.converter import convert_document
 from loclass_ldl import Metadata, load_document
 
 
@@ -79,9 +80,11 @@ def build_ldl_pdf(input_path: Path) -> Path:
     internal_pdf_path = LDL_BUILD_DIR / f"{stem}-main.pdf"
     final_pdf_path = BUILD_DIR / f"{stem}.pdf"
 
-    content_tex_path.write_text(
-        render_document_latex(document),
-        encoding="utf-8",
+    convert_document(
+        document,
+        backend="latex",
+        output_path=content_tex_path,
+        source_path=input_path,
     )
 
     wrapper_tex_path.write_text(
