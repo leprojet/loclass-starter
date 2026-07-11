@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 import sys
 
-from core.ldl.formatter import format_source
+from loclass_ldl import format_source
 
 
 def format_file(path: Path, check: bool, stdout: bool) -> int:
