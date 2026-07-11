@@ -1,4 +1,4 @@
-from core.backends.latex import render_inline
+from loclass.backends.latex import render_inline
 from loclass_ldl import lex_inline
 from loclass_ldl.model import Cmd, InlineCode, Keys, Path, Text, Url
 

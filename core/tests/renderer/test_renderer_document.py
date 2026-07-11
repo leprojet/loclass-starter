@@ -1,5 +1,5 @@
 from loclass_ldl.model import Code, Document, Heading, Metadata
-from core.backends.latex import render_document_latex
+from loclass.backends.latex import render_document_latex
 
 
 document = Document(

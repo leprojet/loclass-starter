@@ -1,5 +1,5 @@
 from loclass_ldl.model import List
-from core.backends.latex import render_list_latex
+from loclass.backends.latex import render_list_latex
 
 
 def test_render_unordered_list():
