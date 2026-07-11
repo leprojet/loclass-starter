@@ -7,7 +7,6 @@ from loclass_ldl.model import (
     Input,
     List,
     Paragraph,
-    Raw,
     Shell,
     Table,
 )
@@ -103,13 +102,6 @@ def render_document_latex(document: Document) -> str:
 
 def render_paragraph_latex(paragraph: Paragraph) -> str:
     return render_inline(paragraph.text)
-
-
-def render_raw_latex(raw: Raw) -> str:
-    if "__" in raw.text:
-        return render_inline(raw.text)
-
-    return raw.text
 
 
 def render_list_latex(lst: List) -> str:

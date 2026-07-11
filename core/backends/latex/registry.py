@@ -8,7 +8,6 @@ from loclass_ldl.model import (
     Input,
     List,
     Paragraph,
-    Raw,
     Shell,
     Table,
 )
@@ -20,7 +19,6 @@ from .renderer import (
     render_input_latex,
     render_list_latex,
     render_paragraph_latex,
-    render_raw_latex,
     render_shell_latex,
     render_table_latex,
 )
@@ -36,7 +34,6 @@ RENDERERS: dict[type[Any], Renderer] = {
     Code: render_code_latex,
     List: render_list_latex,
     Shell: render_shell_latex,
-    Raw: render_raw_latex,
 }
 
 __all__ = [

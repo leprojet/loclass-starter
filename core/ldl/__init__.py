@@ -12,7 +12,6 @@ from loclass_ldl import (
     Input,
     List,
     Paragraph,
-    Raw,
     Shell,
     Table,
     parse_code,
@@ -34,7 +33,6 @@ from .renderer import (
     render_input_latex,
     render_list_latex,
     render_paragraph_latex,
-    render_raw_latex,
     render_shell_latex,
     render_table_latex,
 )
@@ -48,7 +46,6 @@ __all__ = [
     "PARSERS",
     "Paragraph",
     "RENDERERS",
-    "Raw",
     "Shell",
     "Table",
     "parse_code",
@@ -66,7 +63,6 @@ __all__ = [
     "render_input_latex",
     "render_list_latex",
     "render_paragraph_latex",
-    "render_raw_latex",
     "render_shell_latex",
     "render_table_latex",
 ]
