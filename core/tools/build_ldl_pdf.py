@@ -5,13 +5,14 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from core.ldl.inline import latex_escape
-from core.ldl.loader import load_document
-from core.ldl.renderer import render_document_latex
-from core.ldl.model import Metadata
+from loclass.backends.latex import latex_escape
+from loclass.converter import convert_document
+from loclass_ldl import Metadata, load_document
+from core.tools.project_config import load_project_config
 
 
-BUILD_DIR = Path("build")
+PROJECT_CONFIG = load_project_config()
+BUILD_DIR = PROJECT_CONFIG.build_dir
 LDL_BUILD_DIR = BUILD_DIR / "ldl"
 
 
@@ -81,9 +82,11 @@ def build_ldl_pdf(input_path: Path) -> Path:
     internal_pdf_path = LDL_BUILD_DIR / f"{stem}-main.pdf"
     final_pdf_path = BUILD_DIR / f"{stem}.pdf"
 
-    content_tex_path.write_text(
-        render_document_latex(document),
-        encoding="utf-8",
+    convert_document(
+        document,
+        backend="latex",
+        output_path=content_tex_path,
+        source_path=input_path,
     )
 
     wrapper_tex_path.write_text(
@@ -97,7 +100,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
             "-pdf",
             "-interaction=nonstopmode",
             "-halt-on-error",
-            "-outdir=build/ldl",
+            f"-outdir={LDL_BUILD_DIR.as_posix()}",
             wrapper_tex_path.as_posix(),
         ],
         check=True,
@@ -113,7 +116,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="ldl_pdf",
+        prog="build_ldl_pdf",
         description="Render a complete LDL document to PDF.",
     )
     parser.add_argument("file", help="Path to a .ldl file")
