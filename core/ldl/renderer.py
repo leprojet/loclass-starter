@@ -1,148 +1,32 @@
-from .inline import latex_escape, render_inline
-from .model import (
-    Code,
-    Document,
-    Heading,
-    Image,
-    Input,
-    List,
-    Paragraph,
-    Raw,
-    Shell,
-    Table,
+"""Compatibility facade for the LaTeX block renderer.
+
+The implementation lives in ``core.backends.latex.renderer``.
+"""
+
+from core.backends.latex.renderer import (
+    IMAGE_BASE_PATH,
+    render_code_latex,
+    render_document_latex,
+    render_heading_latex,
+    render_image_latex,
+    render_input_latex,
+    render_list_latex,
+    render_paragraph_latex,
+    render_raw_latex,
+    render_shell_latex,
+    render_table_latex,
 )
 
-
-IMAGE_BASE_PATH = "assets/images"
-
-
-def _render_label(label: str | None) -> str:
-    return latex_escape(label or "")
-
-
-def render_table_latex(table: Table) -> str:
-    column_spec = " ".join(["L"] * len(table.header))
-
-    header = " & ".join(
-        rf"\loTableHeadCell{{{render_inline(cell)}}}" for cell in table.header
-    )
-
-    rows = [
-        "    " + " & ".join(render_inline(cell) for cell in row) + r" \\"
-        for row in table.rows
-    ]
-
-    lines = [
-        rf"\begin{{lotable}}{{{_render_label(table.label)}}}{{{render_inline(table.caption)}}}{{{column_spec}}}",
-        r"    \loTableHead{",
-        f"        {header}",
-        r"    }",
-        *rows,
-        r"\end{lotable}",
-    ]
-
-    return "\n".join(lines)
-
-
-def render_image_latex(image: Image) -> str:
-    return "\n".join(
-        [
-            r"\begin{figure}[H]",
-            r"    \centering",
-            rf"    \includegraphics[width=\textwidth]{{{IMAGE_BASE_PATH}/{latex_escape(image.file)}}}",
-            rf"    \caption{{{render_inline(image.caption)}}}",
-            rf"    \label{{{_render_label(image.label)}}}",
-            r"\end{figure}",
-        ]
-    )
-
-
-def render_code_latex(code: Code) -> str:
-    options = [f"language={latex_escape(code.language)}"]
-
-    if code.caption:
-        options.append(f"caption={{{render_inline(code.caption)}}}")
-
-    if code.label:
-        options.append(f"label={{{_render_label(code.label)}}}")
-
-    body = "\n".join(code.body)
-
-    return "\n".join(
-        [
-            rf"\begin{{locode}}[{', '.join(options)}]",
-            body,
-            r"\end{locode}",
-        ]
-    )
-
-
-def render_heading_latex(heading: Heading) -> str:
-    commands = {
-        "chapter": "chapter",
-        "section": "section",
-        "subsection": "subsection",
-    }
-
-    command = commands[heading.level]
-
-    return rf"\{command}{{{render_inline(heading.title)}}}"
-
-
-def render_document_latex(document: Document) -> str:
-    from .registry import RENDERERS
-
-    parts: list[str] = []
-
-    for element in document.elements:
-        renderer = RENDERERS[type(element)]
-        parts.append(renderer(element))
-
-    return "\n".join(parts)
-
-
-def render_paragraph_latex(paragraph: Paragraph) -> str:
-    return render_inline(paragraph.text)
-
-
-def render_raw_latex(raw: Raw) -> str:
-    if "__" in raw.text:
-        return render_inline(raw.text)
-
-    return raw.text
-
-
-def render_list_latex(lst: List) -> str:
-    environments = {
-        "unordered": "itemize",
-        "ordered": "enumerate",
-    }
-
-    environment = environments[lst.type]
-
-    lines = [
-        rf"\begin{{{environment}}}",
-        *[rf"\item {render_inline(item)}" for item in lst.items],
-        rf"\end{{{environment}}}",
-    ]
-
-    return "\n".join(lines)
-
-
-def render_shell_latex(shell: Shell) -> str:
-    options = [f"style={latex_escape(shell.style)}"]
-
-    if shell.title:
-        options.append(f"title={{{render_inline(shell.title)}}}")
-
-    return "\n".join(
-        [
-            rf"\begin{{loshell}}[{','.join(options)}]",
-            *shell.body,
-            r"\end{loshell}",
-        ]
-    )
-
-
-def render_input_latex(input_: Input) -> str:
-    return rf"\input{{{input_.path}}}"
+__all__ = [
+    "IMAGE_BASE_PATH",
+    "render_code_latex",
+    "render_document_latex",
+    "render_heading_latex",
+    "render_image_latex",
+    "render_input_latex",
+    "render_list_latex",
+    "render_paragraph_latex",
+    "render_raw_latex",
+    "render_shell_latex",
+    "render_table_latex",
+]
