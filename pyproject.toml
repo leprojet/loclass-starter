@@ -1,10 +1,11 @@
 [project]
-name = "loclass"
+name = "loclass-starter"
 version = "0.1.0"
 description = "Backend agnostic document framework"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "loclass",
     "loclass-ldl",
 ]
 
@@ -43,4 +44,5 @@ typecheck = ["core"]
 lint = ["."]
 
 [tool.uv.sources]
+loclass = { path = "../loclass-base", editable = true }
 loclass-ldl = { path = "../loclass-ldl", editable = true }

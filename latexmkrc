@@ -21,7 +21,7 @@ $pdf_mode = 1;
 # Pre-build
 # -------------------------------------------------
 
-system("uv run loclass-render core/docs/ldl-specification.ldl -o content/10_ldl_specification.tex");
+system("uv run loclass convert core/docs/ldl-specification.ldl --backend latex --output content/10_ldl_specification.tex");
 system("perl core/tools/generate_inputs.pl");
 
 # -------------------------------------------------
