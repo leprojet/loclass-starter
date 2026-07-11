@@ -8,9 +8,11 @@ from pathlib import Path
 from loclass.backends.latex import latex_escape
 from loclass.converter import convert_document
 from loclass_ldl import Metadata, load_document
+from core.tools.project_config import load_project_config
 
 
-BUILD_DIR = Path("build")
+PROJECT_CONFIG = load_project_config()
+BUILD_DIR = PROJECT_CONFIG.build_dir
 LDL_BUILD_DIR = BUILD_DIR / "ldl"
 
 
@@ -98,7 +100,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
             "-pdf",
             "-interaction=nonstopmode",
             "-halt-on-error",
-            "-outdir=build/ldl",
+            f"-outdir={LDL_BUILD_DIR.as_posix()}",
             wrapper_tex_path.as_posix(),
         ],
         check=True,
