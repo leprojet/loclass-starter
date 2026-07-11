@@ -1,6 +1,6 @@
 import pytest
 
-from core.ldl import parse_table
+from loclass_ldl import parse_table
 
 
 def test_parse_table():

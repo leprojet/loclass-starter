@@ -1,5 +1,5 @@
-from core.ldl.model import Document, Heading, Metadata, Paragraph
-from core.ldl.parser import parse_document
+from loclass_ldl.model import Document, Heading, Metadata, Paragraph
+from loclass_ldl.parser import parse_document
 
 
 def test_parse_document_with_raw_text():

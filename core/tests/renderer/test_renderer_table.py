@@ -1,5 +1,5 @@
-from core.ldl.model import Table
-from core.ldl.renderer import render_table_latex
+from loclass_ldl.model import Table
+from core.backends.latex import render_table_latex
 
 
 def test_render_table_latex():

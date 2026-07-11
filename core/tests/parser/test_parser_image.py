@@ -1,6 +1,6 @@
 import pytest
 
-from core.ldl.parser import parse_image
+from loclass_ldl.parser import parse_image
 
 
 def test_parse_image():

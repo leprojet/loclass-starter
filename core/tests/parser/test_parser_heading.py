@@ -1,4 +1,4 @@
-from core.ldl.parser import parse_heading
+from loclass_ldl.parser import parse_heading
 
 
 def test_parse_chapter():

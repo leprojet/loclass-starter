@@ -1,5 +1,5 @@
-from core.ldl.model import Image
-from core.ldl.renderer import render_image_latex
+from loclass_ldl.model import Image
+from core.backends.latex import render_image_latex
 
 
 def test_render_image():

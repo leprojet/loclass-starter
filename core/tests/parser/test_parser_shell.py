@@ -1,7 +1,7 @@
 import pytest
 
-from core.ldl.model import Shell
-from core.ldl.parser import parse_shell
+from loclass_ldl.model import Shell
+from loclass_ldl.parser import parse_shell
 
 
 def test_parse_linux_shell():

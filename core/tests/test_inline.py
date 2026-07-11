@@ -1,5 +1,6 @@
-from core.ldl.inline import lex_inline, render_inline
-from core.ldl.model import Cmd, InlineCode, Keys, Path, Text, Url
+from core.backends.latex import render_inline
+from loclass_ldl import lex_inline
+from loclass_ldl.model import Cmd, InlineCode, Keys, Path, Text, Url
 
 
 def test_parse_path_inline_directive():

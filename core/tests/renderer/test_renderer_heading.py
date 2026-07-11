@@ -1,5 +1,5 @@
-from core.ldl.model import Heading
-from core.ldl.renderer import render_heading_latex
+from loclass_ldl.model import Heading
+from core.backends.latex import render_heading_latex
 
 
 def test_render_chapter():

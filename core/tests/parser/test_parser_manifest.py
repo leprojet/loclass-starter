@@ -1,5 +1,5 @@
-from core.ldl.model import Metadata
-from core.ldl.parser import parse_document
+from loclass_ldl.model import Metadata
+from loclass_ldl.parser import parse_document
 
 
 def test_parse_extended_metadata():

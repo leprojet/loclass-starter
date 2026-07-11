@@ -1,4 +1,4 @@
-from core.ldl.parser import parse_code
+from loclass_ldl.parser import parse_code
 
 
 def test_parse_code():

@@ -1,5 +1,5 @@
-from core.ldl.model import Raw
-from core.ldl.renderer import render_raw_latex
+from loclass_ldl.model import Raw
+from core.backends.latex import render_raw_latex
 
 
 def test_render_raw_latex():

@@ -1,4 +1,4 @@
-from core.ldl.formatter import format_source
+from loclass_ldl.formatter import format_source
 
 
 def test_formats_heading_and_paragraph() -> None:

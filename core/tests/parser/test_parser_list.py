@@ -1,7 +1,7 @@
 import pytest
 
-from core.ldl.model import List
-from core.ldl.parser import parse_list
+from loclass_ldl.model import List
+from loclass_ldl.parser import parse_list
 
 
 def test_parse_unordered_list():

@@ -1,5 +1,5 @@
-from core.ldl.loader import LdlInputError, load_document
-from core.ldl.model import Document, Heading, Paragraph
+from loclass_ldl.loader import LdlInputError, load_document
+from loclass_ldl.model import Document, Heading, Paragraph
 
 import pytest
 

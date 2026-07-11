@@ -1,5 +1,5 @@
-from core.ldl.parser import parse_document
-from core.ldl.model import Heading, Code, Document, Metadata, List, Paragraph
+from loclass_ldl.parser import parse_document
+from loclass_ldl.model import Heading, Code, Document, Metadata, List, Paragraph
 
 
 def test_parse_document_with_multiple_directives():
