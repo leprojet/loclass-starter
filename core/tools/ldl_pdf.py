@@ -5,10 +5,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from core.ldl.inline import latex_escape
-from loclass_ldl import load_document
-from core.ldl.renderer import render_document_latex
-from loclass_ldl import Metadata
+from core.backends.latex import latex_escape, render_document_latex
+from loclass_ldl import Metadata, load_document
 
 
 BUILD_DIR = Path("build")

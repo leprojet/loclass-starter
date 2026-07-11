@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-# from core.ldl import PARSERS, RENDERERS
-from core.ldl import parse_document, render_document_latex
+from core.backends.latex import render_document_latex
+from loclass_ldl import parse_document
 
 
 def render_ldl(source: str) -> str:
