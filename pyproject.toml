@@ -9,9 +9,6 @@ dependencies = [
     "loclass-ldl",
 ]
 
-[project.scripts]
-loclass-render = "core.tools.ldl_renderer:main"
-
 [dependency-groups]
 dev = [
     "pytest>=9.0",
