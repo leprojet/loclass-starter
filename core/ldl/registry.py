@@ -1,9 +1,16 @@
+"""Compatibility registry for LDL parsers and LaTeX renderers.
+
+Parser registration belongs to ``loclass_ldl``.
+The renderer registry remains local because it is LaTeX-specific.
+"""
+
 from collections.abc import Callable
 from typing import Any
 
+from loclass_ldl import PARSERS
+
 from .model import (
     Code,
-    Element,
     Heading,
     Image,
     Input,
@@ -12,16 +19,6 @@ from .model import (
     Raw,
     Shell,
     Table,
-)
-
-from .parser import (
-    parse_code,
-    parse_heading,
-    parse_image,
-    parse_input,
-    parse_list,
-    parse_shell,
-    parse_table,
 )
 from .renderer import (
     render_code_latex,
@@ -35,20 +32,7 @@ from .renderer import (
     render_table_latex,
 )
 
-Parser = Callable[[str], Element]
 Renderer = Callable[[Any], str]
-
-PARSERS: dict[str, Parser] = {
-    "chapter": parse_heading,
-    "section": parse_heading,
-    "subsection": parse_heading,
-    "table": parse_table,
-    "image": parse_image,
-    "input": parse_input,
-    "code": parse_code,
-    "list": parse_list,
-    "shell": parse_shell,
-}
 
 RENDERERS: dict[type[Any], Renderer] = {
     Heading: render_heading_latex,
@@ -61,3 +45,8 @@ RENDERERS: dict[type[Any], Renderer] = {
     Shell: render_shell_latex,
     Raw: render_raw_latex,
 }
+
+__all__ = [
+    "PARSERS",
+    "RENDERERS",
+]
