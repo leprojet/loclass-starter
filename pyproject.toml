@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Backend agnostic document framework"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "loclass-ldl",
+]
 
 [project.scripts]
 loclass-render = "core.tools.ldl_renderer:main"
@@ -39,3 +41,6 @@ tex_main = "main.tex"
 build_dir = "build"
 typecheck = ["core"]
 lint = ["."]
+
+[tool.uv.sources]
+loclass-ldl = { path = "../loclass-ldl", editable = true }
