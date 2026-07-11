@@ -6,9 +6,9 @@ import subprocess
 from pathlib import Path
 
 from core.ldl.inline import latex_escape
-from core.ldl.loader import load_document
+from loclass_ldl import load_document
 from core.ldl.renderer import render_document_latex
-from core.ldl.model import Metadata
+from loclass_ldl import Metadata
 
 
 BUILD_DIR = Path("build")
