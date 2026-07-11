@@ -4,7 +4,6 @@ from loclass_ldl.model import (
     Document,
     Heading,
     Image,
-    Input,
     List,
     Paragraph,
     Shell,
@@ -134,7 +133,3 @@ def render_shell_latex(shell: Shell) -> str:
             r"\end{loshell}",
         ]
     )
-
-
-def render_input_latex(input_: Input) -> str:
-    return rf"\input{{{input_.path}}}"
