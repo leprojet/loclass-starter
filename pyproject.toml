@@ -1,10 +1,18 @@
 [project]
-name = "loclass"
+name = "loclass-starter"
 version = "0.1.0"
-description = "Backend agnostic document framework"
+description = "Starter project for loclass documents"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "loclass>=0.1.0",
+    "loclass-ldl>=0.1.0",
+]
+
+[project.optional-dependencies]
+tlp = [
+    "loclass-tlp>=0.1.0",
+]
 
 [project.scripts]
 loclass-render = "core.tools.ldl_renderer:main"
@@ -13,6 +21,11 @@ loclass-render = "core.tools.ldl_renderer:main"
 dev = [
     "pytest>=9.0",
 ]
+
+[tool.uv.sources]
+loclass = { path = "../loclass-base", editable = true }
+loclass-ldl = { path = "../loclass-ldl", editable = true }
+loclass-tlp = { path = "../loclass-tlp", editable = true }
 
 [tool.pytest.ini_options]
 testpaths = [

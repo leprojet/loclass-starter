@@ -3,6 +3,14 @@
 % -------------------------------------------------
 \usepackage[headsepline]{scrlayer-scrpage}
 
+
+% -------------------------------------------------
+% Package extension hooks
+% -------------------------------------------------
+
+\providecommand{\locHeaderRightAddon}{}
+\providecommand{\locFooterRightAddon}{}
+
 \clearpairofpagestyles
 \automark[section]{chapter}
 
@@ -21,13 +29,24 @@
 
 \ihead{\textbf{\color{locAccent}loclass}}
 \chead{}
-\ohead{\headmark}
+\ohead{\headmark\hspace{1em}\locHeaderRightAddon}
 
 \ifoot{}
 \cfoot{}
-\ofoot{\pagemark}
+\ofoot{\pagemark\hspace{1em}\locFooterRightAddon}
 
 \setlength{\headheight}{18pt}
+
+
+% -------------------------------------------------
+% Title-page style
+% -------------------------------------------------
+
+\newpairofpagestyles{locclasstitle}{%
+    \clearpairofpagestyles
+    \ohead{\locHeaderRightAddon}
+    \ofoot{\locFooterRightAddon}
+}
 
 \renewcommand*\chapterpagestyle{scrheadings}
 

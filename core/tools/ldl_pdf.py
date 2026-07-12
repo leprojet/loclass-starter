@@ -5,17 +5,28 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from core.ldl.inline import latex_escape
-from core.ldl.loader import load_document
-from core.ldl.renderer import render_document_latex
-from core.ldl.model import Metadata
+from loclass.backends.latex import (
+    latex_escape,
+    render_document_latex,
+    render_latex_page_markings,
+)
+from loclass.packages import (
+    PackagePlan,
+    PackagePlanner,
+    discover_package_registry,
+)
+from loclass_ldl import load_document
+from loclass_ldl.model import Document, Metadata
 
 
 BUILD_DIR = Path("build")
 LDL_BUILD_DIR = BUILD_DIR / "ldl"
 
 
-def _metadata_command(command: str, value: str | None) -> str:
+def _metadata_command(
+    command: str,
+    value: str | None,
+) -> str:
     if not value:
         return ""
 
@@ -23,6 +34,8 @@ def _metadata_command(command: str, value: str | None) -> str:
 
 
 def render_metadata(metadata: Metadata) -> str:
+    """Render LDL metadata using the loclass class API."""
+
     lines = [
         _metadata_command("Title", metadata.title),
         _metadata_command("Subtitle", metadata.subtitle),
@@ -33,23 +46,70 @@ def render_metadata(metadata: Metadata) -> str:
         _metadata_command("Date", metadata.date),
     ]
 
-    return "\n".join(line for line in lines if line)
+    return "\n".join(
+        line
+        for line in lines
+        if line
+    )
 
 
-def render_wrapper(content_tex_path: Path, metadata: Metadata) -> str:
-    content_input = content_tex_path.with_suffix("").name
+def build_package_plan(
+    document: Document,
+) -> PackagePlan:
+    """Discover and plan packages requested by the manifest."""
+
+    registry = discover_package_registry()
+    planner = PackagePlanner(registry)
+
+    return planner.build(
+        document.package_configurations
+    )
+
+
+def render_wrapper(
+    content_tex_path: Path,
+    metadata: Metadata,
+    package_plan: PackagePlan,
+) -> str:
+    """Render the complete LaTeX wrapper document."""
+
+    content_input = (
+        content_tex_path
+        .with_suffix("")
+        .name
+    )
+
+    package_latex = render_latex_page_markings(
+        package_plan
+    )
+    metadata_latex = render_metadata(metadata)
 
     return rf"""\documentclass{{core/loclass}}
 
-\input{{core/index}}
-\input{{core/commands/index}}
+% -------------------------------------------------
+% Legacy project packages
+% -------------------------------------------------
 
-% Project overrides, if present.
 \InputIfFileExists{{project/packages.tex}}{{}}{{}}
+
+% -------------------------------------------------
+% loclass packages
+% -------------------------------------------------
+
+{package_latex}
+
+% -------------------------------------------------
+% Project-specific LaTeX extensions
+% -------------------------------------------------
+
 \InputIfFileExists{{project/macros.tex}}{{}}{{}}
 \InputIfFileExists{{project/environments.tex}}{{}}{{}}
 
-{render_metadata(metadata)}
+% -------------------------------------------------
+% Document metadata
+% -------------------------------------------------
+
+{metadata_latex}
 
 \begin{{document}}
 
@@ -64,24 +124,46 @@ def render_wrapper(content_tex_path: Path, metadata: Metadata) -> str:
 
 
 def build_ldl_pdf(input_path: Path) -> Path:
+    """Build one complete LDL document as PDF."""
+
     input_path = input_path.resolve()
 
     if not input_path.exists():
-        raise FileNotFoundError(f"LDL file not found: {input_path}")
+        raise FileNotFoundError(
+            f"LDL file not found: {input_path}"
+        )
 
     if input_path.suffix != ".ldl":
-        raise ValueError(f"Expected .ldl file, got: {input_path}")
+        raise ValueError(
+            f"Expected .ldl file, got: {input_path}"
+        )
 
     document = load_document(input_path)
+    package_plan = build_package_plan(document)
 
     stem = input_path.stem
 
-    LDL_BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    LDL_BUILD_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
-    content_tex_path = LDL_BUILD_DIR / f"{stem}.tex"
-    wrapper_tex_path = LDL_BUILD_DIR / f"{stem}-main.tex"
-    internal_pdf_path = LDL_BUILD_DIR / f"{stem}-main.pdf"
-    final_pdf_path = BUILD_DIR / f"{stem}.pdf"
+    content_tex_path = (
+        LDL_BUILD_DIR
+        / f"{stem}.tex"
+    )
+    wrapper_tex_path = (
+        LDL_BUILD_DIR
+        / f"{stem}-main.tex"
+    )
+    internal_pdf_path = (
+        LDL_BUILD_DIR
+        / f"{stem}-main.pdf"
+    )
+    final_pdf_path = (
+        BUILD_DIR
+        / f"{stem}.pdf"
+    )
 
     content_tex_path.write_text(
         render_document_latex(document),
@@ -89,7 +171,11 @@ def build_ldl_pdf(input_path: Path) -> Path:
     )
 
     wrapper_tex_path.write_text(
-        render_wrapper(content_tex_path, document.metadata),
+        render_wrapper(
+            content_tex_path,
+            document.metadata,
+            package_plan,
+        ),
         encoding="utf-8",
     )
 
@@ -106,9 +192,15 @@ def build_ldl_pdf(input_path: Path) -> Path:
     )
 
     if not internal_pdf_path.exists():
-        raise RuntimeError(f"Expected PDF was not created: {internal_pdf_path}")
+        raise RuntimeError(
+            f"Expected PDF was not created: "
+            f"{internal_pdf_path}"
+        )
 
-    shutil.copyfile(internal_pdf_path, final_pdf_path)
+    shutil.copyfile(
+        internal_pdf_path,
+        final_pdf_path,
+    )
 
     return final_pdf_path
 
@@ -116,13 +208,21 @@ def build_ldl_pdf(input_path: Path) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="ldl_pdf",
-        description="Render a complete LDL document to PDF.",
+        description=(
+            "Render a complete LDL document "
+            "as PDF."
+        ),
     )
-    parser.add_argument("file", help="Path to a .ldl file")
+    parser.add_argument(
+        "file",
+        help="Path to a .ldl file",
+    )
 
     args = parser.parse_args()
 
-    pdf_path = build_ldl_pdf(Path(args.file))
+    pdf_path = build_ldl_pdf(
+        Path(args.file)
+    )
 
     print(f"PDF written: {pdf_path}")
 
