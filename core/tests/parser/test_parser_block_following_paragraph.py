@@ -1,8 +1,8 @@
-from core.ldl.model import Code, Document, List, Raw, Table
+from core.ldl.model import Code, Document, List, Paragraph, Table
 from core.ldl.parser import parse_document
 
 
-def test_code_block_may_be_followed_by_raw_text():
+def test_code_block_may_be_followed_by_paragraph():
     document = parse_document(
         """code
   params
@@ -27,12 +27,12 @@ Dieser Satz ist wieder normaler Fließtext.
                     "title: Beispiel",
                 ],
             ),
-            Raw(text="Dieser Satz ist wieder normaler Fließtext."),
+            Paragraph(text="Dieser Satz ist wieder normaler Fließtext."),
         ],
     )
 
 
-def test_table_block_may_be_followed_by_raw_text():
+def test_table_block_may_be_followed_by_paragraph():
     document = parse_document(
         """table
   params
@@ -58,12 +58,12 @@ Dieser Satz steht nach der Tabelle.
                     ["Beta", "2"],
                 ],
             ),
-            Raw(text="Dieser Satz steht nach der Tabelle."),
+            Paragraph(text="Dieser Satz steht nach der Tabelle."),
         ],
     )
 
 
-def test_list_block_may_be_followed_by_raw_text():
+def test_list_block_may_be_followed_by_paragraph():
     document = parse_document(
         """list
   params
@@ -87,6 +87,6 @@ Dieser Satz steht nach der Liste.
                     "Zwei",
                 ],
             ),
-            Raw(text="Dieser Satz steht nach der Liste."),
+            Paragraph(text="Dieser Satz steht nach der Liste."),
         ],
     )
