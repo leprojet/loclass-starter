@@ -1,0 +1,35 @@
+name: Starter checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    name: Python tests and project structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify project structure
+        run: |
+          set -eu
+
+          test -f pyproject.toml
+          test -f main.tex
+          test -f latexmkrc
+          test -d examples
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Python 3.14
+        run: uv python install 3.14
+
+      - name: Install project environment
+        run: uv sync --python 3.14
+
+      - name: Run tests
+        run: uv run pytest
