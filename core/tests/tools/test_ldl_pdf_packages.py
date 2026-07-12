@@ -85,3 +85,48 @@ def test_wrapper_does_not_reload_core() -> None:
     assert wrapper.count(
         r"\documentclass{core/loclass}"
     ) == 1
+
+
+def test_wrapper_contains_no_legacy_project_configuration() -> None:
+    document = parse_document(
+        """---
+title: Sicherheitsbericht
+---
+"""
+    )
+
+    wrapper = render_wrapper(
+        Path("build/ldl/document.tex"),
+        document.metadata,
+        build_package_plan(document),
+    )
+
+    assert "project/packages.tex" not in wrapper
+    assert "project/metadata.tex" not in wrapper
+
+    assert (
+        r"\InputIfFileExists{project/macros.tex}{}{}"
+        in wrapper
+    )
+    assert (
+        r"\InputIfFileExists{project/environments.tex}{}{}"
+        in wrapper
+    )
+
+
+def test_wrapper_uses_class_title_page_api() -> None:
+    document = parse_document(
+        """---
+title: Testdokument
+---
+"""
+    )
+
+    wrapper = render_wrapper(
+        Path("build/ldl/document.tex"),
+        document.metadata,
+        build_package_plan(document),
+    )
+
+    assert r"\maketitle" in wrapper
+    assert "core/templates/titlepage" not in wrapper

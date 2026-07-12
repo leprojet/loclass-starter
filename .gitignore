@@ -1,25 +1,17 @@
 # ==================================================
-# loclass
+# loclass-starter
 # ==================================================
 
 # --------------------------------------------------
-# Build directories
+# Build output
 # --------------------------------------------------
 
 build/
 dist/
 site/
-latex.out/
 
 # --------------------------------------------------
-# Generated project files
-# --------------------------------------------------
-
-content/_inputs.tex
-project/_inputs.tex
-content/10_ldl_specification.tex
-# --------------------------------------------------
-# Python
+# Python environments and caches
 # --------------------------------------------------
 
 .venv/
@@ -28,186 +20,68 @@ env/
 
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.pyright/
+.basedpyright/
 .pyre/
 .pytype/
-.nox/
-.tox/
 
 .coverage
 .coverage.*
 htmlcov/
 
-*.egg
 *.egg-info/
 .eggs/
 pip-wheel-metadata/
 
-.python-version
-
 # --------------------------------------------------
-# UV
+# LaTeX auxiliary files
 # --------------------------------------------------
 
-uv.lock
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fot
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lor
+*.lot
+*.nav
+*.nlo
+*.nls
+*.out
+*.run.xml
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+_minted*/
+*.pyg
+*.pytxcode
+pythontex-files-*/
 
 # --------------------------------------------------
 # Lua
 # --------------------------------------------------
 
 *.luac
-
-# --------------------------------------------------
-# Perl
-# --------------------------------------------------
-
-*.bak
-
-# --------------------------------------------------
-# TeX / LaTeX
-# --------------------------------------------------
-
-*.aux
-*.lof
-*.log
-*.lot
-*.fls
-*.out
-*.toc
-*.fmt
-*.fot
-*.cb
-*.cb2
-.*.lb
-
-*.dvi
-*.xdv
-*-converted-to.*
-
-*.pdf
-
-*.bbl
-*.bcf
-*.blg
-*.run.xml
-
-*.fdb_latexmk
-*.synctex
-*.synctex.gz
-*.synctex.gz(busy)
-
-*.auxlock
-*.pdfsync
-
-*.listing
-
-*.idx
-*.ilg
-*.ind
-
-*.lol
-*.loe
-*.lox
-*.lod
-*.loc
-
-*.acn
-*.acr
-*.alg
-*.glg
-*.glo
-*.gls
-*.ist
-
-*.mw
-
-*.nav
-*.snm
-*.vrb
-
-*.tdo
-
-*.xcp
-*.xdy
-*.xwm
-*.xmpi
-
-*.upa
-*.upb
-
-*.nlg
-*.nlo
-*.nls
-
-*.ptc
-
-*.thm
-
-*.maf
-*.mtc*
-*.mlf
-*.mlt
-
-*.spell.bad
-*.spell.txt
-
-*.bak[0-9]*
-
-svg-inkscape/
-
-_minted*
-*.data.minted
-*.pyg
-
-*.sagetex*
-pythontex-files-*/
-*.pytxcode
-
-*.gnuplot
-*.table
-*-gnuplottex-*
-
-sympy-plots-for-*.tex/
-*.sympy
-*.sout
-
-*.newpax
-*.pax
-
-*.pdfpc
-
-*.4ct
-*.4tc
-*.idv
-*.lg
-*.trc
-*.xref
-
-*.sta
-
-*.lyx~
-.texpadtmp
-
-TSWLatexianTemp*
-
-*.backup
-*.tps
-
-auto/
-*.el
-
-*.lyx~
-
-*.xyc
-*.xyd
-
-*.fff
-*.ttt
 
 # --------------------------------------------------
 # Editors
@@ -219,61 +93,31 @@ auto/
 *.swp
 *.swo
 *~
-
 .session
 
 # --------------------------------------------------
-# macOS
+# Operating systems
 # --------------------------------------------------
 
 .DS_Store
 .AppleDouble
 .LSOverride
 
-# --------------------------------------------------
-# Windows
-# --------------------------------------------------
-
 Thumbs.db
 Desktop.ini
-
-# --------------------------------------------------
-# Linux
-# --------------------------------------------------
 
 .directory
 
 # --------------------------------------------------
-# Archives
+# Temporary and backup files
 # --------------------------------------------------
 
-*.zip
-*.tar
-*.tar.gz
-*.tgz
-
-# --------------------------------------------------
-# Temporary
-# --------------------------------------------------
-
-*.tmp
-*.temp
+*.bak
+*.backup
+*.old
 *.orig
 *.rej
-
-# --------------------------------------------------
-# Logs
-# --------------------------------------------------
-
-*.pid
-*.seed
-*.stackdump
-
-# --------------------------------------------------
-# Backup files
-# --------------------------------------------------
-
-*.old
 *.save
 *.sav
-*.backup
+*.temp
+*.tmp

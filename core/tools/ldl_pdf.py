@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -87,12 +88,6 @@ def render_wrapper(
     return rf"""\documentclass{{core/loclass}}
 
 % -------------------------------------------------
-% Legacy project packages
-% -------------------------------------------------
-
-\InputIfFileExists{{project/packages.tex}}{{}}{{}}
-
-% -------------------------------------------------
 % loclass packages
 % -------------------------------------------------
 
@@ -113,7 +108,7 @@ def render_wrapper(
 
 \begin{{document}}
 
-\input{{core/templates/titlepage}}
+\maketitle
 
 \tableofcontents
 
@@ -179,6 +174,17 @@ def build_ldl_pdf(input_path: Path) -> Path:
         encoding="utf-8",
     )
 
+    env = os.environ.copy()
+    core_tex_root = Path("core").resolve()
+    existing_texinputs = env.get("TEXINPUTS")
+
+    if existing_texinputs:
+        env["TEXINPUTS"] = (
+            f"{core_tex_root}//:{existing_texinputs}"
+        )
+    else:
+        env["TEXINPUTS"] = f"{core_tex_root}//:"
+
     subprocess.run(
         [
             "latexmk",
@@ -189,6 +195,7 @@ def build_ldl_pdf(input_path: Path) -> Path:
             wrapper_tex_path.as_posix(),
         ],
         check=True,
+        env=env,
     )
 
     if not internal_pdf_path.exists():

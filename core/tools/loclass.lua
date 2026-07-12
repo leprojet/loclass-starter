@@ -4,17 +4,31 @@
 -- Configuration
 --------------------------------------------------
 
-local BUILD_COMMAND = "latexmk"
-local CLEAN_COMMAND = "latexmk -C"
-local WATCH_COMMAND = "latexmk -pvc"
-
-local PDF = "build/main.pdf"
-
 local VERSION = "0.1.0"
 
 --------------------------------------------------
--- Shell
+-- Utilities
 --------------------------------------------------
+
+local function shell_quote(value)
+	return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+end
+
+local function file_exists(path)
+	local file = io.open(path, "r")
+
+	if file == nil then
+		return false
+	end
+
+	file:close()
+	return true
+end
+
+local function fail(message, exit_code)
+	io.stderr:write("Error: " .. message .. "\n")
+	os.exit(exit_code or 1)
+end
 
 local function run(command, background)
 	print()
@@ -26,118 +40,88 @@ local function run(command, background)
 		command = command .. " >/dev/null 2>&1 &"
 	end
 
-	return os.execute(command)
+	local ok, exit_kind, exit_code = os.execute(command)
+
+	if ok == true or ok == 0 then
+		return
+	end
+
+	if exit_kind ~= nil and exit_code ~= nil then
+		fail(
+			"command failed with "
+				.. tostring(exit_kind)
+				.. " status "
+				.. tostring(exit_code)
+		)
+	end
+
+	fail("command failed")
 end
 
-local function shell_quote(value)
-	return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+--------------------------------------------------
+-- Document paths
+--------------------------------------------------
+
+local function require_ldl_path(path)
+	if path == nil or path == "" then
+		fail("missing LDL document", 2)
+	end
+
+	if not path:match("%.ldl$") then
+		fail("expected a .ldl file: " .. path, 2)
+	end
+
+	if not file_exists(path) then
+		fail("LDL document not found: " .. path, 2)
+	end
+
+	return path
+end
+
+local function pdf_path_for(path)
+	local filename = path:match("([^/]+)%.ldl$")
+
+	if filename == nil then
+		fail("unable to determine PDF filename", 2)
+	end
+
+	return "build/" .. filename .. ".pdf"
 end
 
 --------------------------------------------------
 -- Commands
 --------------------------------------------------
 
-local function build()
-	run(BUILD_COMMAND)
+local function build(path)
+	path = require_ldl_path(path)
+
+	run(
+		"uv run loclass-pdf "
+			.. shell_quote(path)
+	)
+end
+
+local function open_pdf(path)
+	path = require_ldl_path(path)
+
+	local pdf = pdf_path_for(path)
+
+	if not file_exists(pdf) then
+		fail(
+			"PDF not found: "
+				.. pdf
+				.. "\nBuild the document first."
+		)
+	end
+
+	run(
+		"xdg-open " .. shell_quote(pdf),
+		true
+	)
 end
 
 local function clean()
-	run(CLEAN_COMMAND)
-end
-
-local function rebuild()
-	clean()
-	build()
-end
-
-local function watch()
-	run(WATCH_COMMAND)
-end
-
-local function open()
-	run("xdg-open " .. shell_quote(PDF), true)
-end
-
-local function render_ldl(path)
-	if path == nil or path == "" then
-		print("Usage: loclass ldl <file.ldl>")
-		return
-	end
-
-	if not path:match("%.ldl$") then
-		print("Error: expected a .ldl file")
-		return
-	end
-
-	run("uv run python core/tools/ldl_pdf.py " .. shell_quote(path))
-end
-
---------------------------------------------------
--- Command Dispatcher
---------------------------------------------------
-
-local commands = {
-	build = build,
-	rebuild = rebuild,
-	clean = clean,
-	watch = watch,
-	open = open,
-	ldl = render_ldl,
-}
-
-local function execute(name, ...)
-	local command = commands[name]
-
-	if not command then
-		print("Unknown command: " .. tostring(name))
-		return
-	end
-
-	command(...)
-end
-
---------------------------------------------------
--- Menu
---------------------------------------------------
-
-local menu_items = {
-	{ name = "build", label = "Build" },
-	{ name = "rebuild", label = "Rebuild" },
-	{ name = "clean", label = "Clean" },
-	{ name = "watch", label = "Watch" },
-	{ name = "open", label = "Open PDF" },
-}
-
-local function menu()
-	while true do
-		print()
-		print("========================================")
-		print("             loclass Tools")
-		print("========================================")
-		print()
-
-		for i, item in ipairs(menu_items) do
-			print(i .. ") " .. item.label)
-		end
-
-		print(#menu_items + 1 .. ") Quit")
-		print()
-
-		io.write("Selection: ")
-
-		local choice = io.read()
-		local index = tonumber(choice)
-
-		if not index then
-			print("Invalid selection.")
-		elseif index == #menu_items + 1 then
-			return
-		elseif menu_items[index] then
-			execute(menu_items[index].name)
-		else
-			print("Unknown selection.")
-		end
-	end
+	run("rm -rf build")
 end
 
 --------------------------------------------------
@@ -148,50 +132,59 @@ local function help()
 	print("loclass " .. VERSION)
 	print()
 	print("Usage:")
-	print("  loclass <command>")
+	print("  loclass <command> [document.ldl]")
 	print()
 	print("Commands:")
-	print("  build              Build the document")
-	print("  rebuild            Clean and rebuild")
-	print("  clean              Remove build artifacts")
-	print("  watch              Continuous build")
-	print("  open               Open generated PDF")
-	print("  ldl <file.ldl>     Build a complete LDL document as PDF")
+	print("  build <file.ldl>   Build an LDL document as PDF")
+	print("  ldl <file.ldl>     Alias for build")
+	print("  open <file.ldl>    Open the generated PDF")
+	print("  clean              Remove generated build files")
 	print("  version            Show version")
 	print("  help               Show this help")
-	print()
-	print("Without arguments an interactive menu is shown.")
-end
-
---------------------------------------------------
--- Version
---------------------------------------------------
-
-local function version()
-	print("loclass " .. VERSION)
 end
 
 --------------------------------------------------
 -- Main
 --------------------------------------------------
 
+local commands = {
+	build = build,
+	ldl = build,
+	open = open_pdf,
+	clean = clean,
+}
+
 local function main()
-	if arg[1] == "--help" or arg[1] == "help" then
+	local command_name = arg[1]
+
+	if command_name == nil
+		or command_name == "--help"
+		or command_name == "help"
+	then
 		help()
 		return
 	end
 
-	if arg[1] == "--version" or arg[1] == "version" then
-		version()
+	if command_name == "--version"
+		or command_name == "version"
+	then
+		print("loclass " .. VERSION)
 		return
 	end
 
-	if #arg > 0 then
-		execute(arg[1], arg[2])
-		return
+	local command = commands[command_name]
+
+	if command == nil then
+		io.stderr:write(
+			"Unknown command: "
+				.. tostring(command_name)
+				.. "\n\n"
+		)
+		help()
+		os.exit(2)
 	end
 
-	menu()
+	command(arg[2])
 end
 
 main()

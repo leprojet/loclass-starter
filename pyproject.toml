@@ -15,7 +15,7 @@ tlp = [
 ]
 
 [project.scripts]
-loclass-render = "core.tools.ldl_renderer:main"
+loclass-pdf = "core.tools.ldl_pdf:main"
 
 [dependency-groups]
 dev = [
