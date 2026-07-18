@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on Keep a Changelog, and this project follows Semantic
 Versioning.
 
+## [0.2.0] - 2026-07-18
+
+### Added
+
+- Integration of generated loclass package declarations into the LaTeX
+  preamble.
+- Managed LaTeX resource directory for package-owned TeX files.
+- Pre-build preparation through `loclass latex prepare`.
+
+### Changed
+
+- The LaTeX build now aborts immediately when a preparation or conversion
+  command fails.
+- Existing `TEXINPUTS` values are preserved.
+- Generated package declarations are loaded before project-specific
+  preamble files.
+
 ## [0.1.0] - 2026-07-11
 
 ### Added
