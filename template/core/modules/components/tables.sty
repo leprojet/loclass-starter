@@ -1,0 +1,42 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{components/tables}[2026/07/02]
+
+\RequirePackage{xparse}
+\RequirePackage{float}
+\RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\newcommand{\loTableHeadCell}[1]{%
+	\textcolor{locTableHeadText}{\textbf{#1}}%
+}
+
+\newcommand{\loTableHead}[1]{%
+	\rowcolor{locTableHeadBackground}#1\\
+	\midrule
+}
+
+\NewDocumentEnvironment{lotable}{m m m +b}
+{%
+	\begin{table}[H]
+		\renewcommand{\arraystretch}{\locTableRowStretch}
+		\setlength{\tabcolsep}{\locTableColumnSep}
+		\arrayrulecolor{locTableRule}
+		\rowcolors{2}{locTableRowBackgroundAlt}{white}
+		\begin{tabularx}{\textwidth}{#3}
+			\toprule
+			#4
+			\bottomrule
+		\end{tabularx}
+		\caption{#2}
+		\label{#1}
+	\end{table}
+}
+{}
+
+\endinput

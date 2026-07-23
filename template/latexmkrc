@@ -1,0 +1,120 @@
+sub shell_quote {
+    my ($value) = @_;
+
+    $value =~ s/'/'"'"'/g;
+    return "'$value'";
+}
+
+sub run_or_die {
+    my ($command) = @_;
+
+    print "$command\n";
+
+    my $status = system($command);
+
+    if ($status == -1) {
+        die "Could not execute command: $command\n";
+    }
+
+    my $exit_code = $status >> 8;
+
+    if ($exit_code != 0) {
+        die "Command failed with exit code $exit_code: $command\n";
+    }
+}
+
+my $loclass_command =
+    $ENV{'LOCLASS_COMMAND'} // 'loclass';
+
+my $loclass_source = 'main.ldl';
+my $loclass_build_dir = 'build';
+my $loclass_generated_dir =
+    "$loclass_build_dir/loclass";
+
+my $loclass_manifest_json =
+    "$loclass_generated_dir/manifest.json";
+
+my $loclass_package_preamble =
+    "$loclass_generated_dir/loclass-generated-packages.tex";
+
+my $loclass_tex_resource_dir =
+    "$loclass_generated_dir/tex";
+
+my $loclass_generated_content =
+    'content/10_document.tex';
+
+my $loclass_metadata =
+    'project/metadata.tex';
+
+my $loclass_metadata_tmp =
+    "$loclass_metadata.tmp";
+
+my $existing_texinputs =
+    $ENV{'TEXINPUTS'} // '';
+
+$ENV{'TEXINPUTS'} =
+    "core//:"
+    . "$loclass_generated_dir//:"
+    . $existing_texinputs;
+
+$out_dir = $loclass_build_dir;
+$pdf_mode = 1;
+
+@default_files = ('main.tex');
+
+if (!$ENV{'LOCLASS_SKIP_PREBUILD'}) {
+    my $quoted_loclass = shell_quote($loclass_command);
+
+    run_or_die(
+        'mkdir -p -- '
+        . shell_quote($loclass_generated_dir)
+        . ' '
+        . shell_quote('content')
+        . ' '
+        . shell_quote('project')
+    );
+
+    run_or_die(
+        $quoted_loclass
+        . ' manifest show '
+        . shell_quote($loclass_source)
+        . ' --json > '
+        . shell_quote($loclass_manifest_json)
+    );
+
+    run_or_die(
+        'jq -r -f '
+        . shell_quote('tools/manifest-to-tex.jq')
+        . ' '
+        . shell_quote($loclass_manifest_json)
+        . ' > '
+        . shell_quote($loclass_metadata_tmp)
+    );
+
+    run_or_die(
+        'mv -- '
+        . shell_quote($loclass_metadata_tmp)
+        . ' '
+        . shell_quote($loclass_metadata)
+    );
+
+    run_or_die(
+        $quoted_loclass
+        . ' latex prepare '
+        . shell_quote($loclass_source)
+        . ' --preamble '
+        . shell_quote($loclass_package_preamble)
+        . ' --resource-dir '
+        . shell_quote($loclass_tex_resource_dir)
+    );
+
+    run_or_die(
+        $quoted_loclass
+        . ' convert '
+        . shell_quote($loclass_source)
+        . ' --backend latex --output '
+        . shell_quote($loclass_generated_content)
+    );
+}
+
+$clean_ext .= ' lor';

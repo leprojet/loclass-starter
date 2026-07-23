@@ -1,0 +1,64 @@
+% -------------------------------------------------
+% Metadata Commands
+% -------------------------------------------------
+
+\makeatletter
+
+% -------------------------------------------------
+% Internal Storage
+% -------------------------------------------------
+
+\providecommand{\locTitle}{}
+\providecommand{\locSubtitle}{}
+\providecommand{\locCompany}{}
+\providecommand{\locCustomer}{}
+\providecommand{\locVersion}{}
+\providecommand{\locDate}{}
+
+\providecommand{\locCoverImage}{}
+\providecommand{\locLeftLogo}{}
+\providecommand{\locRightLogo}{}
+
+% -------------------------------------------------
+% Public API
+% -------------------------------------------------
+
+\providecommand{\Title}[1]{%
+	\renewcommand{\locTitle}{#1}
+	\title{#1}%
+}
+
+\providecommand{\Subtitle}[1]{%
+	\renewcommand{\locSubtitle}{#1}
+}
+
+\providecommand{\Date}[1]{%
+	\renewcommand{\locDate}{#1}
+	\date{#1}%
+}
+
+\providecommand{\Company}[1]{%
+	\renewcommand{\locCompany}{#1}
+}
+
+\providecommand{\Customer}[1]{%
+	\renewcommand{\locCustomer}{#1}
+}
+
+\providecommand{\Version}[1]{%
+	\renewcommand{\locVersion}{#1}
+}
+
+\providecommand{\CoverImage}[1]{%
+	\renewcommand{\locCoverImage}{#1}
+}
+
+\providecommand{\LeftLogo}[1]{%
+	\renewcommand{\locLeftLogo}{#1}
+}
+
+\providecommand{\RightLogo}[1]{%
+	\renewcommand{\locRightLogo}{#1}
+}
+
+\makeatother

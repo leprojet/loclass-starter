@@ -1,0 +1,85 @@
+% -------------------------------------------------
+% Listings & Lists
+% -------------------------------------------------
+
+\usepackage{listings}
+\usepackage{enumitem}
+
+% Global settings for itemize lists
+\setlist[itemize]{itemsep=2pt, topsep=4pt, label=\textbullet}
+
+\lstdefinelanguage{XML}{
+	morestring=[b]",
+	morestring=[s]{>}{<},
+	morecomment=[s]{<!--}{-->},
+	stringstyle=\color{blue},
+	identifierstyle=\color{red},
+	keywordstyle=\color{black},
+	morekeywords={xmlns,version,type},
+}
+
+\lstdefinestyle{locDefault}{
+	basicstyle=\ttfamily\small,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=5pt,
+	backgroundcolor=\color{gray!10},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	frame=single,
+	breaklines=true,
+	captionpos=b,
+}
+
+\lstset{style=locDefault}
+
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+
+\lstdefinelanguage{text}{}
+
+\lstdefinelanguage{ldl}{
+	morekeywords={
+			chapter,
+			section,
+			subsection,
+			input,
+			table,
+			image,
+			code,
+			list,
+			shell,
+			params,
+			head,
+			body,
+			file
+		},
+	sensitive=true,
+	morecomment=[l]{\#},
+	morestring=[b]"
+}
+
+\makeatletter
+\@ifundefined{locode}
+{\typeout{LOCODE-BEGIN: undefined}}
+{\typeout{LOCODE-BEGIN: \meaning\locode}}
+
+\@ifundefined{endlocode}
+{\typeout{LOCODE-END: undefined}}
+{\typeout{LOCODE-END: \meaning\endlocode}}
+\makeatother
+\lstnewenvironment{locode}[1][]
+{
+	\lstset{
+		basicstyle=\ttfamily\small,
+		breaklines=true,
+		columns=fullflexible,
+		keepspaces=true,
+		showstringspaces=false,
+		frame=single,
+		#1
+	}
+}
+{}

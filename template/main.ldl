@@ -1,0 +1,18 @@
+---
+title: Neues loclass-Dokument
+subtitle: Eigenständige Dokumentvorlage
+author: Vorname Nachname
+version: 0.1.0
+language: de
+---
+
+chapter
+    Einleitung
+
+Dieses Dokument wurde aus der eigenständigen loclass-Vorlage erzeugt.
+
+section
+    Nächster Schritt
+
+Bearbeite __path{main.ldl} und starte anschließend
+__cmd{./loclass.lua build}.

@@ -1,0 +1,27 @@
+% -------------------------------------------------
+% Header / Footer (KOMA)
+% -------------------------------------------------
+\usepackage[headsepline]{scrlayer-scrpage}
+
+\clearpairofpagestyles
+\automark*{section}
+
+\ihead{}
+\chead{}
+\ohead{}
+
+\ofoot{\pagemark}
+
+\setlength{\headheight}{1.8cm}
+
+\renewcommand*\chapterpagestyle{scrheadings}
+
+% -------------------------------------------------
+% Paragraph Formatting
+% -------------------------------------------------
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+	{1ex \@plus 1ex \@minus .2ex}%
+	{0.5ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+\makeatother

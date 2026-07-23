@@ -1,0 +1,11 @@
+code
+  params
+    label: lst:hello
+    caption: Hello World
+    language: python
+
+  body
+    ---
+    def hello():
+        print("Hello World")
+    ---

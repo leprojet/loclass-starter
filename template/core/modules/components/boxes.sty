@@ -1,0 +1,87 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{components/boxes}[2026/07/02]
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{fontawesome5}
+
+\newtcolorbox{lonote}{
+	enhanced,
+	breakable,
+	colback=locNoteBackground,
+	colbacktitle=white,
+	colframe=locNoteBorder,
+	coltitle=locNoteTitle,
+	boxrule=\locBoxRule,
+	titlerule=\locTitleRule,
+	arc=\locBoxRadius,
+	left=\locBoxPaddingX,
+	right=\locBoxPaddingX,
+	top=\locBoxPaddingY,
+	bottom=\locBoxPaddingY,
+	before skip=\locBoxSkip,
+	after skip=\locBoxSkip,
+	fonttitle=\bfseries,
+	title={\faInfoCircle\hspace{0.5em}Hinweis}
+}
+
+\newtcolorbox{lotip}{
+	enhanced,
+	breakable,
+	colback=locTipBackground,
+	colbacktitle=white,
+	colframe=locTipBorder,
+	coltitle=locTipTitle,
+	boxrule=\locBoxRule,
+	titlerule=\locTitleRule,
+	arc=\locBoxRadius,
+	left=\locBoxPaddingX,
+	right=\locBoxPaddingX,
+	top=\locBoxPaddingY,
+	bottom=\locBoxPaddingY,
+	before skip=\locBoxSkip,
+	after skip=\locBoxSkip,
+	fonttitle=\bfseries,
+	title={\faLightbulb\hspace{0.5em}Tipp}
+}
+
+\newtcolorbox{lowarning}{
+	enhanced,
+	breakable,
+	colback=locWarningBackground,
+	colbacktitle=white,
+	colframe=locWarningBorder,
+	coltitle=locWarningTitle,
+	boxrule=\locBoxRule,
+	titlerule=\locTitleRule,
+	arc=\locBoxRadius,
+	left=\locBoxPaddingX,
+	right=\locBoxPaddingX,
+	top=\locBoxPaddingY,
+	bottom=\locBoxPaddingY,
+	before skip=\locBoxSkip,
+	after skip=\locBoxSkip,
+	fonttitle=\bfseries,
+	title={\faExclamationTriangle\hspace{0.5em}Warnung}
+}
+
+\newtcolorbox{loimportant}{
+	enhanced,
+	breakable,
+	colback=locImportantBackground,
+	colbacktitle=white,
+	colframe=locImportantBorder,
+	coltitle=locImportantTitle,
+	boxrule=\locBoxRule,
+	titlerule=\locTitleRule,
+	arc=\locBoxRadius,
+	left=\locBoxPaddingX,
+	right=\locBoxPaddingX,
+	top=\locBoxPaddingY,
+	bottom=\locBoxPaddingY,
+	before skip=\locBoxSkip,
+	after skip=\locBoxSkip,
+	fonttitle=\bfseries,
+	title={\faExclamationCircle\hspace{0.5em}Wichtig}
+}
+
+\endinput

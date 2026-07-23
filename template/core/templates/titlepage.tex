@@ -1,0 +1,122 @@
+% -------------------------------------------------
+% Title Page
+% -------------------------------------------------
+
+\makeatletter
+
+\begin{titlepage}
+
+    \centering
+    \scshape
+
+    % -------------------------------------------------
+    % Cover Image
+    % -------------------------------------------------
+
+    \ifdefempty{\locCoverImage}
+        {}
+        {
+            \noindent
+            \hspace*{-\oddsidemargin}
+            \hspace*{-1in}
+            \includegraphics[
+                width=\paperwidth,
+                height=.33\paperheight
+            ]{\locCoverImage}
+
+            \vspace{1cm}
+    }
+    % -------------------------------------------------
+    % Title
+    % -------------------------------------------------
+
+    {\Huge\bfseries\@title\par}
+
+    \ifdefempty{\@subtitle}
+        {}
+        {
+            \vspace{0.6cm}
+            {\Large\normalfont\@subtitle\par}
+        }
+
+    \vspace{1.6cm}
+
+    % -------------------------------------------------
+    % Author
+    % -------------------------------------------------
+
+    {\Large\@author\par}
+
+    \vspace{0.6cm}
+
+    % -------------------------------------------------
+    % Company
+    % -------------------------------------------------
+
+    \ifdefempty{\locCompany}
+        {}
+        {
+            {\large\locCompany\par}
+        }
+
+    % -------------------------------------------------
+    % Customer
+    % -------------------------------------------------
+
+    \ifdefempty{\locCustomer}
+        {}
+        {
+            \vspace{0.25cm}
+            {\large\locCustomer\par}
+        }
+
+    \vfill
+
+    % -------------------------------------------------
+    % Logos
+    % -------------------------------------------------
+
+    \ifdefempty{\locLeftLogo}
+        {}
+        {
+            \ifdefempty{\locRightLogo}
+                {
+                    % Ein Logo -> zentrieren
+                    \includegraphics[
+                        width=.22\textwidth
+                    ]{\locLeftLogo}
+                }
+                {
+                    % Zwei Logos
+                    \noindent
+                    \makebox[\textwidth]{%
+                        \includegraphics[
+                            width=.20\textwidth
+                        ]{\locLeftLogo}%
+                        \hfill
+                        \includegraphics[
+                            width=.20\textwidth
+                        ]{\locRightLogo}%
+                    }
+                }
+        }
+
+    \vspace{0.8cm}
+
+    % -------------------------------------------------
+    % Version & Date
+    % -------------------------------------------------
+
+    \ifdefempty{\locVersion}
+        {
+            {\large\@date\par}
+        }
+        {
+            {\large Version \locVersion\par}
+            \vspace{0.15cm}
+            {\normalsize\@date\par}
+        }
+
+\end{titlepage}
+
+\makeatother
