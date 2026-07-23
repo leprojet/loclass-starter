@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.0] - 2026-07-23
+
+### Added
+
+- Standalone end-user document template under `template/`.
+- Document-local runner for PDF, ODT, diagnostics, and cleanup.
+- Generation of LaTeX metadata and package resources from the LDL manifest.
+
+### Changed
+
+- Newly created documents no longer depend on `uv` or neighboring development
+  repositories.
+- Repository development files, examples, tests, and Git metadata are no longer
+  copied into end-user documents.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project follows Semantic
