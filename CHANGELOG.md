@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.2] - 2026-07-26
+
+### Fixed
+
+- Removed obsolete bundled copies of `loclass-review` from the starter and
+  standalone template.
+- Package-provided LaTeX resources are now loaded from the installed package
+  instead of being shadowed by the starter.
+
 ## [0.3.1] - 2026-07-26
 
 ### Fixed
