@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.3] - 2026-07-26
+
+### Fixed
+
+- The root `loclass` entrypoint now targets the executable standalone runner
+  at `template/loclass.lua`.
+- `./loclass --help`, `./loclass -h`, and `./loclass help` now print usage and
+  exit successfully, while unknown actions continue to report an error.
+
 ## [0.3.2] - 2026-07-26
 
 ### Fixed
