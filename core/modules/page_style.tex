@@ -6,11 +6,23 @@
 \clearpairofpagestyles
 \automark*{section}
 
+% Optional additions supplied by loclass packages.
+\providecommand{\locHeaderRightAddon}{}
+\providecommand{\locFooterRightAddon}{}
+
+\newcommand*\locFooterRightContent{%
+  \ifx\locFooterRightAddon\empty%
+    \pagemark%
+  \else%
+    \locFooterRightAddon\hspace{1em}\pagemark%
+  \fi%
+}
+
 \ihead{}
 \chead{}
-\ohead{}
+\ohead{\locHeaderRightAddon}
 
-\ofoot{\pagemark}
+\ofoot{\locFooterRightContent}
 
 \setlength{\headheight}{1.8cm}
 
