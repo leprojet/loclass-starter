@@ -186,6 +186,12 @@ local actions = {
 }
 
 local action = arg[1] or "build"
+
+if action == "help" or action == "-h" or action == "--help" then
+    usage()
+    os.exit(0)
+end
+
 local handler = actions[action]
 
 if not handler then
