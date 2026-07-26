@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.1] - 2026-07-26
+
+### Fixed
+
+- Package-provided LaTeX page markings are now rendered in the outer header
+  and footer.
+- Footer markings are displayed alongside the page number, while documents
+  without markings retain the existing page-number-only layout.
+
 ## [0.3.0] - 2026-07-23
 
 ### Added
